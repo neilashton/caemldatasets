@@ -85,6 +85,20 @@ for i in $(seq 0 354); do
     aws s3 cp --recursive "s3://$S3_BUCKET/$S3_PREFIX/$RUN_DIR/images" "$RUN_LOCAL_DIR/images/" --only-show-errors
 done
 ```
+<h3>Files:</h3>
+-------
+Each folder (e.g run_1,run_2...run_"i" etc) corresponds to a different geometry that contains the following files where "i" is the run number:
+windsor_i.stl : geometry stl (~5mb)
+windsor_i.stp : geometry step (~1mb)
+geo_parameters_1.csv : parameters that define the geometry (explained in the associated paper)
+boundary_i.vtu : Boundary VTU (~500mb)
+volume_i.vtu : Volume field VTU (~20GB)
+force_mom_i.csv : forces/moments time-averaged (Cd,Cs,Cl,Cmy)
+force_mom_varref_i.csv: forces/moments time-averaged (Cd,Cs,Cl,Cmy) using unique reference area per geometry
+images (folder) that contains images of the following variables (pressure, velocityX,ReynoldsStressXX,YY,ZZ) for slices of the domain in the X,Y & Z locations as well as an image of the geometry itself (windsor_i.png)
+force_mom_all.csv: contains force/moments for all runs in a single file
+force_mom_varref_all.csv: contains force/moments for all runs in a single file using a reference frontal area that is unique to each geometry
+geo_parameters_all.csv: contains all the geometry parameters for all the runs in a single file
 
 <h3>Acknowledgements</h3>
 -----------

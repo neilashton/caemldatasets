@@ -87,6 +87,19 @@ for i in $(seq 1 500); do
 done
 ```
 
+<h3>Files:</h3>
+-------
+Each folder (e.g run1,run2...run"i" etc) corresponds to a different geometry that contains the following files where "i" is the run number:
+geometry stl (~135mb): drivaer_i.stl
+reference values for each geometry: geo_ref_i.csv
+reference geometry for each geometry: geo_parameters_i.csv
+Boundary VTU (~500mb): boundary_i.vtp
+Volume field VTU (~25GB): volume_i.vtu
+forces/moments time-averaged (using varying frontal area/wheelbase): force_mom_i.csv
+forces/moments time-averaged (using constant frontal area/wheelbase): force_mom_constref_i.csv
+slices: folder containing .vtp slices in x,y,z that contain flow-field variables
+Images: This folder contains images of various flow variables (e.g. Cp, CpT, UMagNorm) for slices of the domain at X, Y, and Z locations (M signifies minus, P signifies positive), as well as on the surface. It also includes evaluation plots of the time-averaging of the force coefficients (via the tool MeanCalc) and a residual plot illustrating the convergence.
+
 <h3>Acknowledgements</h3>
 -----
 
