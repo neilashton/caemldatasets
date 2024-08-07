@@ -97,12 +97,12 @@ Each folder (e.g run_1,run_2...run_"i" etc) corresponds to a different geometry 
 * images : (folder) that contains images of the following variables (CpT, UxMean) for slices of the domain in the X,Y & Z locations.
 
 In addition we provide:
-*force_mom_all.csv : run, cd,cl for all runs in a single file
-*force_mom_varref_all.csv : run, cd,cl for all runs in a single file with varying reference area
-*geo_parameters_all.csv : all the geometry parameters for each run inside a single file
-*ahmedml.slvs : SolveSpace input file to create the parametric geometries
-*stl : folder containing stl files that were used as inputs to the OpenFOAM process
-*openfoam-casesetup.tgz : complete OpenFOAM setup that can be used to extend or reproduce the dataset
+* force_mom_all.csv : run, cd,cl for all runs in a single file
+* force_mom_varref_all.csv : run, cd,cl for all runs in a single file with varying reference area
+* geo_parameters_all.csv : all the geometry parameters for each run inside a single file
+* ahmedml.slvs : SolveSpace input file to create the parametric geometries
+* stl : folder containing stl files that were used as inputs to the OpenFOAM process
+* openfoam-casesetup.tgz : complete OpenFOAM setup that can be used to extend or reproduce the dataset
 
 <h3>Acknowledgements </h3>
 ---------
