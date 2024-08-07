@@ -23,7 +23,7 @@ In order to cite the use of this dataset please cite the paper below which conta
 
 ```
 @article{ashton2024windsor,
-    title = {{WindsorML: High-Fidelity Computational Fluid Dynamics dataset for automotive aerodynamics}},
+    title = {WindsorML: High-Fidelity Computational Fluid Dynamics dataset for automotive aerodynamics},
     year = {2024},
     journal = {arxiv.org},
     url={https://arxiv.org/abs/2407.19320},

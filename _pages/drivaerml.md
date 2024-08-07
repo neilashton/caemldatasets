@@ -23,7 +23,7 @@ All cases were run using the open-source finite-volume code OpenFOAM v2212 with 
 In order to cite the use of this dataset please cite the paper below which contains full details on the dataset (currently in-review (June 2024)).
 ```
 @article{ashton2024drivaer,
-    title = {{DrivAerML - High-Fidelity Computational Fluid Dynamics Dataset for Road-Car External Aerodynamics}},
+    title = {DrivAerML - High-Fidelity Computational Fluid Dynamics Dataset for Road-Car External Aerodynamics},
     year = {2024},
     journal = {In-Review},
     author = {Ashton, N., Mockett, C., Fuchs, M., Fliessbach, L., Hetmann, H., Knacke, T., Schonwald, N.,
