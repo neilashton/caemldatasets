@@ -22,7 +22,6 @@ group :jekyll_plugins do
     gem 'unicode_utils'
     gem 'webrick'
 end
-gem 'nokogiri', force_ruby_platform: true
 group :other_plugins do
     gem 'css_parser'
     gem 'feedjira'
