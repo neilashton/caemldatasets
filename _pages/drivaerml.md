@@ -13,6 +13,7 @@ Machine Learning (ML) has the potential to revolutionise the field of automotive
 However, the lack of open-source training data for realistic road cars, using high-fidelity CFD methods, represents a barrier to their development.
 To address this, a high-fidelity open-source (CC-BY-SA) public dataset for automotive aerodynamics has been generated, based on 500 parametrically morphed variants of the widely-used DrivAer notchback generic vehicle. Mesh generation and scale-resolving CFD was executed using consistent and validated automatic workflows representative of the industrial state-of-the-art. Geometries and rich aerodynamic data are published in open-source formats. To our knowledge, this is the first large, public-domain dataset for complex automotive configurations generated using high-fidelity CFD.
 
+<img class="photo" alt="drivaer" src="{{ site.baseurl }}/assets/img/drivaer1.png">
 <h3>CFD Solver:</h3>
 ----------
 All cases were run using the open-source finite-volume code OpenFOAM v2212 with custom modifications by UpstreamCFD. Please see the paper below for full details on the code and validation:
@@ -89,12 +90,12 @@ done
 <h3>Acknowledgements</h3>
 -----
 
-CFD solver and workflow development by Charles Mockett, Marian Fuchs, Louis Fliessbach, Henrik Hetmann, Thilo Knacke & Norbert Schonwald (UpstreamCFD)
-Geometry parameterization by Vangelis Skaperdas, Grigoris Fotiadis (BETA-CAE Systems) & Astrid Walle (Siemens Energy)
-Meshing development workflow by Vangelis Skaperdas & Grigoris Fotiadis (BETA-CAE Systems)
-DrivAer advise and consultation by Burkhard Hupertz (Ford)
-Guidance on dataset preparation for ML by Danielle Maddix (Amazon Web Services)
-Simulation runs, HPC setup and dataset preparation by Neil Ashton (Amazon Web Services)
+* CFD solver and workflow development by Charles Mockett, Marian Fuchs, Louis Fliessbach, Henrik Hetmann, Thilo Knacke & Norbert Schonwald (UpstreamCFD)
+* Geometry parameterization by Vangelis Skaperdas, Grigoris Fotiadis (BETA-CAE Systems) & Astrid Walle (Siemens Energy)
+* Meshing development workflow by Vangelis Skaperdas & Grigoris Fotiadis (BETA-CAE Systems)
+* DrivAer advise and consultation by Burkhard Hupertz (Ford)
+* Guidance on dataset preparation for ML by Danielle Maddix (Amazon Web Services)
+* Simulation runs, HPC setup and dataset preparation by Neil Ashton (Amazon Web Services)
 
 <h3>License</h3>
 ----

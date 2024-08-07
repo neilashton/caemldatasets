@@ -9,22 +9,24 @@ nav_order: 2
 
 <h3>Summary</h3>
 -----------
-This paper presents a new open-source high-fidelity dataset for Machine Learning (ML) containing 355 geometric variants of the Windsor body, to help the development and testing of ML surrogate models for external automotive aerodynamics. Each Computational Fluid Dynamics (CFD) simulation was run with a GPU-native high-fidelity Wall-Modeled Large-Eddy Simulations (WMLES) using a Cartesian immersed-boundary method using more than 280M cells to ensure the greatest possible accuracy. The dataset contains geometry variants that exhibits a wide range of flow characteristics that are representative of those observed on road-cars.
+This work presents a new open-source high-fidelity dataset for Machine Learning (ML) containing 355 geometric variants of the Windsor body, to help the development and testing of ML surrogate models for external automotive aerodynamics. Each Computational Fluid Dynamics (CFD) simulation was run with a GPU-native high-fidelity Wall-Modeled Large-Eddy Simulations (WMLES) using a Cartesian immersed-boundary method using more than 280M cells to ensure the greatest possible accuracy. The dataset contains geometry variants that exhibits a wide range of flow characteristics that are representative of those observed on road-cars.
 The dataset itself contains the 3D time-averaged volume & boundary data as well as the geometry and force & moment coefficients. This paper discusses the validation of the underlying CFD methods as well as contents and structure of the dataset. To the authors knowledge, this represents the first, large-scale high-fidelity CFD dataset for the Windsor body with a permissive open-source license (CC-BY-SA).
 
+<img class="photo" alt="windsor" src="{{ site.baseurl }}/assets/img/case1_param_description.png">
 <h3>CFD Solver</h3>
 -----------
 All cases were run using the Volcano Platforms commerical CFD solver, which is based upon a GPU-native cartesian immersed-boundary method Wall-Modelled Large-Eddy Simulation (WMLES) approach. Each case was run transiently for approximately 80 convective time units (CTU) on meshes of approximately 300M cells.  Please see the paper for full details on the code and validation:
 
 <h3>How to cite this dataset</h3>
 -----------
-In order to cite the use of this dataset please cite the paper below which contains full details on the dataset. It can be found here: https://arxiv.org/abs/2407.19320
+In order to cite the use of this dataset please cite the paper below which contains full details on the dataset. It can be found [here](https://arxiv.org/abs/2407.19320)
 
 ```
 @article{ashton2024windsor,
     title = {{WindsorML: High-Fidelity Computational Fluid Dynamics dataset for automotive aerodynamics}},
     year = {2024},
     journal = {arxiv.org},
+    url={https://arxiv.org/abs/2407.19320},
     author = {Ashton, Neil and Angel, Jordan and Ghate, Aditya and Kenway, Gaetan and Long Wong, Man and Kiris, Cetin and Walle, Astrid and Maddix, Danielle and Page, Gary}
 }
 ```
@@ -86,11 +88,11 @@ done
 
 <h3>Acknowledgements</h3>
 -----------
-CFD solver and workflow development by Jordan Angel, Aditya Ghate, Gaetan Kenway, Man Long Wong, Cetin Kiris (Volcano Platforms) and Neil Ashton (Amazon Web Services)
-Geometry parameterization by Astrid Walle (Siemens Energy)
-Windsor advise and consultation by Gary Page (Loughborough University)
-Guidance on dataset preparation for ML by Danielle Maddix (Amazon Web Services)
-Simulation runs, HPC setup and dataset preparation by Neil Ashton (Amazon Web Services)
+* CFD solver and workflow development by Jordan Angel, Aditya Ghate, Gaetan Kenway, Man Long Wong, Cetin Kiris (Volcano Platforms) and Neil Ashton (Amazon Web Services)
+* Geometry parameterization by Astrid Walle (Siemens Energy)
+* Windsor advise and consultation by Gary Page (Loughborough University)
+* Guidance on dataset preparation for ML by Danielle Maddix (Amazon Web Services)
+* Simulation runs, HPC setup and dataset preparation by Neil Ashton (Amazon Web Services)
 
 <h3>License</h3>
 -----------
