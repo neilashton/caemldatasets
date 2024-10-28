@@ -17,5 +17,5 @@ This website aims to help users to find the latest datasets, including how to ac
 <h3> Contact</h3>
 -------
 The datasets are the result of a community effort from academia and industry. You can find the full list of contributions on the individual dataset pages. For general information please contact:
-* [Neil Ashton](mailto:neashton@amazon.com) (Amazon Web Services)
+* [Neil Ashton](mailto:contact@caemldatasets.org) (Amazon Web Services)
 
