@@ -39,9 +39,9 @@ There are currently two routes to download the data - with the long-term focus b
 Option 1: HuggingFace
 --------------
 Please note you'll need to have git lfs installed first, then you can run the following command:
-
+```
 git clone git@hf.co:datasets/neashton/drivaerml
-
+```
 Option 2: AWS
 --------
 

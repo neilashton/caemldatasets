@@ -38,8 +38,9 @@ Option 1: HuggingFace
 --------------
 Please note you'll need to have git lfs installed first, then you can run the following command:
 
+```
 git clone git@hf.co:datasets/neashton/ahmedml
-
+```
 Option 2: AWS
 -------------
 Please ensure you have enough local disk space before downloading (complete dataset is 2TB) and consider the examples below that provide ways to download just the files you need:
