@@ -31,6 +31,17 @@ In order to cite the use of this dataset please cite the paper below which conta
 ```
 <h3>How to download:</h3>
 -----------
+
+There are currently two routes to download the data - with the long-term focus being on HuggingFace:
+
+Option 1: HuggingFace
+--------------
+Please note you'll need to have git lfs installed first, then you can run the following command:
+
+git clone git@hf.co:datasets/neashton/ahmedml
+
+Option 2: AWS
+-------------
 Please ensure you have enough local disk space before downloading (complete dataset is 2TB) and consider the examples below that provide ways to download just the files you need:
 
 <h5>First Step: Install AWS Command Line Interface (CLI):</h5>
