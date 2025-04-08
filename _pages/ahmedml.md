@@ -32,37 +32,16 @@ In order to cite the use of this dataset please cite the paper below which conta
 <h3>How to download:</h3>
 -----------
 
-There are currently two routes to download the data - with the long-term focus being on HuggingFace:
+The dataset is now available on HuggingFace. Below are some examples of how to download all or selected parts of the dataset. Please refer to the HuggingFace documentation for other ways to accessing the dataset and building workflows.
 
-Option 1: HuggingFace
---------------
+<h5>Example 1: Download all files (~2TB)</h5>
+--------
 Please note you'll need to have git lfs installed first, then you can run the following command:
 
 ```
 git clone git@hf.co:datasets/neashton/ahmedml
 ```
-Option 2: AWS
--------------
-Please ensure you have enough local disk space before downloading (complete dataset is 2TB) and consider the examples below that provide ways to download just the files you need:
 
-<h5>First Step: Install AWS Command Line Interface (CLI):</h5>
---------------
-
-Follow instructions here: https://docs.aws.amazon.com/cli/latest/userguide/getting-started-install.html
-
-<h5>Second Step: Use the AWS CLI to download the dataset</h5>
---------------
-Follow the following examples for how to download all or part of the dataset.
-
-Note 1 : If you don't have an AWS account you will need to add --no-sign-request within your AWS command i.e aws s3 cp --no-sign-request --recursive etc...
-
-Note 2 : If you have an AWS account, please note the bucket is in us-east-1, so you will have the fastest download if you have your AWS service or EC2 instance running in us-east-1.
-
-<h5>Example 1: Download all files (~2TB)</h5>
---------
-```
-aws s3 cp --recursive s3://caemldatasets/ahmed/dataset .
-```
 <h5>Example 2: only download select files (STL,images & force and moments):</h5>
 ---------
 Create the following bash script that could be adapted to loop through only select runs or to change to download different files e.g boundary/volume.
@@ -70,8 +49,8 @@ Create the following bash script that could be adapted to loop through only sele
 #!/bin/bash
 
 # Set the S3 bucket and prefix
-S3_BUCKET="caemldatasets"
-S3_PREFIX="ahmed/dataset"
+HF_OWNER="neashton"
+HF_PREFIX="ahmedml"
 
 # Set the local directory to download the files
 LOCAL_DIR="./ahmed_data"
@@ -88,14 +67,16 @@ for i in $(seq 1 500); do
     mkdir -p "$RUN_LOCAL_DIR"
 
     # Download the ahmed_i.stl file
-    aws s3 cp "s3://$S3_BUCKET/$S3_PREFIX/$RUN_DIR/ahmed_$i.stl" "$RUN_LOCAL_DIR/" --only-show-errors
+    wget "https://huggingface.co/datasets/${HF_OWNER}/${HF_PREFFIX}/resolve/main/$RUN_DIR/ahmed_$i.stl" "$RUN_LOCAL_DIR/" 
 
     # Download the force_mom_i.csv file
-    aws s3 cp "s3://$S3_BUCKET/$S3_PREFIX/$RUN_DIR/force_mom_$i.csv" "$RUN_LOCAL_DIR/" --only-show-errors
+    wget "https://huggingface.co/datasets/${HF_OWNER}/${HF_PREFFIX}/resolve/main/$RUN_DIR/force_mom_$i.csv" "$RUN_LOCAL_DIR/" 
+    # Download images folder
 
-    aws s3 cp --recursive "s3://$S3_BUCKET/$S3_PREFIX/$RUN_DIR/images" "$RUN_LOCAL_DIR/images/" --only-show-errors
+    wget -r "https://huggingface.co/datasets/${HF_OWNER}/${HF_PREFFIX}/resolve/main/$RUN_DIR/images" "$RUN_LOCAL_DIR/images/"
 done
 ```
+
 <h3>Files:</h3>
 -------
 Each folder (e.g run_1,run_2...run_"i" etc) corresponds to a different geometry that contains the following files where "i" is the run number:
@@ -118,10 +99,10 @@ In addition we provide:
 
 <h3>Acknowledgements </h3>
 ---------
-* OpenFOAM solver and workflow development by Neil Ashton (Amazon Web Services)
+* OpenFOAM solver and workflow development by Neil Ashton (Amazon Web Services - now NVIDIA)
 * Geometry parameterization by Samuel Gundry (Amazon Web Services) and Parisa Shabestari (Amazon Web Services)
 * Guidance on dataset preparation for ML by Danielle Madix (Amazon Web Services)
-* Simulation runs, HPC setup and dataset preparation by Neil Ashton (Amazon Web Services)
+* Simulation runs, HPC setup and dataset preparation by Neil Ashton (Amazon Web Services - now NVIDIA)
 
 <h3> License </h3>
 --------
