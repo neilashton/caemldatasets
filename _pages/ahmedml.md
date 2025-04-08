@@ -67,13 +67,11 @@ for i in $(seq 1 500); do
     mkdir -p "$RUN_LOCAL_DIR"
 
     # Download the ahmed_i.stl file
-    wget "https://huggingface.co/datasets/${HF_OWNER}/${HF_PREFFIX}/resolve/main/$RUN_DIR/ahmed_$i.stl" "$RUN_LOCAL_DIR/" 
+    wget "https://huggingface.co/datasets/${HF_OWNER}/${HF_PREFIX}/resolve/main/$RUN_DIR/ahmed_$i.stl" -O "$RUN_LOCAL_DIR/ahmed_$i.stl" 
 
     # Download the force_mom_i.csv file
-    wget "https://huggingface.co/datasets/${HF_OWNER}/${HF_PREFFIX}/resolve/main/$RUN_DIR/force_mom_$i.csv" "$RUN_LOCAL_DIR/" 
-    # Download images folder
+    wget "https://huggingface.co/datasets/${HF_OWNER}/${HF_PREFIX}/resolve/main/$RUN_DIR/force_mom_$i.csv" -O "$RUN_LOCAL_DIR/force_mom_$i.csv" 
 
-    wget -r "https://huggingface.co/datasets/${HF_OWNER}/${HF_PREFFIX}/resolve/main/$RUN_DIR/images" "$RUN_LOCAL_DIR/images/"
 done
 ```
 
