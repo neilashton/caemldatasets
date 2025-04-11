@@ -34,47 +34,25 @@ Skaperdas, V., Fotiadis, G., Walle, A., Hupertz, B., and Maddix, D}
 <h3>How to download:</h3>
 ----------------
 
-There are currently two routes to download the data - with the long-term focus being on HuggingFace:
+The dataset is now available on HuggingFace. Below are some examples of how to download all or selected parts of the dataset. Please refer to the HuggingFace documentation for other ways to accessing the dataset and building workflows.
 
-Option 1: HuggingFace
---------------
+<h5>Example 1: Download all files (~31TB)</h5>
+--------
 Please note you'll need to have git lfs installed first, then you can run the following command:
+
 ```
 git clone git@hf.co:datasets/neashton/drivaerml
 ```
-Option 2: AWS
---------
 
-Please ensure you have enough local disk space before downloading (complete dataset is 30TB) and consider the examples below that provide ways to download just the files you need:
-
-<h5>First Step: Install AWS Command Line Interface (CLI):</h5>
---------------
-
-Follow instructions here: https://docs.aws.amazon.com/cli/latest/userguide/getting-started-install.html
-
-<h5>Second Step: Use the AWS CLI to download the dataset</h5>
---------------
-Follow the following examples for how to download all or part of the dataset.
-
-Note 1 : If you don't have an AWS account you will need to add --no-sign-request within your AWS command i.e aws s3 cp --no-sign-request --recursive etc...
-
-Note 2 : If you have an AWS account, please note the bucket is in us-east-1, so you will have the fastest download if you have your AWS service or EC2 instance running in us-east-1.
-
-<h5>Example 1: Download all files (~30TB)</h5>
--------------------------
-```
-aws s3 cp --recursive s3://caemldatasets/drivaer/dataset .
-```
-<h5>Example 2: only download select files (e.g STL,images & force and moments):</h5>
----------------------
+<h5>Example 2: only download select files (STL,images & force and moments):</h5>
+---------
 Create the following bash script that could be adapted to loop through only select runs or to change to download different files e.g boundary/volume.
-
 ```
 #!/bin/bash
 
-# Set the S3 bucket and prefix
-S3_BUCKET="caemldatasets"
-S3_PREFIX="drivaer/dataset"
+# Set the path and prefix
+HF_OWNER="neashton"
+HF_PREFIX="drivaerml"
 
 # Set the local directory to download the files
 LOCAL_DIR="./drivaer_data"
@@ -82,7 +60,7 @@ LOCAL_DIR="./drivaer_data"
 # Create the local directory if it doesn't exist
 mkdir -p "$LOCAL_DIR"
 
-# Loop through the run folders from 1 to 500 (here you can change the number to only download a subset of the runs)
+# Loop through the run folders from 1 to 500
 for i in $(seq 1 500); do
     RUN_DIR="run_$i"
     RUN_LOCAL_DIR="$LOCAL_DIR/$RUN_DIR"
@@ -91,12 +69,11 @@ for i in $(seq 1 500); do
     mkdir -p "$RUN_LOCAL_DIR"
 
     # Download the drivaer_i.stl file
-    aws s3 cp "s3://$S3_BUCKET/$S3_PREFIX/$RUN_DIR/drivaer_$i.stl" "$RUN_LOCAL_DIR/" --only-show-errors
+    wget "https://huggingface.co/datasets/${HF_OWNER}/${HF_PREFIX}/resolve/main/$RUN_DIR/drivaer_$i.stl" -O "$RUN_LOCAL_DIR/drivaer_$i.stl"
 
     # Download the force_mom_i.csv file
-    aws s3 cp "s3://$S3_BUCKET/$S3_PREFIX/$RUN_DIR/force_mom_$i.csv" "$RUN_LOCAL_DIR/" --only-show-errors
+    wget "https://huggingface.co/datasets/${HF_OWNER}/${HF_PREFIX}/resolve/main/$RUN_DIR/force_mom_$i.csv" -O "$RUN_LOCAL_DIR/force_mom_$i.csv"
 
-    aws s3 cp --recursive "s3://$S3_BUCKET/$S3_PREFIX/$RUN_DIR/images" "$RUN_LOCAL_DIR/images/" --only-show-errors
 done
 ```
 
@@ -121,7 +98,7 @@ Each folder (e.g run1,run2...run"i" etc) corresponds to a different geometry tha
 * Meshing development workflow by Vangelis Skaperdas & Grigoris Fotiadis (BETA-CAE Systems)
 * DrivAer advise and consultation by Burkhard Hupertz (Ford)
 * Guidance on dataset preparation for ML by Danielle Maddix (Amazon Web Services)
-* Simulation runs, HPC setup and dataset preparation by Neil Ashton (Amazon Web Services)
+* Simulation runs, HPC setup and dataset preparation by Neil Ashton (Amazon Web Services, now NVIDIA)
 
 <h3>License</h3>
 ----

@@ -48,7 +48,7 @@ Create the following bash script that could be adapted to loop through only sele
 ```
 #!/bin/bash
 
-# Set the S3 bucket and prefix
+# Set the path and prefix
 HF_OWNER="neashton"
 HF_PREFIX="ahmedml"
 
