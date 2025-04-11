@@ -9,7 +9,7 @@
 </code></pre></div></div> <h3>How to download:</h3> <hr> <p>The dataset is now available on HuggingFace. Below are some examples of how to download all or selected parts of the dataset. Please refer to the HuggingFace documentation for other ways to accessing the dataset and building workflows.</p> <h5>Example 1: Download all files (~2TB)</h5> <hr> <p>Please note you’ll need to have git lfs installed first, then you can run the following command:</p> <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>git clone git@hf.co:datasets/neashton/ahmedml
 </code></pre></div></div> <h5>Example 2: only download select files (STL,images &amp; force and moments):</h5> <hr> <p>Create the following bash script that could be adapted to loop through only select runs or to change to download different files e.g boundary/volume.</p> <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>#!/bin/bash
 
-# Set the S3 bucket and prefix
+# Set the path and prefix
 HF_OWNER="neashton"
 HF_PREFIX="ahmedml"
 
