@@ -4,7 +4,7 @@
 {% if seo_page_path == blank %}
   {% assign seo_page_path = '/' %}
 {% endif %}
-{% assign metadata_dataset = nil %}
+{% assign metadata_dataset = null %}
 {% if page.dataset_key %}
   {% assign metadata_dataset = site.data.datasets | where: 'key', page.dataset_key | first %}
 {% endif %}

@@ -12,6 +12,7 @@ content_class: updates-page
 ---
 
 {% assign updates = site.news | sort: 'date' | reverse %}
+
 <div class="timeline">
   {% for update in updates %}
     <article class="timeline-entry">

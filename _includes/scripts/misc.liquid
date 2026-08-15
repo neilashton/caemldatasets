@@ -1,5 +1,9 @@
 {% if site.enable_tooltips %}
-  <script>$(function () { $('[data-toggle="tooltip"]').tooltip(); });</script>
+  <script>
+    $(function () {
+      $('[data-toggle="tooltip"]').tooltip();
+    });
+  </script>
 {% endif %}
 {% if site.enable_medium_zoom and page.zoomable_images %}
   <script defer src="{{ site.third_party_libraries.medium_zoom.url.js }}"></script>

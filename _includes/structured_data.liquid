@@ -4,7 +4,7 @@
 {% assign seo_webpage_id = seo_canonical_url | append: '#webpage' %}
 {% assign seo_breadcrumb_id = seo_canonical_url | append: '#breadcrumb' %}
 {% assign seo_dataset_id = seo_canonical_url | append: '#dataset' %}
-{% assign structured_dataset = nil %}
+{% assign structured_dataset = null %}
 {% if page.dataset_key %}
   {% assign structured_dataset = site.data.datasets | where: 'key', page.dataset_key | first %}
 {% endif %}

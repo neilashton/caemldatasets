@@ -7,15 +7,26 @@
     <div class="dataset-card__heading">
       <div>
         <p class="eyebrow">{{ item.geometry }}</p>
-        <h3><a href="{{ item.permalink | relative_url }}">{{ item.name }}</a></h3>
+        <h3>
+          <a href="{{ item.permalink | relative_url }}">{{ item.name }}</a>
+        </h3>
       </div>
       <span class="dataset-card__arrow" aria-hidden="true">↗</span>
     </div>
     <p>{{ item.description }}</p>
     <dl class="dataset-card__facts">
-      <div><dt>Scale</dt><dd>{{ item.cases }}</dd></div>
-      <div><dt>Method</dt><dd>{{ item.method }}</dd></div>
-      <div><dt>Size</dt><dd>{{ item.size }}</dd></div>
+      <div>
+        <dt>Scale</dt>
+        <dd>{{ item.cases }}</dd>
+      </div>
+      <div>
+        <dt>Method</dt>
+        <dd>{{ item.method }}</dd>
+      </div>
+      <div>
+        <dt>Size</dt>
+        <dd>{{ item.size }}</dd>
+      </div>
     </dl>
     <div class="dataset-card__footer">
       <span>{{ item.license }}</span>

@@ -18,6 +18,8 @@
   <div class="container site-footer__meta">
     <span>&copy; {{ site.time | date: '%Y' }} CAE ML Datasets.</span>
     <span>Dataset licences are listed on each dataset page.</span>
-    {% if site.last_updated %}<span>Site updated {{ 'now' | date: '%-d %B %Y' }}.</span>{% endif %}
+    {% if site.last_updated -%}
+      <span>Site updated {{ 'now' | date: '%-d %B %Y' }}.</span>
+    {%- endif %}
   </div>
 </footer>

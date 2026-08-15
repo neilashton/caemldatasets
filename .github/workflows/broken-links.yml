@@ -44,9 +44,21 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
+      - name: Setup Ruby
+        uses: ruby/setup-ruby@v1
+        with:
+          ruby-version: "3.2.2"
+          bundler-cache: true
+
+      - name: Build site
+        env:
+          JEKYLL_ENV: production
+        run: bundle exec jekyll build
+
       - name: Link Checker 🔗
-        uses: lycheeverse/lychee-action@v1.9.0
+        uses: lycheeverse/lychee-action@v2.9.0
         with:
           fail: true
-          # removed md files that include liquid tags
-          args: --user-agent 'curl/7.54' --exclude-path README.md --exclude-path _pages/404.md --exclude-path _pages/blog.md --exclude-path _posts/2018-12-22-distill.md --exclude-path _posts/2023-04-24-videos.md --verbose --no-progress './**/*.md' './**/*.html'
+          # Check rendered pages so Liquid URLs are resolved and excluded demo content is ignored.
+          # Same-domain absolute metadata URLs are covered by the local root-relative checks.
+          args: --root-dir '${{ github.workspace }}/_site' --exclude '^https://caemldatasets\.org(?:/|$)' --user-agent 'curl/7.54' --verbose --no-progress '_site/**/*.html'

@@ -27,11 +27,14 @@
     };
 
     if (navigator.clipboard && window.isSecureContext) {
-      navigator.clipboard.writeText(text).then(function () {
-        finish("Copied");
-      }).catch(function () {
-        fallbackCopy();
-      });
+      navigator.clipboard
+        .writeText(text)
+        .then(function () {
+          finish("Copied");
+        })
+        .catch(function () {
+          fallbackCopy();
+        });
       return;
     }
 
@@ -60,13 +63,9 @@
       });
     });
 
-    var lines = [
-      "hf download " + repository + " \\",
-      "  --type dataset \\",
-      "  --local-dir ./" + localDir + " \\"
-    ];
+    var lines = ["hf download " + repository + " \\", "  --type dataset \\", "  --local-dir ./" + localDir + " \\"];
     patterns.forEach(function (pattern) {
-      lines.push("  --include \"" + pattern + "\" \\");
+      lines.push('  --include "' + pattern + '" \\');
     });
     lines.push("  --dry-run");
 

@@ -3,10 +3,14 @@ layout: default
 ---
 <div class="content-page{% if page.content_class %} {{ page.content_class }}{% endif %}">
   <header class="page-intro">
-    {% if page.eyebrow %}<p class="eyebrow">{{ page.eyebrow }}</p>{% endif %}
+    {% if page.eyebrow %}
+      <p class="eyebrow">{{ page.eyebrow }}</p>
+    {% endif %}
     <h1>{{ page.page_title | default: page.title }}</h1>
     {% assign page_summary = page.page_description | default: page.description %}
-    {% if page_summary %}<p class="page-intro__summary">{{ page_summary }}</p>{% endif %}
+    {% if page_summary %}
+      <p class="page-intro__summary">{{ page_summary }}</p>
+    {% endif %}
   </header>
   <article class="prose">
     {{ content }}
