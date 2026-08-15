@@ -1,0 +1,12 @@
+default_image: /assets/img/og-caeml-datasets.jpg
+default_image_width: 1200
+default_image_height: 630
+default_image_type: image/jpeg
+
+organization:
+  name: CAE ML Datasets
+  email: contact@caemldatasets.org
+
+catalog:
+  name: CAE ML Datasets catalogue
+  description: "Open, high-fidelity computational fluid dynamics datasets for machine-learning and physical-AI research."

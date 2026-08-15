@@ -1,35 +1,23 @@
-{% if site.footer_fixed %}
-  <footer class="fixed-bottom" role="contentinfo">
-    <div class="container mt-0">
-      &copy; Copyright {{ site.time | date: '%Y' }}
-      {{ site.first_name }}
-      {{ site.middle_name }}
-      {{ site.last_name }}. {{ site.footer_text }}
-      {% if site.impressum_path %}
-        <a href="{{ site.url }}{{ site.baseurl }}{{ site.impressum_path }}">Impressum</a>.
-      {% endif %}
-      {% if site.last_updated %}
-        Last updated: {{ 'now' | date: '%B %d, %Y' }}.
-      {% endif %}
+<footer class="site-footer" role="contentinfo">
+  <div class="container site-footer__grid">
+    <div class="site-footer__brand">
+      <a href="{{ '/' | relative_url }}">CAE ML Datasets</a>
+      <p>{{ site.footer_text }}</p>
     </div>
-  </footer>
-{% else %}
-  <footer class="sticky-bottom mt-5" role="contentinfo">
-    {% if site.newsletter.enabled %}
-      {% include scripts/newsletter.liquid %}
-    {% endif %}
-
-    <div class="container">
-      &copy; Copyright {{ site.time | date: '%Y' }}
-      {{ site.first_name }}
-      {{ site.middle_name }}
-      {{ site.last_name }}. {{ site.footer_text }}
-      {% if site.impressum_path %}
-        <a href="{{ site.url }}{{ site.baseurl }}{{ site.impressum_path }}">Impressum</a>.
-      {% endif %}
-      {% if site.last_updated %}
-        Last updated: {{ 'now' | date: '%B %d, %Y' }}.
-      {% endif %}
+    <nav class="site-footer__nav" aria-label="Footer navigation">
+      <a href="{{ '/datasets/' | relative_url }}">Datasets</a>
+      <a href="{{ '/getting-started/' | relative_url }}">Getting started</a>
+      <a href="{{ '/publications/' | relative_url }}">Publications</a>
+      <a href="{{ '/news/' | relative_url }}">Updates</a>
+    </nav>
+    <div class="site-footer__contact">
+      <span>Questions or corrections?</span>
+      <a href="mailto:{{ site.email }}">{{ site.email }}</a>
     </div>
-  </footer>
-{% endif %}
+  </div>
+  <div class="container site-footer__meta">
+    <span>&copy; {{ site.time | date: '%Y' }} CAE ML Datasets.</span>
+    <span>Dataset licences are listed on each dataset page.</span>
+    {% if site.last_updated %}<span>Site updated {{ 'now' | date: '%-d %B %Y' }}.</span>{% endif %}
+  </div>
+</footer>

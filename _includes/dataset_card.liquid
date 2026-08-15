@@ -1,0 +1,25 @@
+<article class="dataset-card" data-catalog-item data-domain="{{ item.domain | downcase | escape }}">
+  <a class="dataset-card__image" href="{{ item.permalink | relative_url }}" aria-label="Explore {{ item.name }}">
+    <img src="{{ item.image | relative_url }}" alt="{{ item.image_alt | escape }}" loading="lazy" decoding="async">
+    <span>{{ item.domain }}</span>
+  </a>
+  <div class="dataset-card__body">
+    <div class="dataset-card__heading">
+      <div>
+        <p class="eyebrow">{{ item.geometry }}</p>
+        <h3><a href="{{ item.permalink | relative_url }}">{{ item.name }}</a></h3>
+      </div>
+      <span class="dataset-card__arrow" aria-hidden="true">↗</span>
+    </div>
+    <p>{{ item.description }}</p>
+    <dl class="dataset-card__facts">
+      <div><dt>Scale</dt><dd>{{ item.cases }}</dd></div>
+      <div><dt>Method</dt><dd>{{ item.method }}</dd></div>
+      <div><dt>Size</dt><dd>{{ item.size }}</dd></div>
+    </dl>
+    <div class="dataset-card__footer">
+      <span>{{ item.license }}</span>
+      <a href="{{ item.huggingface_url }}" aria-label="Open {{ item.name }} on Hugging Face">Hugging Face <span aria-hidden="true">↗</span></a>
+    </div>
+  </div>
+</article>

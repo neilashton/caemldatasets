@@ -1,50 +1,60 @@
 /*******************************************************************************
- * Themes
+ * CAE ML Datasets colour system
  ******************************************************************************/
 
 :root {
-  --global-bg-color: #{$white-color};
-  --global-code-bg-color: #{$code-bg-color-light};
-  --global-text-color: #{$black-color};
-  --global-text-color-light: #{$grey-color};
-  --global-theme-color: #{$purple-color};
-  --global-hover-color: #{$purple-color};
-  --global-hover-text-color: #{$white-color};
-  --global-footer-bg-color: #{$grey-color-dark};
-  --global-footer-text-color: #{$grey-color-light};
-  --global-footer-link-color: #{$white-color};
-  --global-distill-app-color: #{$grey-color};
-  --global-divider-color: rgba(0, 0, 0, 0.1);
-  --global-card-bg-color: #{$white-color};
-  --global-highlight-color: #{$red-color-dark};
-  --global-back-to-top-bg-color: rgba(#{red($black-color)}, #{green($black-color)}, #{blue($black-color)}, 0.4);
-  --global-back-to-top-text-color: #{$white-color};
-  --global-newsletter-bg-color: #{$white-color};
-  --global-newsletter-text-color: #{$black-color};
+  --global-bg-color: #f5f8f7;
+  --global-code-bg-color: #0a2029;
+  --global-text-color: #122830;
+  --global-text-color-light: #597078;
+  --global-theme-color: #087f80;
+  --global-hover-color: #056566;
+  --global-hover-text-color: #ffffff;
+  --global-footer-bg-color: #071923;
+  --global-footer-text-color: #b9c9cb;
+  --global-footer-link-color: #ffffff;
+  --global-distill-app-color: #597078;
+  --global-divider-color: #d6e1df;
+  --global-card-bg-color: #ffffff;
+  --global-highlight-color: #c95f27;
+  --global-back-to-top-bg-color: rgba(7, 25, 35, 0.82);
+  --global-back-to-top-text-color: #ffffff;
+  --global-newsletter-bg-color: #ffffff;
+  --global-newsletter-text-color: #122830;
 
-  --global-tip-block: #42b983;
-  --global-tip-block-bg: #e2f5ec;
-  --global-tip-block-text: #215d42;
-  --global-tip-block-title: #359469;
-  --global-warning-block: #e7c000;
-  --global-warning-block-bg: #fff8d8;
-  --global-warning-block-text: #6b5900;
-  --global-warning-block-title: #b29400;
-  --global-danger-block: #c00;
-  --global-danger-block-bg: #ffe0e0;
-  --global-danger-block-text: #600;
-  --global-danger-block-title: #c00;
+  --caeml-ink: #122830;
+  --caeml-muted: #597078;
+  --caeml-surface: #ffffff;
+  --caeml-surface-soft: #eaf1ef;
+  --caeml-surface-tint: #dcecea;
+  --caeml-border: #d6e1df;
+  --caeml-brand: #087f80;
+  --caeml-brand-strong: #055e62;
+  --caeml-accent: #e47535;
+  --caeml-navy: #071923;
+  --caeml-navy-soft: #0d2a34;
+  --caeml-code: #e4f2f1;
+  --caeml-shadow-sm: 0 8px 30px rgba(16, 49, 57, 0.08);
+  --caeml-shadow-lg: 0 28px 70px rgba(7, 25, 35, 0.16);
+
+  --global-tip-block: #087f80;
+  --global-tip-block-bg: #e2f3f1;
+  --global-tip-block-text: #064f50;
+  --global-tip-block-title: #087f80;
+  --global-warning-block: #d3831d;
+  --global-warning-block-bg: #fff1d8;
+  --global-warning-block-text: #67420f;
+  --global-warning-block-title: #a36314;
+  --global-danger-block: #bc3d3d;
+  --global-danger-block-bg: #fde7e7;
+  --global-danger-block-text: #682121;
+  --global-danger-block-title: #a63030;
 
   #light-toggle-system {
-    padding-left: 10px;
-    padding-top: 12px;
     display: block;
   }
 
-  #light-toggle-dark {
-    display: none;
-  }
-
+  #light-toggle-dark,
   #light-toggle-light {
     display: none;
   }
@@ -52,6 +62,7 @@
   .repo-img-light {
     display: block;
   }
+
   .repo-img-dark {
     display: none;
   }
@@ -68,86 +79,66 @@
 }
 
 html[data-theme="dark"] {
-  --global-bg-color: #{$grey-color-dark};
-  --global-code-bg-color: #{$code-bg-color-dark};
-  --global-text-color: #{$grey-color-light};
-  --global-text-color-light: #{$grey-color};
-  --global-theme-color: #{$cyan-color};
-  --global-hover-color: #{$cyan-color};
-  --global-hover-text-color: #{$white-color};
-  --global-footer-bg-color: #{$grey-color-light};
-  --global-footer-text-color: #{$grey-color-dark};
-  --global-footer-link-color: #{$black-color};
-  --global-distill-app-color: #{$grey-color-light};
-  --global-divider-color: #424246;
-  --global-card-bg-color: #{$grey-900};
-  --global-back-to-top-bg-color: rgba(#{red($white-color)}, #{green($white-color)}, #{blue($white-color)}, 0.5);
-  --global-back-to-top-text-color: #{$black-color};
-  --global-newsletter-bg-color: #{$grey-color-light};
-  --global-newsletter-text-color: #{$grey-color-dark};
+  --global-bg-color: #07171f;
+  --global-code-bg-color: #041117;
+  --global-text-color: #e8f1f0;
+  --global-text-color-light: #9eb1b5;
+  --global-theme-color: #58d1ca;
+  --global-hover-color: #83e2dd;
+  --global-hover-text-color: #071923;
+  --global-footer-bg-color: #031017;
+  --global-footer-text-color: #9eb1b5;
+  --global-footer-link-color: #ffffff;
+  --global-distill-app-color: #9eb1b5;
+  --global-divider-color: #24414a;
+  --global-card-bg-color: #0d252f;
+  --global-back-to-top-bg-color: rgba(88, 209, 202, 0.82);
+  --global-back-to-top-text-color: #071923;
+  --global-newsletter-bg-color: #0d252f;
+  --global-newsletter-text-color: #e8f1f0;
 
-  --global-tip-block: #42b983;
-  --global-tip-block-bg: #e2f5ec;
-  --global-tip-block-text: #215d42;
-  --global-tip-block-title: #359469;
-  --global-warning-block: #e7c000;
-  --global-warning-block-bg: #fff8d8;
-  --global-warning-block-text: #6b5900;
-  --global-warning-block-title: #b29400;
-  --global-danger-block: #c00;
-  --global-danger-block-bg: #ffe0e0;
-  --global-danger-block-text: #600;
-  --global-danger-block-title: #c00;
+  --caeml-ink: #e8f1f0;
+  --caeml-muted: #9eb1b5;
+  --caeml-surface: #0d252f;
+  --caeml-surface-soft: #102d37;
+  --caeml-surface-tint: #153843;
+  --caeml-border: #24414a;
+  --caeml-brand: #58d1ca;
+  --caeml-brand-strong: #83e2dd;
+  --caeml-accent: #ffad6e;
+  --caeml-navy: #031017;
+  --caeml-navy-soft: #0a2029;
+  --caeml-code: #e4f2f1;
+  --caeml-shadow-sm: 0 8px 30px rgba(0, 0, 0, 0.22);
+  --caeml-shadow-lg: 0 28px 70px rgba(0, 0, 0, 0.34);
 
   .repo-img-light {
     display: none;
   }
+
   .repo-img-dark {
     display: block;
   }
 }
-.header-background .img {
-  background-image: url("../img/autocfd2.png");
-  background-repeat: no-repeat;
-  background-size: cover;
-  background-position: center bottom;
-  height: 15em;
-  margin-bottom: 2em;
-  margin-top: -2.7em;
-}
+
 html[data-theme-setting="dark"] {
-  #light-toggle-system {
-    display: none;
-  }
-
-  #light-toggle-dark {
-    padding-left: 10px;
-    padding-top: 12px;
-    display: block;
-  }
-
+  #light-toggle-system,
   #light-toggle-light {
     display: none;
   }
 
-  #back-to-top {
-    color: var(--global-back-to-top-text-color);
-    background: var(--global-back-to-top-bg-color);
+  #light-toggle-dark {
+    display: block;
   }
 }
 
 html[data-theme-setting="light"] {
-  #light-toggle-system {
-    display: none;
-  }
-
+  #light-toggle-system,
   #light-toggle-dark {
     display: none;
   }
 
   #light-toggle-light {
-    padding-left: 10px;
-    padding-top: 12px;
     display: block;
   }
 }
