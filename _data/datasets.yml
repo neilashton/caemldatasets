@@ -3,9 +3,9 @@
   short_name: AhmedML
   permalink: /ahmedml/
   seo_title: "AhmedML: high-fidelity Ahmed-body CFD dataset"
-  description: "AhmedML is an open 500-geometry, high-fidelity CFD dataset for machine-learning research in low-speed bluff-body aerodynamics."
+  description: "AhmedML comprises 500 parametrically varied Ahmed-body geometries simulated for machine-learning research in low-speed bluff-body aerodynamics."
   eyebrow: "Automotive · bluff-body aerodynamics"
-  tagline: "A practical entry point for learning from separated, three-dimensional automotive flows."
+  tagline: "500 Ahmed-body geometries with time-averaged surface, volume and integrated aerodynamic data."
   image: /assets/img/ahmed_body.png
   image_alt: "Ahmed body diagram showing the separated vortical structures represented in AhmedML"
   domain: Automotive
@@ -30,14 +30,14 @@
   formats: [VTP, VTU, STL, CSV, PNG]
   keywords: [computational fluid dynamics, machine learning, Ahmed body, automotive aerodynamics, hybrid RANS-LES, OpenFOAM]
   overview: |
-    AhmedML contains 500 parametrically varied Ahmed bodies simulated with a time-accurate, scale-resolving CFD workflow. The simplified geometry retains important road-vehicle flow physics—including pressure-induced separation and three-dimensional vortical structures—without the geometric complexity of a full vehicle.
+    AhmedML comprises 500 parametrically varied Ahmed-body geometries simulated using a time-accurate hybrid RANS–LES workflow. The simplified geometry represents pressure-induced separation and three-dimensional vortical structures without the geometric complexity of a complete road vehicle.
 
-    Every case includes geometry, surface and volume fields, force and moment coefficients, slices and rendered images in open formats. The OpenFOAM setup and validation cases are also available, making the dataset useful for surrogate modelling, geometric learning, reduced-order modelling and reproducibility studies.
+    Each case includes geometry, time-averaged surface and volume fields, force and moment coefficients, sampled slices and rendered images. The repository also contains the OpenFOAM setup and validation cases. These products support surrogate modelling, geometric learning, reduced-order modelling and reproducibility studies.
   intended_uses:
-    - Train and compare surface- or volume-field surrogate models.
-    - Study how geometry changes affect separated bluff-body flow.
-    - Benchmark mesh, point-cloud and graph-based learning pipelines.
-    - Reproduce or extend the published OpenFOAM workflow.
+    - Surrogate modelling of surface fields, volume fields or integrated coefficients.
+    - Analysis of geometric effects on separated bluff-body flow.
+    - Evaluation of mesh-, point-cloud- and graph-based learning methods.
+    - Reproduction or extension of the published OpenFOAM workflow.
   outputs:
     - name: Geometry
       details: "Parametric values, STL surfaces and the SolveSpace definition"
@@ -57,7 +57,7 @@
   download_groups:
     - id: summary
       label: Summary tables
-      description: "All-case geometry and force/moment tables; the smallest useful starting point."
+      description: "Consolidated geometry and force/moment tables for all cases."
       default: true
       patterns: [force_mom_all.csv, force_mom_varref_all.csv, geo_parameters_all.csv]
     - id: geometry
@@ -90,7 +90,7 @@
       --type dataset \
       --local-dir ./ahmedml_data \
       --dry-run
-  download_note: "The full repository is about 2 TB. Keep --dry-run until the reported selection fits your storage and transfer budget."
+  download_note: "The complete repository is approximately 2 TB. The --dry-run output reports the size of a selected transfer before retrieval."
   known_issues:
     - "The per-run geometry parameter file is missing for run 500; use the consolidated geometry table where appropriate."
   citation: |
@@ -111,9 +111,9 @@
   short_name: WindsorML
   permalink: /windsorml/
   seo_title: "WindsorML: high-fidelity automotive CFD dataset"
-  description: "WindsorML is an open 355-geometry WMLES dataset for developing and evaluating machine-learning models for automotive aerodynamics."
+  description: "WindsorML comprises 355 Windsor-body geometries evaluated using wall-modelled large-eddy simulation for automotive aerodynamic research."
   eyebrow: "Automotive · external aerodynamics"
-  tagline: "GPU-native WMLES data bridging simple bluff bodies and realistic road vehicles."
+  tagline: "355 Windsor-body variants evaluated using wall-modelled large-eddy simulation."
   image: /assets/img/case1_param_description.png
   image_alt: "Parametric Windsor body geometry used to create the WindsorML dataset"
   domain: Automotive
@@ -138,14 +138,14 @@
   formats: [VTU, STL, STEP, CSV, PNG]
   keywords: [computational fluid dynamics, machine learning, Windsor body, automotive aerodynamics, WMLES, immersed boundary]
   overview: |
-    WindsorML contains 355 geometric variants of the Windsor body, each evaluated with a GPU-native, wall-modelled large-eddy simulation. The dataset occupies the useful middle ground between a simplified Ahmed body and a full road-car configuration.
+    WindsorML comprises 355 geometric variants of the Windsor body, each evaluated using a GPU-native, wall-modelled large-eddy simulation. Its geometric complexity lies between the simplified Ahmed body and a complete road-car configuration.
 
-    The simulations use a Cartesian immersed-boundary approach with roughly 300 million cells per case. Geometry, three-dimensional surface and volume fields, force and moment coefficients and rendered views are supplied in interoperable formats for machine-learning research.
+    The simulations use a Cartesian immersed-boundary approach with approximately 300 million cells per case. The repository provides geometry, three-dimensional surface and volume fields, force and moment coefficients and rendered views in standard scientific data formats.
   intended_uses:
-    - Develop high-fidelity automotive aerodynamic surrogate models.
-    - Compare learning behaviour as geometric and flow complexity increase.
-    - Train models on surface, volume or integrated force targets.
-    - Study separated road-vehicle-like wakes using consistent simulations.
+    - Surrogate modelling of automotive aerodynamic quantities.
+    - Comparison of learning behaviour across levels of geometric and flow complexity.
+    - Prediction of surface fields, volume fields or integrated force targets.
+    - Analysis of separated road-vehicle-like wakes across a consistent simulation set.
   outputs:
     - name: Geometry
       details: "Parametric definitions plus tessellated and CAD surfaces"
@@ -198,7 +198,7 @@
       --type dataset \
       --local-dir ./windsorml_data \
       --dry-run
-  download_note: "The full repository is about 8 TB. Start with summary, geometry and force files before adding field data."
+  download_note: "The complete repository is approximately 8 TB. Summary tables, geometry and force data can be selected independently of the field data."
   known_issues: []
   citation: |
     @inproceedings{ashton2024windsor,
@@ -220,9 +220,9 @@
   short_name: DrivAerML
   permalink: /drivaerml/
   seo_title: "DrivAerML: road-car CFD dataset for machine learning"
-  description: "DrivAerML is an open, industrial-scale CFD dataset based on a 500-geometry DrivAer design space for road-car aerodynamic machine learning."
+  description: "DrivAerML is a CFD dataset based on a 500-geometry DrivAer notchback design space for road-car aerodynamic machine-learning research."
   eyebrow: "Automotive · realistic road-car aerodynamics"
-  tagline: "Industrial-scale, scale-resolving CFD for complex vehicle geometry."
+  tagline: "A 500-geometry DrivAer notchback design space with scale-resolving CFD outputs."
   image: /assets/img/drivaer1.png
   image_alt: "DrivAer vehicle parameters varied across the DrivAerML design space"
   domain: Automotive
@@ -246,14 +246,14 @@
   formats: [VTP, VTU, STL, CSV, PNG, OpenFOAM]
   keywords: [computational fluid dynamics, machine learning, DrivAer, automotive aerodynamics, road car, OpenFOAM]
   overview: |
-    DrivAerML is based on a 500-geometry design space of the widely used DrivAer notchback vehicle. It brings realistic road-car geometry and an automated, industrially representative CFD workflow into an openly accessible machine-learning dataset.
+    DrivAerML comprises a 500-geometry design space based on the DrivAer notchback vehicle. The cases were generated using an automated, scale-resolving CFD workflow representative of road-car aerodynamic analysis.
 
-    The repository contains geometry, reference parameters, surface and volume fields, aerodynamic coefficients, slices, rendered views and OpenFOAM meshes. It is intended for researchers moving from canonical bluff-body data toward complex production-relevant configurations.
+    The repository contains geometry, reference parameters, surface and volume fields, aerodynamic coefficients, sampled slices, rendered views and OpenFOAM meshes. The dataset permits evaluation of learning methods on geometry more complex than canonical bluff-body configurations.
   intended_uses:
-    - Train surrogate models for realistic road-car external aerodynamics.
-    - Evaluate geometric generalisation on complex vehicle surfaces.
-    - Predict surface fields, volume fields or integrated coefficients.
-    - Extend the dataset using the supplied meshes and documented workflow.
+    - Surrogate modelling of road-car external aerodynamics.
+    - Evaluation of geometric generalisation on complex vehicle surfaces.
+    - Prediction of surface fields, volume fields or integrated coefficients.
+    - Extension of the dataset using the supplied meshes and documented workflow.
   outputs:
     - name: Geometry
       details: "Vehicle surfaces, geometry parameters and reference values"
@@ -306,7 +306,7 @@
       --type dataset \
       --local-dir ./drivaerml_data \
       --dry-run
-  download_note: "The full repository is about 31 TB. Some volume files are split into parts and must be concatenated after download; see the repository card for the current procedure."
+  download_note: "The complete repository is approximately 31 TB. Some volume files are stored in numbered parts and require concatenation after retrieval; the repository card documents the current procedure."
   known_issues:
     - "Some run IDs are intentionally absent from the public case folders; consult the Hugging Face version history before assuming a continuous range."
     - "Large volume VTU files are stored as numbered parts on Hugging Face."
@@ -328,10 +328,10 @@
   name: HiLiftAeroML
   short_name: HiLiftAeroML
   permalink: /hiliftaeroml/
-  seo_title: "HiLiftAeroML: high-lift aircraft CFD dataset for AI"
-  description: "HiLiftAeroML is an open 1,800-case WMLES dataset of NASA CRM-HL aircraft variants for aerodynamic machine-learning research."
+  seo_title: "HiLiftAeroML: high-lift aircraft CFD dataset for machine learning"
+  description: "HiLiftAeroML comprises 1,800 WMLES cases of NASA CRM-HL aircraft variants for aerodynamic machine-learning research."
   eyebrow: "Aerospace · high-lift aerodynamics"
-  tagline: "The first open high-fidelity CFD dataset of a complete aircraft in high-lift configuration."
+  tagline: "1,800 WMLES cases spanning 180 NASA CRM-HL variants and ten angles of attack."
   image: /assets/img/datasets/hiliftaeroml-wss.webp
   image_alt: "Wall-shear-stress rendering of a HiLiftAeroML CRM-HL aircraft case"
   image_credit: "Representative wall-shear-stress rendering from the HiLiftAeroML repository, CC BY 4.0."
@@ -354,16 +354,16 @@
   published: "2026-05-20"
   modified: "2026-08-07"
   formats: [VTU, NPY, STL, STEP, CSV, PNG, JSON]
-  keywords: [computational fluid dynamics, machine learning, aircraft aerodynamics, high lift, CRM-HL, WMLES, physical AI]
+  keywords: [computational fluid dynamics, machine learning, aircraft aerodynamics, high lift, CRM-HL, WMLES, scientific machine learning]
   overview: |
-    HiLiftAeroML contains 1,800 simulations: 180 variants of the NASA Common Research Model in high-lift configuration, each evaluated at ten angles of attack from 4° to 22°. It was created to support AI surrogate modelling for complex three-dimensional aircraft flows.
+    HiLiftAeroML comprises 1,800 simulations: 180 variants of the NASA Common Research Model in high-lift configuration, each evaluated at ten angles of attack from 4° to 22°. The dataset supports surrogate modelling of complex three-dimensional aircraft flows.
 
-    The simulations use GPU-accelerated explicit wall-modelled LES on solution-adapted grids containing 300–500 million cells. Alongside geometry, surface and volume fields and integrated coefficients, the repository provides deterministic train/validation/test splits and native-surface quadrature weights for reproducible, area-weighted evaluation.
+    The simulations use GPU-accelerated explicit wall-modelled LES on solution-adapted grids containing 300–500 million cells. In addition to geometry, surface and volume fields and integrated coefficients, the repository provides deterministic training, validation and test splits and native-surface quadrature weights for reproducible, area-weighted evaluation.
   intended_uses:
-    - Develop surrogate models for complete aircraft in high-lift configuration.
-    - Benchmark interpolation and out-of-distribution generalisation.
-    - Evaluate unseen geometries, angles of attack, deflections and stall behaviour.
-    - Score native-surface predictions with physically meaningful area weights.
+    - Surrogate modelling of complete aircraft in high-lift configuration.
+    - Evaluation of interpolation and out-of-distribution generalisation.
+    - Assessment on unseen geometries, angles of attack, deflections and stall conditions.
+    - Area-weighted evaluation of native-surface predictions.
   outputs:
     - name: Geometry
       details: "Tessellated and CAD definitions for each aircraft variant"
@@ -416,7 +416,7 @@
       --type dataset \
       --local-dir ./hiliftaeroml_data \
       --dry-run
-  download_note: "The full repository is about 66.9 TB as stored on Hugging Face. The native-point surface quadrature sidecars alone occupy about 1.02 TB, so preview every selection."
+  download_note: "The complete repository occupies approximately 66.9 TB on Hugging Face. The native-point surface-quadrature files occupy approximately 1.02 TB; --dry-run reports the size of any selected subset."
   known_issues: []
   citation: |
     @article{ashton2026hiliftaeroml,

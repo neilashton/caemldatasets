@@ -1,13 +1,13 @@
 ---
 layout: page
 title: Datasets
-seo_title: Open CFD datasets for engineering machine learning
-description: Compare AhmedML, WindsorML, DrivAerML and HiLiftAeroML by domain, scale, simulation method, file format, licence and repository size.
+seo_title: CFD dataset catalogue for engineering machine learning
+description: Technical comparison of AhmedML, WindsorML, DrivAerML and HiLiftAeroML by domain, case count, numerical method, file format, licence and repository size.
 permalink: /datasets/
 nav: true
 nav_order: 1
-eyebrow: Dataset catalog
-page_description: Four open, high-fidelity CFD datasets spanning simplified automotive bodies, realistic road vehicles and complete high-lift aircraft.
+eyebrow: Dataset catalogue
+page_description: Technical summary of four CFD datasets spanning simplified automotive bodies, realistic road vehicles and a complete high-lift aircraft configuration.
 content_class: catalog-page
 catalog_js: true
 ---
@@ -29,8 +29,8 @@ catalog_js: true
 
 <section class="comparison-section" aria-labelledby="comparison-title">
   <div class="section-heading">
-    <div><p class="section-kicker">Side-by-side</p><h2 id="comparison-title">Compare technical scope</h2></div>
-    <p>Repository sizes are approximate. Always run a selective preview before transferring field data.</p>
+    <div><p class="section-kicker">Technical comparison</p><h2 id="comparison-title">Dataset scope and data volume</h2></div>
+    <p>Stored sizes are approximate and may change with repository revisions. Transfer estimates should be checked before field data are retrieved.</p>
   </div>
   <div class="data-table-wrap" role="region" aria-label="Dataset comparison" tabindex="0">
     <table class="data-table comparison-table">
@@ -48,7 +48,7 @@ catalog_js: true
 </section>
 
 <aside class="catalog-guidance">
-  <div><p class="eyebrow">Unsure where to begin?</p><h2>Start with the smallest useful representation.</h2></div>
-  <p>Force tables and geometry are usually enough to validate a pipeline. Add surface fields next; full three-dimensional volume data has the highest storage and processing cost.</p>
-  <a class="button button--secondary" href="{{ '/getting-started/' | relative_url }}">Plan your first download</a>
+  <div><p class="eyebrow">Data selection</p><h2>Select data products according to the analysis requirements.</h2></div>
+  <p>Tabular coefficients and geometry can be used to validate an initial pipeline. Surface and three-dimensional volume fields require progressively greater storage and processing capacity.</p>
+  <a class="button button--secondary" href="{{ '/getting-started/' | relative_url }}">Data access guidance</a>
 </aside>

@@ -1,5 +1,5 @@
 <article class="dataset-card" data-catalog-item data-domain="{{ item.domain | downcase | escape }}">
-  <a class="dataset-card__image" href="{{ item.permalink | relative_url }}" aria-label="Explore {{ item.name }}">
+  <a class="dataset-card__image" href="{{ item.permalink | relative_url }}" aria-label="View the {{ item.name }} dataset record">
     <img src="{{ item.image | relative_url }}" alt="{{ item.image_alt | escape }}" loading="lazy" decoding="async">
     <span>{{ item.domain }}</span>
   </a>
@@ -11,7 +11,7 @@
           <a href="{{ item.permalink | relative_url }}">{{ item.name }}</a>
         </h3>
       </div>
-      <span class="dataset-card__arrow" aria-hidden="true">↗</span>
+      <span class="dataset-card__arrow" aria-hidden="true">→</span>
     </div>
     <p>{{ item.description }}</p>
     <dl class="dataset-card__facts">
@@ -30,7 +30,9 @@
     </dl>
     <div class="dataset-card__footer">
       <span>{{ item.license }}</span>
-      <a href="{{ item.huggingface_url }}" aria-label="Open {{ item.name }} on Hugging Face">Hugging Face <span aria-hidden="true">↗</span></a>
+      <a href="{{ item.huggingface_url }}" aria-label="Open the {{ item.name }} repository on Hugging Face"
+        >Repository <span aria-hidden="true">↗</span></a
+      >
     </div>
   </div>
 </article>
