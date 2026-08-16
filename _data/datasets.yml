@@ -1,0 +1,431 @@
+- key: ahmedml
+  name: AhmedML
+  short_name: AhmedML
+  permalink: /ahmedml/
+  seo_title: "AhmedML: high-fidelity Ahmed-body CFD dataset"
+  description: "AhmedML is an open 500-geometry, high-fidelity CFD dataset for machine-learning research in low-speed bluff-body aerodynamics."
+  eyebrow: "Automotive · bluff-body aerodynamics"
+  tagline: "A practical entry point for learning from separated, three-dimensional automotive flows."
+  image: /assets/img/ahmed_body.png
+  image_alt: "Ahmed body diagram showing the separated vortical structures represented in AhmedML"
+  domain: Automotive
+  geometry: Ahmed body
+  cases: "500 geometries"
+  case_count: 500
+  flow_regime: "Low-speed, incompressible"
+  method: "Hybrid RANS–LES"
+  solver: "OpenFOAM v2212"
+  resolution: "About 20 million cells per case"
+  size: "About 2 TB"
+  license: "CC BY-SA 4.0"
+  license_url: https://creativecommons.org/licenses/by-sa/4.0/
+  repository: neashton/ahmedml
+  huggingface_url: https://huggingface.co/datasets/neashton/ahmedml
+  paper_url: https://arxiv.org/abs/2407.20801
+  paper_title: "AhmedML: High-Fidelity Computational Fluid Dynamics Dataset for Incompressible, Low-Speed Bluff Body Aerodynamics"
+  arxiv_id: "2407.20801"
+  doi: "10.57967/hf/5002"
+  published: "2024-07-30"
+  modified: "2026-03-28"
+  formats: [VTP, VTU, STL, CSV, PNG]
+  keywords: [computational fluid dynamics, machine learning, Ahmed body, automotive aerodynamics, hybrid RANS-LES, OpenFOAM]
+  overview: |
+    AhmedML contains 500 parametrically varied Ahmed bodies simulated with a time-accurate, scale-resolving CFD workflow. The simplified geometry retains important road-vehicle flow physics—including pressure-induced separation and three-dimensional vortical structures—without the geometric complexity of a full vehicle.
+
+    Every case includes geometry, surface and volume fields, force and moment coefficients, slices and rendered images in open formats. The OpenFOAM setup and validation cases are also available, making the dataset useful for surrogate modelling, geometric learning, reduced-order modelling and reproducibility studies.
+  intended_uses:
+    - Train and compare surface- or volume-field surrogate models.
+    - Study how geometry changes affect separated bluff-body flow.
+    - Benchmark mesh, point-cloud and graph-based learning pipelines.
+    - Reproduce or extend the published OpenFOAM workflow.
+  outputs:
+    - name: Geometry
+      details: "Parametric values, STL surfaces and the SolveSpace definition"
+      formats: "CSV · STL · SLVS"
+    - name: Surface fields
+      details: "Time-averaged boundary flow quantities"
+      formats: VTP
+    - name: Volume fields
+      details: "Three-dimensional time-averaged flow solution"
+      formats: VTU
+    - name: Integrated data
+      details: "Drag and lift coefficients with constant and varying reference areas"
+      formats: CSV
+    - name: Derived views
+      details: "Flow slices and rendered field images"
+      formats: "VTP · PNG"
+  download_groups:
+    - id: summary
+      label: Summary tables
+      description: "All-case geometry and force/moment tables; the smallest useful starting point."
+      default: true
+      patterns: [force_mom_all.csv, force_mom_varref_all.csv, geo_parameters_all.csv]
+    - id: geometry
+      label: Geometry
+      description: "Per-case STL geometry and parameter files."
+      default: true
+      patterns: ["run_*/ahmed_*.stl", "run_*/geo_parameters_*.csv"]
+    - id: forces
+      label: Forces and moments
+      description: "Per-case aerodynamic coefficients."
+      default: true
+      patterns: ["run_*/force_mom_*.csv"]
+    - id: images
+      label: Images and slices
+      description: "Rendered flow views and sampled planes."
+      default: false
+      patterns: ["run_*/images/**", "run_*/slices/**"]
+    - id: surface
+      label: Surface fields
+      description: "Large per-case boundary files."
+      default: false
+      patterns: ["run_*/boundary_*.vtp"]
+    - id: volume
+      label: Volume fields
+      description: "The largest per-case files; preview storage requirements first."
+      default: false
+      patterns: ["run_*/volume_*.vtu"]
+  full_command: |
+    hf download neashton/ahmedml \
+      --type dataset \
+      --local-dir ./ahmedml_data \
+      --dry-run
+  download_note: "The full repository is about 2 TB. Keep --dry-run until the reported selection fits your storage and transfer budget."
+  known_issues:
+    - "The per-run geometry parameter file is missing for run 500; use the consolidated geometry table where appropriate."
+  citation: |
+    @article{ashton2024ahmed,
+      title={AhmedML: High-Fidelity Computational Fluid Dynamics Dataset for Incompressible, Low-Speed Bluff Body Aerodynamics},
+      author={Ashton, Neil and Maddix, Danielle C. and Gundry, Samuel and Shabestari, Parisa M.},
+      journal={arXiv preprint arXiv:2407.20801},
+      year={2024},
+      url={https://arxiv.org/abs/2407.20801}
+    }
+  contributors:
+    - "CFD workflow and simulation: Neil Ashton"
+    - "Geometry parameterisation: Samuel Gundry and Parisa Shabestari"
+    - "Machine-learning dataset guidance: Danielle Maddix"
+
+- key: windsorml
+  name: WindsorML
+  short_name: WindsorML
+  permalink: /windsorml/
+  seo_title: "WindsorML: high-fidelity automotive CFD dataset"
+  description: "WindsorML is an open 355-geometry WMLES dataset for developing and evaluating machine-learning models for automotive aerodynamics."
+  eyebrow: "Automotive · external aerodynamics"
+  tagline: "GPU-native WMLES data bridging simple bluff bodies and realistic road vehicles."
+  image: /assets/img/case1_param_description.png
+  image_alt: "Parametric Windsor body geometry used to create the WindsorML dataset"
+  domain: Automotive
+  geometry: Windsor body
+  cases: "355 geometries"
+  case_count: 355
+  flow_regime: "Low-speed external aerodynamics"
+  method: WMLES
+  solver: "Volcano Platforms"
+  resolution: "About 300 million cells per case"
+  size: "About 8 TB"
+  license: "CC BY-SA 4.0"
+  license_url: https://creativecommons.org/licenses/by-sa/4.0/
+  repository: neashton/windsorml
+  huggingface_url: https://huggingface.co/datasets/neashton/windsorml
+  paper_url: https://proceedings.neurips.cc/paper_files/paper/2024/hash/42a59a5f35b1b3c3fd648397c88a7164-Abstract-Datasets_and_Benchmarks_Track.html
+  paper_title: "WindsorML: High-Fidelity Computational Fluid Dynamics Dataset for Automotive Aerodynamics"
+  arxiv_id: "2407.19320"
+  doi: "10.57967/hf/7644"
+  published: "2024-07-29"
+  modified: "2025-05-12"
+  formats: [VTU, STL, STEP, CSV, PNG]
+  keywords: [computational fluid dynamics, machine learning, Windsor body, automotive aerodynamics, WMLES, immersed boundary]
+  overview: |
+    WindsorML contains 355 geometric variants of the Windsor body, each evaluated with a GPU-native, wall-modelled large-eddy simulation. The dataset occupies the useful middle ground between a simplified Ahmed body and a full road-car configuration.
+
+    The simulations use a Cartesian immersed-boundary approach with roughly 300 million cells per case. Geometry, three-dimensional surface and volume fields, force and moment coefficients and rendered views are supplied in interoperable formats for machine-learning research.
+  intended_uses:
+    - Develop high-fidelity automotive aerodynamic surrogate models.
+    - Compare learning behaviour as geometric and flow complexity increase.
+    - Train models on surface, volume or integrated force targets.
+    - Study separated road-vehicle-like wakes using consistent simulations.
+  outputs:
+    - name: Geometry
+      details: "Parametric definitions plus tessellated and CAD surfaces"
+      formats: "CSV · STL · STEP"
+    - name: Surface fields
+      details: "Time-averaged boundary flow quantities"
+      formats: VTU
+    - name: Volume fields
+      details: "Three-dimensional time-averaged solution fields"
+      formats: VTU
+    - name: Integrated data
+      details: "Drag, side force, lift and pitching moment coefficients"
+      formats: CSV
+    - name: Derived views
+      details: "Geometry and flow-field images across multiple planes"
+      formats: PNG
+  download_groups:
+    - id: summary
+      label: Summary tables
+      description: "All-case geometry and force/moment tables."
+      default: true
+      patterns: [force_mom_all.csv, force_mom_varref_all.csv, geo_parameters_all.csv]
+    - id: geometry
+      label: Geometry
+      description: "Per-case STL, STEP and parameter files."
+      default: true
+      patterns: ["run_*/windsor_*.stl", "run_*/windsor_*.stp", "run_*/geo_parameters_*.csv"]
+    - id: forces
+      label: Forces and moments
+      description: "Per-case aerodynamic coefficients."
+      default: true
+      patterns: ["run_*/force_mom_*.csv"]
+    - id: images
+      label: Images
+      description: "Rendered geometry and flow-field views."
+      default: false
+      patterns: ["run_*/images/**"]
+    - id: surface
+      label: Surface fields
+      description: "Large per-case boundary files."
+      default: false
+      patterns: ["run_*/boundary_*.vtu"]
+    - id: volume
+      label: Volume fields
+      description: "Very large per-case volume files."
+      default: false
+      patterns: ["run_*/volume_*.vtu"]
+  full_command: |
+    hf download neashton/windsorml \
+      --type dataset \
+      --local-dir ./windsorml_data \
+      --dry-run
+  download_note: "The full repository is about 8 TB. Start with summary, geometry and force files before adding field data."
+  known_issues: []
+  citation: |
+    @inproceedings{ashton2024windsor,
+      title={WindsorML: High-Fidelity Computational Fluid Dynamics Dataset for Automotive Aerodynamics},
+      author={Ashton, Neil and Angel, Jordan and Ghate, Aditya and Kenway, Gaetan and Wong, Man Long and Kiris, Cetin and Walle, Astrid and Maddix, Danielle and Page, Gary},
+      booktitle={Advances in Neural Information Processing Systems},
+      volume={37},
+      year={2024},
+      url={https://proceedings.neurips.cc/paper_files/paper/2024/hash/42a59a5f35b1b3c3fd648397c88a7164-Abstract-Datasets_and_Benchmarks_Track.html}
+    }
+  contributors:
+    - "CFD workflow: Jordan Angel, Aditya Ghate, Gaetan Kenway, Man Long Wong, Cetin Kiris and Neil Ashton"
+    - "Geometry parameterisation: Astrid Walle"
+    - "Windsor consultation: Gary Page"
+    - "Machine-learning dataset guidance: Danielle Maddix"
+
+- key: drivaerml
+  name: DrivAerML
+  short_name: DrivAerML
+  permalink: /drivaerml/
+  seo_title: "DrivAerML: road-car CFD dataset for machine learning"
+  description: "DrivAerML is an open, industrial-scale CFD dataset based on a 500-geometry DrivAer design space for road-car aerodynamic machine learning."
+  eyebrow: "Automotive · realistic road-car aerodynamics"
+  tagline: "Industrial-scale, scale-resolving CFD for complex vehicle geometry."
+  image: /assets/img/drivaer1.png
+  image_alt: "DrivAer vehicle parameters varied across the DrivAerML design space"
+  domain: Automotive
+  geometry: "DrivAer notchback"
+  cases: "500-geometry design space"
+  case_count: 500
+  flow_regime: "Low-speed external aerodynamics"
+  method: "Scale-resolving CFD"
+  solver: "OpenFOAM v2212 with Upstream CFD modifications"
+  resolution: "Industrial-scale unstructured meshes"
+  size: "About 31 TB"
+  license: "CC BY-SA 4.0"
+  license_url: https://creativecommons.org/licenses/by-sa/4.0/
+  repository: neashton/drivaerml
+  huggingface_url: https://huggingface.co/datasets/neashton/drivaerml
+  paper_url: https://arxiv.org/abs/2408.11969
+  paper_title: "DrivAerML: High-Fidelity Computational Fluid Dynamics Dataset for Road-Car External Aerodynamics"
+  arxiv_id: "2408.11969"
+  published: "2024-08-22"
+  modified: "2026-03-28"
+  formats: [VTP, VTU, STL, CSV, PNG, OpenFOAM]
+  keywords: [computational fluid dynamics, machine learning, DrivAer, automotive aerodynamics, road car, OpenFOAM]
+  overview: |
+    DrivAerML is based on a 500-geometry design space of the widely used DrivAer notchback vehicle. It brings realistic road-car geometry and an automated, industrially representative CFD workflow into an openly accessible machine-learning dataset.
+
+    The repository contains geometry, reference parameters, surface and volume fields, aerodynamic coefficients, slices, rendered views and OpenFOAM meshes. It is intended for researchers moving from canonical bluff-body data toward complex production-relevant configurations.
+  intended_uses:
+    - Train surrogate models for realistic road-car external aerodynamics.
+    - Evaluate geometric generalisation on complex vehicle surfaces.
+    - Predict surface fields, volume fields or integrated coefficients.
+    - Extend the dataset using the supplied meshes and documented workflow.
+  outputs:
+    - name: Geometry
+      details: "Vehicle surfaces, geometry parameters and reference values"
+      formats: "STL · CSV"
+    - name: Surface fields
+      details: "Time-averaged boundary quantities"
+      formats: VTP
+    - name: Volume fields
+      details: "Three-dimensional solution split into large-file parts on the Hub"
+      formats: VTU
+    - name: Integrated data
+      details: "Force and moment coefficients using variable and constant references"
+      formats: CSV
+    - name: Reproduction assets
+      details: "Slices, images and OpenFOAM meshes"
+      formats: "VTP · PNG · OpenFOAM"
+  download_groups:
+    - id: summary
+      label: Summary tables
+      description: "All-case geometry and force/moment tables."
+      default: true
+      patterns: [force_mom_all.csv, force_mom_constref_all.csv, geo_parameters_all.csv]
+    - id: geometry
+      label: Geometry
+      description: "Per-case STL geometry and reference tables."
+      default: true
+      patterns: ["run_*/drivaer_*.stl", "run_*/geo_parameters_*.csv", "run_*/geo_ref_*.csv"]
+    - id: forces
+      label: Forces and moments
+      description: "Per-case aerodynamic coefficients."
+      default: true
+      patterns: ["run_*/force_mom_*.csv"]
+    - id: images
+      label: Images and slices
+      description: "Rendered flow views and sampled planes."
+      default: false
+      patterns: ["run_*/images/**", "run_*/slices/**"]
+    - id: surface
+      label: Surface fields
+      description: "Large per-case boundary files."
+      default: false
+      patterns: ["run_*/boundary_*.vtp"]
+    - id: volume
+      label: Volume fields
+      description: "Very large split volume files."
+      default: false
+      patterns: ["run_*/volume_*.vtu.*.part"]
+  full_command: |
+    hf download neashton/drivaerml \
+      --type dataset \
+      --local-dir ./drivaerml_data \
+      --dry-run
+  download_note: "The full repository is about 31 TB. Some volume files are split into parts and must be concatenated after download; see the repository card for the current procedure."
+  known_issues:
+    - "Some run IDs are intentionally absent from the public case folders; consult the Hugging Face version history before assuming a continuous range."
+    - "Large volume VTU files are stored as numbered parts on Hugging Face."
+  citation: |
+    @article{ashton2024drivaer,
+      title={DrivAerML: High-Fidelity Computational Fluid Dynamics Dataset for Road-Car External Aerodynamics},
+      author={Ashton, Neil and Mockett, Charles and Fuchs, Marian and Fliessbach, Louis and Hetmann, Hendrik and Knacke, Thilo and Schonwald, Norbert and Skaperdas, Vangelis and Fotiadis, Grigoris and Walle, Astrid and Hupertz, Burkhard and Maddix, Danielle},
+      journal={arXiv preprint arXiv:2408.11969},
+      year={2024},
+      url={https://arxiv.org/abs/2408.11969}
+    }
+  contributors:
+    - "CFD workflow: Charles Mockett, Marian Fuchs, Louis Fliessbach, Hendrik Hetmann, Thilo Knacke and Norbert Schonwald"
+    - "Geometry and meshing: Vangelis Skaperdas, Grigoris Fotiadis and Astrid Walle"
+    - "DrivAer consultation: Burkhard Hupertz"
+    - "Dataset guidance and simulation: Danielle Maddix and Neil Ashton"
+
+- key: hiliftaeroml
+  name: HiLiftAeroML
+  short_name: HiLiftAeroML
+  permalink: /hiliftaeroml/
+  seo_title: "HiLiftAeroML: high-lift aircraft CFD dataset for AI"
+  description: "HiLiftAeroML is an open 1,800-case WMLES dataset of NASA CRM-HL aircraft variants for aerodynamic machine-learning research."
+  eyebrow: "Aerospace · high-lift aerodynamics"
+  tagline: "The first open high-fidelity CFD dataset of a complete aircraft in high-lift configuration."
+  image: /assets/img/datasets/hiliftaeroml-wss.webp
+  image_alt: "Wall-shear-stress rendering of a HiLiftAeroML CRM-HL aircraft case"
+  image_credit: "Representative wall-shear-stress rendering from the HiLiftAeroML repository, CC BY 4.0."
+  domain: Aerospace
+  geometry: "NASA CRM-HL"
+  cases: "1,800 cases"
+  case_count: 1800
+  flow_regime: "Angles of attack from 4° to 22°"
+  method: "Explicit WMLES"
+  solver: "Fidelity Charles"
+  resolution: "300–500 million cells per case"
+  size: "About 66.9 TB stored"
+  license: "CC BY 4.0"
+  license_url: https://creativecommons.org/licenses/by/4.0/
+  repository: nvidia/HiLiftAeroML
+  huggingface_url: https://huggingface.co/datasets/nvidia/HiLiftAeroML
+  paper_url: https://arxiv.org/abs/2605.19565
+  paper_title: "HiLiftAeroML: High-Fidelity Computational Fluid Dynamics Dataset for High-Lift Aircraft Aerodynamics"
+  arxiv_id: "2605.19565"
+  published: "2026-05-20"
+  modified: "2026-08-07"
+  formats: [VTU, NPY, STL, STEP, CSV, PNG, JSON]
+  keywords: [computational fluid dynamics, machine learning, aircraft aerodynamics, high lift, CRM-HL, WMLES, physical AI]
+  overview: |
+    HiLiftAeroML contains 1,800 simulations: 180 variants of the NASA Common Research Model in high-lift configuration, each evaluated at ten angles of attack from 4° to 22°. It was created to support AI surrogate modelling for complex three-dimensional aircraft flows.
+
+    The simulations use GPU-accelerated explicit wall-modelled LES on solution-adapted grids containing 300–500 million cells. Alongside geometry, surface and volume fields and integrated coefficients, the repository provides deterministic train/validation/test splits and native-surface quadrature weights for reproducible, area-weighted evaluation.
+  intended_uses:
+    - Develop surrogate models for complete aircraft in high-lift configuration.
+    - Benchmark interpolation and out-of-distribution generalisation.
+    - Evaluate unseen geometries, angles of attack, deflections and stall behaviour.
+    - Score native-surface predictions with physically meaningful area weights.
+  outputs:
+    - name: Geometry
+      details: "Tessellated and CAD definitions for each aircraft variant"
+      formats: "STL · STEP"
+    - name: Surface fields
+      details: "Compressed time-averaged boundary data and dual-area weights"
+      formats: "VTU.TGZ · NPY"
+    - name: Volume fields
+      details: "Compressed three-dimensional time-averaged solution"
+      formats: VTU.TGZ
+    - name: Integrated data
+      details: "Forces, moments, geometry values and flow reference values"
+      formats: CSV
+    - name: Evaluation assets
+      details: "Deterministic split families, manifests, validation records and plots"
+      formats: "JSON · CSV · PNG"
+  download_groups:
+    - id: summary
+      label: Summary and splits
+      description: "All-case tables plus deterministic train/validation/test definitions."
+      default: true
+      patterns: [force_mom_all.csv, geo_values_all.csv, "splits/**"]
+    - id: metadata
+      label: Per-case metadata
+      description: "Force, geometry and reference CSV files."
+      default: true
+      patterns: ["geo_LHC*_AoA_*/force_mom_*.csv", "geo_LHC*_AoA_*/geo_values_*.csv", "geo_LHC*_AoA_*/ref_values_*.csv"]
+    - id: geometry
+      label: Geometry
+      description: "Per-case STL and STEP geometry."
+      default: false
+      patterns: ["geo_LHC*_AoA_*/*.stl", "geo_LHC*_AoA_*/*.stp"]
+    - id: images
+      label: Images and plots
+      description: "Wall-shear-stress renders and coefficient histories."
+      default: false
+      patterns: ["geo_LHC*_AoA_*/*.png"]
+    - id: quadrature
+      label: Surface quadrature
+      description: "Native-point dual-area weights and their provenance."
+      default: false
+      patterns: ["geo_LHC*_AoA_*/boundary_dual_area_*.npy", "surface_dual_areas/**"]
+    - id: fields
+      label: Surface and volume fields
+      description: "The largest compressed CFD archives."
+      default: false
+      patterns: ["geo_LHC*_AoA_*/boundary_*.vtu.tgz", "geo_LHC*_AoA_*/volume_*.vtu.tgz"]
+  full_command: |
+    hf download nvidia/HiLiftAeroML \
+      --type dataset \
+      --local-dir ./hiliftaeroml_data \
+      --dry-run
+  download_note: "The full repository is about 66.9 TB as stored on Hugging Face. The native-point surface quadrature sidecars alone occupy about 1.02 TB, so preview every selection."
+  known_issues: []
+  citation: |
+    @article{ashton2026hiliftaeroml,
+      title={HiLiftAeroML: High-Fidelity Computational Fluid Dynamics Dataset for High-Lift Aircraft Aerodynamics},
+      author={Ashton, Neil and Clark, Adam and Heidt, Liam and Ivey, Christopher and Bose, Sanjeeb and Agrawal, Rahul and Goc, Konrad and Ranade, Rishi and Adams, Corey and Sharpe, Peter and Nidhan, Sheel and Akkurt, Semit and Leibovici, Daniel and Kossaifi, Jean},
+      journal={arXiv preprint arXiv:2605.19565},
+      year={2026},
+      url={https://arxiv.org/abs/2605.19565}
+    }
+  contributors:
+    - "Created by collaborators from NVIDIA, Cadence Design Systems and The Boeing Company"
+    - "Computing support from Cadence, NVIDIA, TACC, CSCS and Oak Ridge Leadership Computing Facility"

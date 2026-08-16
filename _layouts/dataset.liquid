@@ -1,0 +1,284 @@
+---
+layout: default
+---
+{% assign dataset = site.data.datasets | where: 'key', page.dataset_key | first %}
+{% unless dataset %}
+  <div class="content-page">
+    <h1>Dataset not found</h1>
+    <p>The dataset record for this page is missing.</p>
+  </div>
+{% else %}
+  <article
+    class="dataset-page"
+    data-dataset-page
+    data-repository="{{ dataset.repository | escape }}"
+    data-local-dir="{{ dataset.key | append: '_data' | escape }}"
+  >
+    <nav class="breadcrumbs" aria-label="Breadcrumb">
+      <a href="{{ '/' | relative_url }}">Home</a><span aria-hidden="true">/</span> <a href="{{ '/datasets/' | relative_url }}">Datasets</a
+      ><span aria-hidden="true">/</span>
+      <span aria-current="page">{{ dataset.name }}</span>
+    </nav>
+
+    <header class="dataset-hero">
+      <div class="dataset-hero__copy">
+        <p class="eyebrow">{{ dataset.eyebrow }}</p>
+        <h1>{{ dataset.name }}</h1>
+        <p class="dataset-hero__tagline">{{ dataset.tagline }}</p>
+        <div class="dataset-actions" aria-label="Primary dataset resources">
+          <a class="button button--primary" href="{{ dataset.huggingface_url }}">Open on Hugging Face <span aria-hidden="true">↗</span></a>
+          <a class="button button--secondary" href="{{ dataset.paper_url }}">Read the paper <span aria-hidden="true">↗</span></a>
+        </div>
+      </div>
+      <figure class="dataset-hero__media">
+        <img src="{{ dataset.image | relative_url }}" alt="{{ dataset.image_alt | escape }}" loading="eager" decoding="async">
+        {% if dataset.image_credit %}
+          <figcaption>{{ dataset.image_credit }}</figcaption>
+        {% endif %}
+      </figure>
+    </header>
+
+    <dl class="dataset-facts" aria-label="{{ dataset.name }} quick facts">
+      <div>
+        <dt>Domain</dt>
+        <dd>{{ dataset.domain }}</dd>
+      </div>
+      <div>
+        <dt>Scale</dt>
+        <dd>{{ dataset.cases }}</dd>
+      </div>
+      <div>
+        <dt>Method</dt>
+        <dd>{{ dataset.method }}</dd>
+      </div>
+      <div>
+        <dt>Resolution</dt>
+        <dd>{{ dataset.resolution }}</dd>
+      </div>
+      <div>
+        <dt>Size</dt>
+        <dd>{{ dataset.size }}</dd>
+      </div>
+      <div>
+        <dt>Licence</dt>
+        <dd>
+          <a href="{{ dataset.license_url }}">{{ dataset.license }}</a>
+        </dd>
+      </div>
+    </dl>
+
+    <nav class="page-jump" aria-label="On this page">
+      <span>On this page</span>
+      <a href="#overview">Overview</a>
+      <a href="#contents">Contents</a>
+      <a href="#download">Download</a>
+      <a href="#cite">Cite</a>
+      <a href="#provenance">Provenance</a>
+    </nav>
+
+    <div class="dataset-layout">
+      <div class="dataset-content">
+        <section id="overview" class="dataset-section">
+          <p class="section-kicker">01 · Overview</p>
+          <h2>What is {{ dataset.name }}?</h2>
+          <div class="prose">{{ dataset.overview | markdownify }}</div>
+          <div class="use-grid">
+            {% for use in dataset.intended_uses %}
+              <div class="use-card">
+                <span aria-hidden="true">{{ forloop.index | prepend: '0' }}</span>
+                <p>{{ use }}</p>
+              </div>
+            {% endfor %}
+          </div>
+        </section>
+
+        <section id="contents" class="dataset-section">
+          <p class="section-kicker">02 · Contents</p>
+          <h2>What the dataset contains</h2>
+          <div class="data-table-wrap" role="region" aria-label="{{ dataset.name }} data contents" tabindex="0">
+            <table class="data-table">
+              <thead>
+                <tr>
+                  <th>Data group</th>
+                  <th>What is included</th>
+                  <th>Formats</th>
+                </tr>
+              </thead>
+              <tbody>
+                {% for output in dataset.outputs %}
+                  <tr>
+                    <th scope="row">{{ output.name }}</th>
+                    <td>{{ output.details }}</td>
+                    <td>
+                      <span class="format-chip">{{ output.formats }}</span>
+                    </td>
+                  </tr>
+                {% endfor %}
+              </tbody>
+            </table>
+          </div>
+        </section>
+
+        <section id="download" class="dataset-section download-section">
+          <p class="section-kicker">03 · Download</p>
+          <h2>Start small, then scale up</h2>
+          <p>
+            Install the current Hugging Face command-line tools, select only the data groups you need, and preview the transfer before downloading.
+          </p>
+
+          <div class="command-card">
+            <div class="command-card__header"><strong>Install once</strong><button type="button" data-copy="#install-command">Copy</button></div>
+            <pre id="install-command"><code>pip install -U huggingface_hub hf_xet
+hf auth login</code></pre>
+          </div>
+
+          <div class="download-builder" data-download-builder>
+            <div class="download-builder__intro">
+              <div>
+                <p class="eyebrow">Selective download builder</p>
+                <h3>Choose the files you need</h3>
+              </div>
+              <span class="status-pill">Preview mode on</span>
+            </div>
+            <div class="download-options">
+              {% for group in dataset.download_groups %}
+                <label class="download-option">
+                  <input
+                    type="checkbox"
+                    value="{{ group.id }}"
+                    data-patterns="{{ group.patterns | join: '||' | escape }}"
+                    {% if group.default %}
+                      checked
+                    {% endif %}
+                  >
+                  <span
+                    ><strong>{{ group.label }}</strong><small>{{ group.description }}</small></span
+                  >
+                </label>
+              {% endfor %}
+            </div>
+            <div class="command-card command-card--generated">
+              <div class="command-card__header">
+                <strong>Generated command</strong><button type="button" data-copy="#selective-command">Copy</button>
+              </div>
+              <pre id="selective-command" aria-live="polite"><code></code></pre>
+            </div>
+          </div>
+
+          <details class="full-download">
+            <summary>Preview the complete repository</summary>
+            <div class="command-card">
+              <div class="command-card__header">
+                <strong>Full-repository preview</strong><button type="button" data-copy="#full-command">Copy</button>
+              </div>
+              <pre id="full-command"><code>{{ dataset.full_command | escape }}</code></pre>
+            </div>
+          </details>
+          <aside class="dataset-note">
+            <strong>Storage note</strong>
+            <p>{{ dataset.download_note }}</p>
+          </aside>
+        </section>
+
+        <section id="cite" class="dataset-section">
+          <p class="section-kicker">04 · Cite</p>
+          <h2>Cite the source publication</h2>
+          <p>If you use {{ dataset.name }}, cite the corresponding paper and include the dataset DOI where one is available.</p>
+          <div class="command-card citation-card">
+            <div class="command-card__header"><strong>BibTeX</strong><button type="button" data-copy="#citation-code">Copy</button></div>
+            <pre id="citation-code"><code>{{ dataset.citation | escape }}</code></pre>
+          </div>
+          <div class="resource-links">
+            <a href="{{ dataset.paper_url }}"
+              ><span>Paper</span><strong>{{ dataset.paper_title }}</strong></a
+            >
+            <a href="{{ dataset.huggingface_url }}"
+              ><span>Repository</span><strong>{{ dataset.repository }}</strong></a
+            >
+            {% if dataset.doi -%}
+              <a href="https://doi.org/{{ dataset.doi }}"
+                ><span>Dataset DOI</span><strong>{{ dataset.doi }}</strong></a
+              >
+            {%- endif %}
+          </div>
+        </section>
+
+        <section id="provenance" class="dataset-section">
+          <p class="section-kicker">05 · Provenance</p>
+          <h2>Contributors, licence and known constraints</h2>
+          <div class="provenance-grid">
+            <div>
+              <h3>Contributors</h3>
+              <ul>
+                {% for contributor in dataset.contributors %}
+                  <li>{{ contributor }}</li>
+                {% endfor %}
+              </ul>
+            </div>
+            <div>
+              <h3>Licence</h3>
+              <p>
+                {{ dataset.name }} is available under <a href="{{ dataset.license_url }}">{{ dataset.license }}</a>. Review the repository licence
+                before redistribution or adaptation.
+              </p>
+            </div>
+          </div>
+          {% if dataset.known_issues and dataset.known_issues.size > 0 %}
+            <aside class="known-issues">
+              <h3>Known constraints</h3>
+              <ul>
+                {% for issue in dataset.known_issues %}
+                  <li>{{ issue }}</li>
+                {% endfor %}
+              </ul>
+            </aside>
+          {% endif %}
+        </section>
+      </div>
+
+      <aside class="dataset-sidebar" aria-label="Technical summary">
+        <div class="sidebar-card">
+          <p class="eyebrow">Technical summary</p>
+          <dl>
+            <div>
+              <dt>Geometry</dt>
+              <dd>{{ dataset.geometry }}</dd>
+            </div>
+            <div>
+              <dt>Flow regime</dt>
+              <dd>{{ dataset.flow_regime }}</dd>
+            </div>
+            <div>
+              <dt>Solver</dt>
+              <dd>{{ dataset.solver }}</dd>
+            </div>
+            <div>
+              <dt>Formats</dt>
+              <dd>{{ dataset.formats | join: ' · ' }}</dd>
+            </div>
+            <div>
+              <dt>Published</dt>
+              <dd>
+                <time datetime="{{ dataset.published }}">{{ dataset.published | date: '%Y' }}</time>
+              </dd>
+            </div>
+          </dl>
+        </div>
+      </aside>
+    </div>
+
+    <section class="more-datasets" aria-labelledby="more-datasets-title">
+      <p class="section-kicker">Continue exploring</p>
+      <h2 id="more-datasets-title">Compare related datasets</h2>
+      <div class="more-datasets__grid">
+        {% for item in site.data.datasets %}
+          {% unless item.key == dataset.key %}
+            <a href="{{ item.permalink | relative_url }}"
+              ><span>{{ item.eyebrow }}</span><strong>{{ item.name }}</strong><small>{{ item.cases }} · {{ item.method }}</small></a
+            >
+          {% endunless %}
+        {% endfor %}
+      </div>
+    </section>
+  </article>
+{% endunless %}

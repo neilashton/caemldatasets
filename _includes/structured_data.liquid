@@ -1,0 +1,163 @@
+{% assign seo_organization_id = seo_site_url | append: '#organization' %}
+{% assign seo_website_id = seo_site_url | append: '#website' %}
+{% assign seo_catalog_id = seo_site_url | append: '#catalog' %}
+{% assign seo_webpage_id = seo_canonical_url | append: '#webpage' %}
+{% assign seo_breadcrumb_id = seo_canonical_url | append: '#breadcrumb' %}
+{% assign seo_dataset_id = seo_canonical_url | append: '#dataset' %}
+{% assign structured_dataset = null %}
+{% if page.dataset_key %}
+  {% assign structured_dataset = site.data.datasets | where: 'key', page.dataset_key | first %}
+{% endif %}
+{% assign seo_has_breadcrumb = true %}
+{% if seo_page_path == '/' or seo_robots contains 'noindex' %}
+  {% assign seo_has_breadcrumb = false %}
+{% endif %}
+{% assign seo_is_catalog = false %}
+{% if seo_page_path == '/' or seo_page_path == '/datasets/' %}
+  {% assign seo_is_catalog = true %}
+{% endif %}
+
+<script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@type": "Organization",
+        "@id": {{ seo_organization_id | jsonify }},
+        "name": {{ seo_organization_name | jsonify }},
+        "url": {{ seo_site_url | jsonify }},
+        "email": {{ site.email | jsonify }},
+        "description": {{ site.description | strip_html | strip_newlines | strip | jsonify }}
+      },
+      {
+        "@type": "WebSite",
+        "@id": {{ seo_website_id | jsonify }},
+        "url": {{ seo_site_url | jsonify }},
+        "name": {{ seo_site_name | jsonify }},
+        "description": {{ site.description | strip_html | strip_newlines | strip | jsonify }},
+        "inLanguage": {{ site.lang | default: 'en' | jsonify }},
+        "publisher": { "@id": {{ seo_organization_id | jsonify }} }
+      },
+      {
+        "@type": "WebPage",
+        "@id": {{ seo_webpage_id | jsonify }},
+        "url": {{ seo_canonical_url | jsonify }},
+        "name": {{ seo_title | jsonify }},
+        "description": {{ seo_description | jsonify }},
+        "inLanguage": {{ site.lang | default: 'en' | jsonify }},
+        "isPartOf": { "@id": {{ seo_website_id | jsonify }} },
+        "about": { "@id": {{ seo_organization_id | jsonify }} }
+        {% if seo_image_url != blank %},
+          "primaryImageOfPage": {
+            "@type": "ImageObject",
+            "url": {{ seo_image_url | jsonify }}
+          }
+        {% endif %}
+        {% if seo_has_breadcrumb %},
+          "breadcrumb": { "@id": {{ seo_breadcrumb_id | jsonify }} }
+        {% endif %}
+        {% if structured_dataset %},
+          "mainEntity": { "@id": {{ seo_dataset_id | jsonify }} }
+        {% elsif seo_is_catalog %},
+          "mainEntity": { "@id": {{ seo_catalog_id | jsonify }} }
+        {% endif %}
+      }
+      {% if seo_has_breadcrumb %},
+        {
+          "@type": "BreadcrumbList",
+          "@id": {{ seo_breadcrumb_id | jsonify }},
+          "itemListElement": [
+            {
+              "@type": "ListItem",
+              "position": 1,
+              "name": "Home",
+              "item": {{ seo_site_url | jsonify }}
+            }
+            {% if structured_dataset %},
+              {
+                "@type": "ListItem",
+                "position": 2,
+                "name": "Datasets",
+                "item": {{ '/datasets/' | absolute_url | jsonify }}
+              },
+              {
+                "@type": "ListItem",
+                "position": 3,
+                "name": {{ structured_dataset.name | jsonify }},
+                "item": {{ seo_canonical_url | jsonify }}
+              }
+            {% else %},
+              {
+                "@type": "ListItem",
+                "position": 2,
+                "name": {{ seo_page_name | jsonify }},
+                "item": {{ seo_canonical_url | jsonify }}
+              }
+            {% endif %}
+          ]
+        }
+      {% endif %},
+      {
+        "@type": "DataCatalog",
+        "@id": {{ seo_catalog_id | jsonify }},
+        "name": {{ site.data.seo.catalog.name | jsonify }},
+        "description": {{ site.data.seo.catalog.description | jsonify }},
+        "url": {{ '/datasets/' | absolute_url | jsonify }},
+        "provider": { "@id": {{ seo_organization_id | jsonify }} },
+        "dataset": [
+          {% for item in site.data.datasets %}
+            {
+              "@type": "Dataset",
+              "@id": {{ item.permalink | absolute_url | append: '#dataset' | jsonify }},
+              "name": {{ item.name | jsonify }},
+              "url": {{ item.permalink | absolute_url | jsonify }}
+            }{% unless forloop.last %},{% endunless %}
+          {% endfor %}
+        ]
+      }
+      {% if structured_dataset %},
+        {
+          "@type": "Dataset",
+          "@id": {{ seo_dataset_id | jsonify }},
+          "name": {{ structured_dataset.paper_title | jsonify }},
+          "alternateName": {{ structured_dataset.name | jsonify }},
+          "description": {{ structured_dataset.description | jsonify }},
+          "url": {{ seo_canonical_url | jsonify }},
+          "sameAs": {{ structured_dataset.huggingface_url | jsonify }},
+          "isAccessibleForFree": true,
+          "conditionsOfAccess": "Public download",
+          "license": {{ structured_dataset.license_url | jsonify }},
+          "datePublished": {{ structured_dataset.published | jsonify }},
+          "dateModified": {{ structured_dataset.modified | jsonify }},
+          "inLanguage": "en",
+          "creator": { "@id": {{ seo_organization_id | jsonify }} },
+          "publisher": { "@id": {{ seo_organization_id | jsonify }} },
+          "includedInDataCatalog": { "@id": {{ seo_catalog_id | jsonify }} },
+          "measurementTechnique": [{{ structured_dataset.method | jsonify }}, {{ structured_dataset.solver | jsonify }}],
+          "keywords": {{ structured_dataset.keywords | jsonify }},
+          "variableMeasured": [
+            {% for output in structured_dataset.outputs %}
+              {{ output.name | jsonify }}{% unless forloop.last %},{% endunless %}
+            {% endfor %}
+          ],
+          "size": {{ structured_dataset.size | jsonify }},
+          "citation": {{ structured_dataset.paper_url | jsonify }},
+          "identifier": [
+            {{ structured_dataset.arxiv_id | prepend: 'arXiv:' | jsonify }}{% if structured_dataset.doi %},
+              {{ structured_dataset.doi | prepend: 'doi:' | jsonify }}
+            {% endif %}
+          ],
+          "image": {{ structured_dataset.image | absolute_url | jsonify }},
+          "distribution": [
+            {
+              "@type": "DataDownload",
+              "name": "Hugging Face dataset repository",
+              "contentUrl": {{ structured_dataset.huggingface_url | jsonify }},
+              "encodingFormat": {{ structured_dataset.formats | join: ', ' | jsonify }}
+            }
+          ]
+        }
+      {% endif %}
+    ]
+  }
+</script>

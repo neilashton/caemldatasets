@@ -2,20 +2,17 @@
 # Site settings
 # -----------------------------------------------------------------------------
 
-title: CAE ML Datasets # the website title (if blank, full name will be used instead)
-email: neashton@amazon.com
-description: > # the ">" symbol means to ignore newlines until "footer_text:"
-  Large-scale Computational Fluid Dynamics (CFD) and Finite-Element Structural Analysis (FEA) datasets to aid the research and development of data-driven and physics-driven Machine Learning methods
-footer_text: >
-  Powered by <a href="https://jekyllrb.com/" target="_blank">Jekyll</a> with <a href="https://github.com/alshedivat/al-folio">al-folio</a> theme.
-  Hosted by <a href="https://pages.github.com/" target="_blank">GitHub Pages</a>.
-keywords: ahmedml, windsorml, drivaerml, ml, ai, cfd, hpc, aws, training data # add your own keywords or leave empty
+title: CAE ML Datasets
+email: contact@caemldatasets.org
+description: Open, high-fidelity computational fluid dynamics datasets for machine-learning and physical-AI research in automotive and aerospace engineering.
+footer_text: Open engineering data for reproducible machine-learning research.
+keywords: computational fluid dynamics, CFD datasets, machine learning, physical AI, AhmedML, WindsorML, DrivAerML, HiLiftAeroML, automotive aerodynamics, aircraft aerodynamics
 lang: en # the language of your site (for example: en, fr, cn, ru, etc.)
-icon: ⚛️ # the emoji used as the favicon (alternatively, provide image name in /assets/img/)
+icon: favicon.png
 
-url: https://neilashton.github.io/caemldatasets # the base hostname & protocol for your site
-baseurl: # the subpath of your site, e.g. /blog/. Leave blank for root
-last_updated: false # set to true if you want to display last updated in the footer
+url: https://caemldatasets.org
+baseurl: ""
+last_updated: true
 impressum_path: # set to path to include impressum link in the footer, use the same path as permalink in a page, helps to conform with EU GDPR
 back_to_top: true # set to false to disable the back to top button
 
@@ -37,20 +34,20 @@ repo_trophies:
 # will use title and url fields
 # Take a look to https://github.com/jekyll/jekyll-feed for more customization
 
-rss_icon: true
+rss_icon: false
 
 # -----------------------------------------------------------------------------
 # Layout
 # -----------------------------------------------------------------------------
 
 navbar_fixed: true
-footer_fixed: true
-search_enabled: true
-socials_in_search: true
-bib_search: true
+footer_fixed: false
+search_enabled: false
+socials_in_search: false
+bib_search: false
 
 # Dimensions
-max_width: 930px
+max_width: 1160px
 
 # TODO: add layout settings (single page vs. multi-page)
 
@@ -59,9 +56,12 @@ max_width: 930px
 # -----------------------------------------------------------------------------
 # Display links to the page with a preview object on social media.
 # see https://schema.org/docs/faq.html for more information
-serve_og_meta: false # Include Open Graph meta tags in the HTML head
-serve_schema_org: false # Include Schema.org in the HTML head
-og_image: # The site-wide (default for all links) Open Graph preview image
+serve_og_meta: true
+serve_schema_org: true
+og_image: /assets/img/og-caeml-datasets.jpg
+og_image_width: 1200
+og_image_height: 630
+og_image_type: image/jpeg
 
 # -----------------------------------------------------------------------------
 # Social integration
@@ -91,7 +91,7 @@ pinterest_id: # your pinterest id
 publons_id: # your ID on Publons
 quora_username: # your Quora username
 research_gate_profile: # your profile on ResearchGate
-scholar_userid: qc6CJjYAAAAJ # your Google Scholar ID
+scholar_userid: # your Google Scholar ID
 scopus_id: # your profile on Scopus
 semanticscholar_id: # your Semantic Scholar ID
 spotify_id: # your spotify id
@@ -108,7 +108,7 @@ youtube_id: # your youtube channel id (youtube.com/@<youtube_id>)
 zotero_username: # your zotero username
 
 contact_note: >
-  You can even add a little note about which of these is the best way to reach you.
+  For dataset questions, corrections or examples of published work using these resources, email contact@caemldatasets.org.
 
 # -----------------------------------------------------------------------------
 # Analytics and search engine verification
@@ -128,14 +128,14 @@ bing_site_verification: # out your bing-site-verification ID (Bing Webmaster)
 # Blog
 # -----------------------------------------------------------------------------
 
-blog_name:  # blog_name will be displayed in your blog page
+blog_name: # blog_name will be displayed in your blog page
 blog_description: a simple whitespace theme for academics
 permalink: /blog/:year/:title/
 lsi: false # produce an index for related posts
 
 # Pagination
 pagination:
-  enabled: true
+  enabled: false
 
 related_blog_posts:
   enabled: false
@@ -163,13 +163,7 @@ disqus_shortname: al-folio # put your disqus shortname
 # External sources.
 # If you have blog posts published on medium.com or other external sources,
 # you can display them in your blog by adding a link to the RSS feed.
-external_sources:
-  - name: medium.com
-    rss_url: https://medium.com/@al-folio/feed
-  - name: Google Blog
-    posts:
-      - url: https://blog.google/technology/ai/google-gemini-update-flash-ai-assistant-io-2024/
-        published_date: 2024-05-14
+external_sources: []
 
 # -----------------------------------------------------------------------------
 # Newsletter
@@ -188,16 +182,14 @@ collections:
   news:
     defaults:
       layout: post
-    output: true
-    permalink: /:collection/:title/
+    output: false
   projects:
-    output: true
-    permalink: /:collection/:title/
+    output: false
 
 announcements:
   enabled: true
-  scrollable: true # adds a vertical scroll bar if there are more than 3 news items
-  limit: 5 # leave blank to include all the news in the `_news` folder
+  scrollable: false
+  limit: 4
 
 latest_posts:
   enabled: false
@@ -242,6 +234,57 @@ exclude:
   - purgecss.config.js
   - README.md
   - readme_preview/
+  - _posts/
+  - _projects/
+  - assets/audio/
+  - assets/bibliography/
+  - assets/fonts/
+  - assets/html/
+  - assets/jupyter/
+  - assets/json/
+  - assets/pdf/
+  - assets/plotly/
+  - assets/video/
+  - assets/webfonts/
+  - assets/img/publication_preview/
+  - assets/img/ahmed_body.pdf
+  - assets/img/autocfd.png
+  - assets/img/prof_pic.jpg
+  - assets/img/prof_pic_color.png
+  - assets/img/template_error.png
+  - assets/img/1.jpg
+  - assets/img/2.jpg
+  - assets/img/3.jpg
+  - assets/img/4.jpg
+  - assets/img/5.jpg
+  - assets/img/6.jpg
+  - assets/img/7.jpg
+  - assets/img/8.jpg
+  - assets/img/9.jpg
+  - assets/img/10.jpg
+  - assets/img/11.jpg
+  - assets/img/12.jpg
+  - assets/css/academicons.min.css
+  - assets/css/bootstrap-toc.min.css
+  - assets/css/bootstrap.min.css.map
+  - assets/css/jupyter-grade3.css
+  - assets/css/jupyter-monokai.css
+  - assets/css/jupyter.css
+  - assets/css/mdb.min.css
+  - assets/css/mdb.min.css.map
+  - assets/js/distillpub/
+  - assets/js/search/
+  - assets/js/bibsearch.js
+  - assets/js/bootstrap-toc.min.js
+  - assets/js/bootstrap.bundle.min.js.map
+  - assets/js/copy_code.js
+  - assets/js/highlight-search-term.js
+  - assets/js/jupyter_new_tab.js
+  - assets/js/masonry.js
+  - assets/js/shortcut-key.js
+  - assets/js/tabs.min.js
+  - assets/js/typograms.js
+  - assets/js/zoom.js
   - vendor
 keep_files:
   - CNAME
@@ -272,6 +315,23 @@ defaults:
       path: "assets"
     values:
       sitemap: false
+  - scope:
+      path: ""
+      type: posts
+    values:
+      published: false
+      sitemap: false
+  - scope:
+      path: ""
+      type: projects
+    values:
+      published: false
+      sitemap: false
+  - scope:
+      path: ""
+      type: news
+    values:
+      sitemap: false
 
 sass:
   style: compressed
@@ -290,7 +350,7 @@ jekyll-minifier:
 # -----------------------------------------------------------------------------
 
 jekyll-archives:
-  enabled: [year, tags, categories] # enables year, tag and category archives (remove if you need to disable one of them).
+  enabled: []
   layouts:
     year: archive-year
     tag: archive-tag
@@ -308,8 +368,8 @@ display_categories: ["external-services"] # these categories will be displayed o
 # -----------------------------------------------------------------------------
 
 scholar:
-  last_name: [Einstein]
-  first_name: [Albert, A.]
+  last_name: [Ashton]
+  first_name: [Neil]
 
   style: apa
   locale: en
@@ -335,9 +395,9 @@ scholar:
 # Display different badges withs stats for your publications
 # Customize badge behavior in _layouts/bib.liquid
 enable_publication_badges:
-  altmetric: true # Altmetric badge (Customization options: https://badge-docs.altmetric.com/index.html)
-  dimensions: true # Dimensions badge (Customization options: https://badge.dimensions.ai/)
-  google_scholar: true # Google Scholar badge (https://scholar.google.com/intl/en/scholar/citations.html)
+  altmetric: false
+  dimensions: false
+  google_scholar: false
 
 # Filter out certain bibtex entry keywords used internally from the bib output
 filtered_bibtex_keywords:
@@ -369,7 +429,7 @@ max_author_limit: 3 # leave blank to always show all authors
 more_authors_animation_delay: 10 # more authors are revealed on click using animation; smaller delay means faster animation
 
 # Enables publication thumbnails. If disabled, none of the publications will display thumbnails, even if specified in the bib entry.
-enable_publication_thumbnails: true
+enable_publication_thumbnails: false
 
 # -----------------------------------------------------------------------------
 # Jekyll Link Attributes
@@ -378,7 +438,7 @@ enable_publication_thumbnails: true
 # These are the defaults
 external_links:
   enabled: true
-  rel: external nofollow noopener
+  rel: external noopener
   target: _blank
   exclude:
 
@@ -389,7 +449,7 @@ external_links:
 # MAKE SURE imagemagick is installed and on your PATH before enabling imagemagick. In a terminal, run:
 #   convert -version
 imagemagick:
-  enabled: true # enables responsive images for your site (recommended, see https://github.com/alshedivat/al-folio/issues/537)
+  enabled: false # page images are already optimized and explicitly sized
   widths:
     - 480
     - 800
@@ -422,13 +482,13 @@ enable_cronitor_analytics: false # enables cronitor RUM analytics
 enable_pirsch_analytics: false # enables Pirsch analytics (https://pirsch.io/)
 enable_google_verification: false # enables google site verification
 enable_bing_verification: false # enables bing site verification
-enable_masonry: true # enables automatic project cards arrangement
-enable_math: true # enables math typesetting (uses MathJax)
+enable_masonry: false # enables automatic project cards arrangement
+enable_math: false # enables math typesetting (uses MathJax)
 enable_tooltips: false # enables automatic tooltip links generated for each section titles on pages and posts
 enable_darkmode: true # enables switching between light/dark modes
 enable_navbar_social: false # enables displaying social links in the navbar on the about page
-enable_project_categories: true # enables categorization of projects into multiple categories
-enable_medium_zoom: true # enables image zoom feature (as on medium.com)
+enable_project_categories: false # enables categorization of projects into multiple categories
+enable_medium_zoom: false # enables image zoom feature (as on medium.com)
 enable_progressbar: true # enables a horizontal progress bar linked to the vertical scroll position
 enable_video_embedding: false # enables video embedding for bibtex entries. If false, the button opens the video link in a new window.
 
