@@ -1,4 +1,4 @@
 User-agent: *
 Disallow:
 
-Sitemap: https://neilashton.github.io/caemldatasets/sitemap.xml
+Sitemap: https://caemldatasets.org/sitemap.xml
