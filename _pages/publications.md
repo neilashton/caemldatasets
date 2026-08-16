@@ -7,7 +7,7 @@ permalink: /publications/
 nav: true
 nav_order: 3
 eyebrow: Research record
-page_description: Source papers, dataset repositories and persistent identifiers for the datasets in this catalog.
+page_description: Bibliographic record of source papers, dataset repositories and persistent identifiers for the datasets in this catalogue.
 content_class: publications-page
 ---
 
@@ -25,8 +25,8 @@ content_class: publications-page
           <span>{{ item.license }}</span>
         </div>
         <div class="publication-card__links">
-          <a class="button button--secondary" href="{{ item.paper_url }}">Read paper <span aria-hidden="true">↗</span></a>
-          <a class="text-link" href="{{ item.huggingface_url }}">Dataset repository <span aria-hidden="true">↗</span></a>
+          <a class="button button--secondary" href="{{ item.paper_url }}">Publication <span aria-hidden="true">↗</span></a>
+          <a class="text-link" href="{{ item.huggingface_url }}">Data repository <span aria-hidden="true">↗</span></a>
           {% if item.doi %}<a class="text-link" href="https://doi.org/{{ item.doi }}">DOI {{ item.doi }} <span aria-hidden="true">↗</span></a>{% endif %}
         </div>
       </div>
@@ -34,4 +34,4 @@ content_class: publications-page
   {% endfor %}
 </div>
 
-<aside class="citation-guidance"><div><p class="eyebrow">Citing the data</p><h2>Use the paper and the dataset identifier.</h2></div><p>Every dataset page provides copy-ready BibTeX. Where a Hugging Face DOI is available, include it alongside the source paper and record the repository revision used by your experiment.</p></aside>
+<aside class="citation-guidance"><div><p class="eyebrow">Citation</p><h2>Recommended citation practice</h2></div><p>Each dataset page provides BibTeX for the source publication. Where a dataset DOI is available, cite it in addition to the paper and record the repository revision used in the analysis.</p></aside>

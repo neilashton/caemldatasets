@@ -26,8 +26,8 @@ layout: default
         <h1>{{ dataset.name }}</h1>
         <p class="dataset-hero__tagline">{{ dataset.tagline }}</p>
         <div class="dataset-actions" aria-label="Primary dataset resources">
-          <a class="button button--primary" href="{{ dataset.huggingface_url }}">Open on Hugging Face <span aria-hidden="true">↗</span></a>
-          <a class="button button--secondary" href="{{ dataset.paper_url }}">Read the paper <span aria-hidden="true">↗</span></a>
+          <a class="button button--primary" href="{{ dataset.huggingface_url }}">Dataset repository <span aria-hidden="true">↗</span></a>
+          <a class="button button--secondary" href="{{ dataset.paper_url }}">Source publication <span aria-hidden="true">↗</span></a>
         </div>
       </div>
       <figure class="dataset-hero__media">
@@ -38,13 +38,13 @@ layout: default
       </figure>
     </header>
 
-    <dl class="dataset-facts" aria-label="{{ dataset.name }} quick facts">
+    <dl class="dataset-facts" aria-label="{{ dataset.name }} dataset summary">
       <div>
         <dt>Domain</dt>
         <dd>{{ dataset.domain }}</dd>
       </div>
       <div>
-        <dt>Scale</dt>
+        <dt>Cases</dt>
         <dd>{{ dataset.cases }}</dd>
       </div>
       <div>
@@ -52,11 +52,11 @@ layout: default
         <dd>{{ dataset.method }}</dd>
       </div>
       <div>
-        <dt>Resolution</dt>
+        <dt>Grid resolution</dt>
         <dd>{{ dataset.resolution }}</dd>
       </div>
       <div>
-        <dt>Size</dt>
+        <dt>Stored size</dt>
         <dd>{{ dataset.size }}</dd>
       </div>
       <div>
@@ -71,8 +71,8 @@ layout: default
       <span>On this page</span>
       <a href="#overview">Overview</a>
       <a href="#contents">Contents</a>
-      <a href="#download">Download</a>
-      <a href="#cite">Cite</a>
+      <a href="#download">Data access</a>
+      <a href="#cite">Citation</a>
       <a href="#provenance">Provenance</a>
     </nav>
 
@@ -80,8 +80,9 @@ layout: default
       <div class="dataset-content">
         <section id="overview" class="dataset-section">
           <p class="section-kicker">01 · Overview</p>
-          <h2>What is {{ dataset.name }}?</h2>
+          <h2>Dataset description</h2>
           <div class="prose">{{ dataset.overview | markdownify }}</div>
+          <h3 class="subsection-title">Potential research applications</h3>
           <div class="use-grid">
             {% for use in dataset.intended_uses %}
               <div class="use-card">
@@ -94,13 +95,13 @@ layout: default
 
         <section id="contents" class="dataset-section">
           <p class="section-kicker">02 · Contents</p>
-          <h2>What the dataset contains</h2>
+          <h2>Available data products</h2>
           <div class="data-table-wrap" role="region" aria-label="{{ dataset.name }} data contents" tabindex="0">
             <table class="data-table">
               <thead>
                 <tr>
                   <th>Data group</th>
-                  <th>What is included</th>
+                  <th>Description</th>
                   <th>Formats</th>
                 </tr>
               </thead>
@@ -120,14 +121,15 @@ layout: default
         </section>
 
         <section id="download" class="dataset-section download-section">
-          <p class="section-kicker">03 · Download</p>
-          <h2>Start small, then scale up</h2>
+          <p class="section-kicker">03 · Data access</p>
+          <h2>Repository access and file selection</h2>
           <p>
-            Install the current Hugging Face command-line tools, select only the data groups you need, and preview the transfer before downloading.
+            The repositories are hosted on Hugging Face. The client can select individual data groups and estimate the transfer before files are
+            retrieved.
           </p>
 
           <div class="command-card">
-            <div class="command-card__header"><strong>Install once</strong><button type="button" data-copy="#install-command">Copy</button></div>
+            <div class="command-card__header"><strong>Client setup</strong><button type="button" data-copy="#install-command">Copy</button></div>
             <pre id="install-command"><code>pip install -U huggingface_hub hf_xet
 hf auth login</code></pre>
           </div>
@@ -135,10 +137,10 @@ hf auth login</code></pre>
           <div class="download-builder" data-download-builder>
             <div class="download-builder__intro">
               <div>
-                <p class="eyebrow">Selective download builder</p>
-                <h3>Choose the files you need</h3>
+                <p class="eyebrow">File selection</p>
+                <h3>Select data groups</h3>
               </div>
-              <span class="status-pill">Preview mode on</span>
+              <span class="status-pill"><code>--dry-run</code> enabled</span>
             </div>
             <div class="download-options">
               {% for group in dataset.download_groups %}
@@ -166,24 +168,24 @@ hf auth login</code></pre>
           </div>
 
           <details class="full-download">
-            <summary>Preview the complete repository</summary>
+            <summary>Estimate the complete repository</summary>
             <div class="command-card">
               <div class="command-card__header">
-                <strong>Full-repository preview</strong><button type="button" data-copy="#full-command">Copy</button>
+                <strong>Complete-repository estimate</strong><button type="button" data-copy="#full-command">Copy</button>
               </div>
               <pre id="full-command"><code>{{ dataset.full_command | escape }}</code></pre>
             </div>
           </details>
           <aside class="dataset-note">
-            <strong>Storage note</strong>
+            <strong>Repository size</strong>
             <p>{{ dataset.download_note }}</p>
           </aside>
         </section>
 
         <section id="cite" class="dataset-section">
-          <p class="section-kicker">04 · Cite</p>
-          <h2>Cite the source publication</h2>
-          <p>If you use {{ dataset.name }}, cite the corresponding paper and include the dataset DOI where one is available.</p>
+          <p class="section-kicker">04 · Citation</p>
+          <h2>Citation and persistent identifiers</h2>
+          <p>Users of {{ dataset.name }} should cite the corresponding publication and include the dataset DOI where one is available.</p>
           <div class="command-card citation-card">
             <div class="command-card__header"><strong>BibTeX</strong><button type="button" data-copy="#citation-code">Copy</button></div>
             <pre id="citation-code"><code>{{ dataset.citation | escape }}</code></pre>
@@ -205,7 +207,7 @@ hf auth login</code></pre>
 
         <section id="provenance" class="dataset-section">
           <p class="section-kicker">05 · Provenance</p>
-          <h2>Contributors, licence and known constraints</h2>
+          <h2>Provenance, licence and limitations</h2>
           <div class="provenance-grid">
             <div>
               <h3>Contributors</h3>
@@ -225,7 +227,7 @@ hf auth login</code></pre>
           </div>
           {% if dataset.known_issues and dataset.known_issues.size > 0 %}
             <aside class="known-issues">
-              <h3>Known constraints</h3>
+              <h3>Documented limitations</h3>
               <ul>
                 {% for issue in dataset.known_issues %}
                   <li>{{ issue }}</li>
@@ -238,7 +240,7 @@ hf auth login</code></pre>
 
       <aside class="dataset-sidebar" aria-label="Technical summary">
         <div class="sidebar-card">
-          <p class="eyebrow">Technical summary</p>
+          <p class="eyebrow">Dataset metadata</p>
           <dl>
             <div>
               <dt>Geometry</dt>
@@ -268,8 +270,8 @@ hf auth login</code></pre>
     </div>
 
     <section class="more-datasets" aria-labelledby="more-datasets-title">
-      <p class="section-kicker">Continue exploring</p>
-      <h2 id="more-datasets-title">Compare related datasets</h2>
+      <p class="section-kicker">Dataset catalogue</p>
+      <h2 id="more-datasets-title">Other datasets</h2>
       <div class="more-datasets__grid">
         {% for item in site.data.datasets %}
           {% unless item.key == dataset.key %}

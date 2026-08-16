@@ -4,9 +4,9 @@
 
 title: CAE ML Datasets
 email: contact@caemldatasets.org
-description: Open, high-fidelity computational fluid dynamics datasets for machine-learning and physical-AI research in automotive and aerospace engineering.
-footer_text: Open engineering data for reproducible machine-learning research.
-keywords: computational fluid dynamics, CFD datasets, machine learning, physical AI, AhmedML, WindsorML, DrivAerML, HiLiftAeroML, automotive aerodynamics, aircraft aerodynamics
+description: Catalogue and documentation for open computational fluid dynamics datasets used in automotive and aerospace machine-learning research.
+footer_text: CFD datasets, documentation and source publications for engineering machine-learning research.
+keywords: computational fluid dynamics, CFD datasets, machine learning, scientific machine learning, AhmedML, WindsorML, DrivAerML, HiLiftAeroML, automotive aerodynamics, aircraft aerodynamics
 lang: en # the language of your site (for example: en, fr, cn, ru, etc.)
 icon: favicon.png
 

@@ -7,7 +7,7 @@ permalink: /news/
 nav: true
 nav_order: 4
 eyebrow: Project timeline
-page_description: Dataset releases, publication milestones and catalog news from the CAE ML Datasets community.
+page_description: Chronological record of dataset releases, publication milestones and catalogue changes.
 content_class: updates-page
 ---
 
@@ -23,4 +23,4 @@ content_class: updates-page
   {% endfor %}
 </div>
 
-<aside class="contact-band contact-band--compact"><div><p class="eyebrow">Have an update?</p><h2>Tell us how you are using the datasets.</h2></div><p>Share corrections, derivative datasets or publications that should be linked from the catalog.</p><a class="button button--light" href="mailto:contact@caemldatasets.org">Email the project</a></aside>
+<aside class="contact-band contact-band--compact"><div><p class="eyebrow">Catalogue corrections</p><h2>Submit a correction or related publication</h2></div><p>Contact the maintainers to report repository changes, derived datasets or publications that should be included in the catalogue.</p><a class="button button--secondary" href="mailto:contact@caemldatasets.org">Contact the maintainers</a></aside>

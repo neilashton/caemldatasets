@@ -1,24 +1,24 @@
 ---
 layout: page
-title: Getting started
-seo_title: How to download CAE ML datasets safely
-description: Install the Hugging Face CLI, preview large CFD repositories, select files and download AhmedML, WindsorML, DrivAerML or HiLiftAeroML safely.
+title: Data access
+seo_title: Accessing the CAE ML datasets
+description: Instructions for using the Hugging Face command-line client to inspect and retrieve selected files from AhmedML, WindsorML, DrivAerML and HiLiftAeroML.
 permalink: /getting-started/
 nav: true
 nav_order: 2
-eyebrow: Download guide
-page_description: A storage-aware workflow for exploring and downloading multi-terabyte engineering datasets from Hugging Face.
+eyebrow: Data access
+page_description: Hugging Face client commands, file-selection examples and storage considerations for the datasets in this catalogue.
 content_class: getting-started-page
 catalog_js: true
 ---
 
-<aside class="guide-callout"><strong>Keep preview mode on.</strong><p>These repositories range from roughly 2 TB to 66.9 TB. Every command below includes <code>--dry-run</code> until you deliberately remove it.</p></aside>
+<aside class="guide-callout"><strong>Repository sizes</strong><p>The complete repositories range from approximately 2 TB to 66.9 TB. The examples use <code>--dry-run</code> so that file lists and transfer sizes can be inspected before retrieval.</p></aside>
 
 <section class="guide-section" id="choose">
   <div class="guide-section__number">01</div>
   <div class="guide-section__content">
-    <p class="section-kicker">Choose a dataset</p>
-    <h2>Match complexity to the question</h2>
+    <p class="section-kicker">Dataset selection</p>
+    <h2>Select by domain, geometry and numerical method</h2>
     <div class="choice-grid">
       {% for item in site.data.datasets %}
         <a href="{{ item.permalink | relative_url }}"><span>{{ item.domain }} · {{ item.geometry }}</span><strong>{{ item.name }}</strong><small>{{ item.cases }} · {{ item.method }} · {{ item.size }}</small></a>
@@ -30,9 +30,9 @@ catalog_js: true
 <section class="guide-section" id="install">
   <div class="guide-section__number">02</div>
   <div class="guide-section__content">
-    <p class="section-kicker">Prepare the tools</p>
-    <h2>Install and authenticate</h2>
-    <p>Use the current <code>hf</code> command from <code>huggingface_hub</code>. <code>hf_xet</code> accelerates transfers for repositories stored with Xet.</p>
+    <p class="section-kicker">Client setup</p>
+    <h2>Install the Hugging Face command-line client</h2>
+    <p>The <code>hf</code> command is provided by <code>huggingface_hub</code>. The optional <code>hf_xet</code> package supports repositories stored with Xet.</p>
     <div class="command-card">
       <div class="command-card__header"><strong>Terminal</strong><button type="button" data-copy="#guide-install-command">Copy</button></div>
       <pre id="guide-install-command"><code>python -m pip install -U huggingface_hub hf_xet
@@ -45,9 +45,9 @@ hf auth login</code></pre>
 <section class="guide-section" id="preview">
   <div class="guide-section__number">03</div>
   <div class="guide-section__content">
-    <p class="section-kicker">Inspect before transfer</p>
-    <h2>Preview the repository</h2>
-    <p>A dry run lists the matching files and reports the planned transfer without downloading them.</p>
+    <p class="section-kicker">Repository inspection</p>
+    <h2>Estimate a transfer with <code>--dry-run</code></h2>
+    <p>A dry run lists matching files and reports the estimated transfer without downloading them.</p>
     <div class="command-card">
       <div class="command-card__header"><strong>AhmedML full-repository preview</strong><button type="button" data-copy="#guide-preview-command">Copy</button></div>
       <pre id="guide-preview-command"><code>hf download neashton/ahmedml \
@@ -62,8 +62,8 @@ hf auth login</code></pre>
 <section class="guide-section" id="select">
   <div class="guide-section__number">04</div>
   <div class="guide-section__content">
-    <p class="section-kicker">Select useful files</p>
-    <h2>Begin with metadata, forces and geometry</h2>
+    <p class="section-kicker">File selection</p>
+    <h2>Select data products explicitly</h2>
     <div class="command-card">
       <div class="command-card__header"><strong>Selective AhmedML preview</strong><button type="button" data-copy="#guide-select-command">Copy</button></div>
       <pre id="guide-select-command"><code>hf download neashton/ahmedml \
@@ -75,10 +75,10 @@ hf auth login</code></pre>
   --dry-run</code></pre>
     </div>
     <ol class="decision-list">
-      <li><strong>Validate the pipeline</strong><span>Use consolidated CSV tables first.</span></li>
-      <li><strong>Add geometric context</strong><span>Download STL or STEP files for shape-based models.</span></li>
-      <li><strong>Train on surface physics</strong><span>Add VTP or VTU boundary files after checking storage.</span></li>
-      <li><strong>Use complete flow fields</strong><span>Volume files are the final, largest tier.</span></li>
+      <li><strong>Tabular data</strong><span>Consolidated CSV files contain geometry parameters and integrated coefficients.</span></li>
+      <li><strong>Geometry</strong><span>STL or STEP files provide geometric input for shape-based models.</span></li>
+      <li><strong>Surface fields</strong><span>VTP or VTU boundary files contain spatially resolved surface quantities.</span></li>
+      <li><strong>Volume fields</strong><span>Three-dimensional field files have the largest storage and processing requirements.</span></li>
     </ol>
   </div>
 </section>
@@ -86,8 +86,8 @@ hf auth login</code></pre>
 <section class="guide-section" id="download">
   <div class="guide-section__number">05</div>
   <div class="guide-section__content">
-    <p class="section-kicker">Download deliberately</p>
-    <h2>Remove <code>--dry-run</code> only when ready</h2>
+    <p class="section-kicker">Transfer</p>
+    <h2>Review the estimate before removing <code>--dry-run</code></h2>
     <ul class="check-list">
       <li>Confirm the reported byte count and number of files.</li>
       <li>Allow additional working space for compressed archives and derived training data.</li>
@@ -95,12 +95,12 @@ hf auth login</code></pre>
       <li>Record the repository revision or commit hash used by an experiment.</li>
       <li>Review dataset-specific known constraints before creating splits.</li>
     </ul>
-    <a class="button button--primary" href="{{ '/datasets/' | relative_url }}">Choose a dataset and build a command</a>
+    <a class="button button--primary" href="{{ '/datasets/' | relative_url }}">Open the dataset catalogue</a>
   </div>
 </section>
 
 <section class="format-guide" aria-labelledby="format-guide-title">
-  <p class="section-kicker">Format glossary</p><h2 id="format-guide-title">Common files in the catalog</h2>
+  <p class="section-kicker">File formats</p><h2 id="format-guide-title">Formats used in the catalogue</h2>
   <dl>
     <div><dt>CSV</dt><dd>Geometry parameters, reference values and integrated force or moment coefficients.</dd></div>
     <div><dt>STL / STEP</dt><dd>Tessellated surfaces and CAD geometry suitable for geometric preprocessing.</dd></div>

@@ -9,4 +9,4 @@ organization:
 
 catalog:
   name: CAE ML Datasets catalogue
-  description: "Open, high-fidelity computational fluid dynamics datasets for machine-learning and physical-AI research."
+  description: "Catalogue and documentation for open computational fluid dynamics datasets used in engineering machine-learning research."
