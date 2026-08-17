@@ -1,0 +1,298 @@
+\documentclass[10pt]{article}
+
+\usepackage[margin=0.72in]{geometry}
+\usepackage{booktabs}
+\usepackage{caption}
+\usepackage{enumitem}
+\usepackage{float}
+\usepackage[T1]{fontenc}
+\usepackage{graphicx}
+\usepackage{hyperref}
+\usepackage{microtype}
+\usepackage{tabularx}
+\usepackage{xcolor}
+
+\hypersetup{
+  colorlinks=true,
+  linkcolor=blue!55!black,
+  urlcolor=blue!55!black,
+  citecolor=blue!55!black
+}
+
+\setlength{\parindent}{0pt}
+\setlength{\parskip}{0.55em}
+\setlength{\emergencystretch}{2em}
+\setlist[itemize]{leftmargin=1.35em, itemsep=0.22em, topsep=0.25em}
+\captionsetup{font=small, labelfont=bf}
+
+\newcommand{\code}[1]{\texttt{#1}}
+\newcommand{\splitkey}[1]{\texttt{#1}}
+
+\title{\vspace{-1.2em}\textbf{WindsorML Dataset Splits}}
+\author{}
+\date{}
+
+\begin{document}
+\maketitle
+\vspace{-2.0em}
+
+Deterministic train/validation/test splits for the
+\href{https://huggingface.co/datasets/neashton/windsorml}{WindsorML dataset}
+\cite{windsorml_dataset}. WindsorML contains 355 Halton-sampled variants of the
+Windsor body, indexed from \code{run\_0} through \code{run\_354}. The associated
+paper reports a 60/20/20 partition for its preliminary ML evaluation but does
+not publish an exact case-membership list \cite{windsorml_paper}. For consistency
+with the AhmedML and DrivAerML split packages, this package instead defines an
+approximately 80/10/10 seed-42 baseline and companion data-efficiency and
+out-of-distribution (OOD) splits.
+
+The source of truth is \code{splits/manifest.json}, a flat JSON object with keys
+such as \code{full\_train}, \code{full\_val}, and \code{geometry\_test}. This
+repository intentionally stores only the manifest, small CSV inputs and metrics,
+scripts, figures, and this report. Large STL and PNG assets belong in a sibling
+asset directory.
+
+\section*{Splits at a glance}
+
+\begin{tabularx}{\textwidth}{@{}l l r r r X@{}}
+\toprule
+Split & Type & Train & Val & Test & What it tests \\
+\midrule
+\splitkey{full} & In-dist & 284 & 35 & 36 & Seed-42 random baseline, approximately 80/10/10 \\
+\splitkey{medium} & In-dist & 95 & 35 & 36 & Data efficiency, 1/3 of \splitkey{full} training data \\
+\splitkey{scarce} & In-dist & 47 & 35 & 36 & Data efficiency, 1/6 of \splitkey{full} training data \\
+\splitkey{super\_scarce} & In-dist & 8 & 35 & 36 & Extreme data efficiency, 1/36 of \splitkey{full} training data \\
+\splitkey{geometry} & OOD & 248 & 36 & 71 & STL-shape extrapolation using the top 20\% local Chamfer-isolation score \\
+\splitkey{high\_drag} & OOD & 248 & 36 & 71 & High-drag extrapolation using the top 20\% fixed-reference \code{cd} \\
+\splitkey{low\_drag} & OOD & 248 & 36 & 71 & Low-drag extrapolation using the bottom 20\% fixed-reference \code{cd} \\
+\splitkey{image\_wake} & OOD & 248 & 36 & 71 & Low-speed wake extrapolation from near-centreline and near-base velocity PNGs \\
+\bottomrule
+\end{tabularx}
+
+\section*{Which split should I use?}
+
+\begin{itemize}
+  \item \textbf{Standard baseline}: \splitkey{full}
+  \item \textbf{Data efficiency}: compare \splitkey{super\_scarce}, \splitkey{scarce}, \splitkey{medium}, and \splitkey{full}
+  \item \textbf{Shape extrapolation}: \splitkey{geometry}
+  \item \textbf{Aerodynamic-coefficient extrapolation}: \splitkey{high\_drag} or \splitkey{low\_drag}
+  \item \textbf{Wake-regime extrapolation}: \splitkey{image\_wake}
+\end{itemize}
+
+\section*{Using the committed splits}
+
+For the standard use case, read \code{splits/manifest.json}; no STL, PNG, or
+regeneration step is required. Each value is a sorted list of dataset directory
+names.
+
+\begin{verbatim}
+import json
+from pathlib import Path
+
+manifest = json.loads(Path("splits/manifest.json").read_text())
+
+train_ids = manifest["full_train"]
+val_ids = manifest["full_val"]
+test_ids = manifest["full_test"]
+\end{verbatim}
+
+Change the \code{full} prefix to \code{medium}, \code{scarce},
+\code{super\_scarce}, \code{geometry}, \code{high\_drag}, \code{low\_drag}, or
+\code{image\_wake} to select another split.
+
+\section*{Design principles}
+
+\begin{itemize}
+  \item \textbf{Validation remains in-distribution with training.} For each OOD split, the test set is the held-out extreme 20\%; validation is the companion-package 10\% sample drawn only from the complementary population.
+  \item \textbf{Companion-package ratios.} \splitkey{full} is approximately 80/10/10. OOD families are approximately 70/10/20 so the extreme test regime remains large enough to evaluate separately.
+  \item \textbf{Nested data-efficiency subsets.} The 8-case, 47-case, and 95-case training sets are strict nested subsets of \splitkey{full\_train}; all share \splitkey{full\_val} and \splitkey{full\_test}.
+  \item \textbf{Use the appropriate source quantity.} Drag splits use the constant-reference-area coefficients in \code{force\_mom\_all.csv}; geometry uses STL-surface Chamfer distance; image wake uses published streamwise-velocity PNGs.
+  \item \textbf{Test-set integrity.} Test cases should not be used for normalization fitting, hyperparameter tuning, model selection, or repeated visual inspection during development.
+\end{itemize}
+
+Figure~\ref{fig:diagnostics} shows the exact train, validation, and test
+membership against each split-defining quantity. The first panel confirms that
+\splitkey{full} is random with respect to drag; the high- and low-drag panels
+show the expected coefficient tails; the lower panels show the geometry and
+image-wake OOD regions.
+
+\begin{figure}[H]
+  \centering
+  \includegraphics[width=0.99\textwidth]{split_diagnostics.png}
+  \caption{WindsorML split diagnostics. Points are colored by train, validation, and test membership. The panels show the full seed-42 baseline on \code{Cd}; high- and low-drag holdouts on \code{Cd}; the STL-Chamfer geometry holdout; the image-wake holdout on its low-speed score; and the image-wake membership on \code{Cd}.}
+  \label{fig:diagnostics}
+\end{figure}
+
+\section*{Split details}
+
+\subsection*{\splitkey{full}}
+
+To match the AhmedML and DrivAerML split convention, \splitkey{full} uses an
+approximately 80/10/10 partition: 284 train, 35 validation, and 36 test cases.
+To make the unpublished membership reproducible, this repository constructs
+\code{torch.randperm(355)} with \code{torch.Generator().manual\_seed(42)}, assigns
+the first 284 entries to train, the next 35 to validation, and the final 36 to
+test, then sorts each stored ID list. The resulting IDs are committed directly
+in the generator, so PyTorch is not a runtime dependency.
+
+\subsection*{\splitkey{medium}, \splitkey{scarce}, and \splitkey{super\_scarce}}
+
+These families keep \splitkey{full\_val} and \splitkey{full\_test} fixed. Their
+training sets are nested, greedy max-min subsets of \splitkey{full\_train} in
+standardized \code{cd}, \code{cl}, and published aggregate geometry-feature
+space. The procedure selects a force/geometry-extreme case first, then repeatedly
+adds the candidate whose nearest selected neighbor is farthest away.
+
+The WindsorML paper defines seven CAD variables: front-to-rear length ratio,
+back-fast length ratio, nose-to-windshield height ratio, fast-back height ratio,
+side taper, clearance, and bottom taper angle \cite{windsorml_paper}. The current
+public \code{geo\_parameters\_all.csv} contains six of those variables plus
+\code{frontal\_area}; \code{ratio\_length\_front\_rear} appears in per-run geometry
+CSVs but is absent from the aggregate table. The nested selection uses the
+columns actually present in the aggregate file. The \splitkey{geometry} OOD
+split does not depend on that table omission because it is computed from STLs.
+
+\subsection*{\splitkey{geometry}}
+
+Each available \code{run\_N/windsor\_N.stl} is sampled with 4096 deterministic,
+area-weighted surface points. Point clouds remain in the common dataset
+coordinate frame and are scaled by the global median STL bounding-box diagonal.
+The symmetric Chamfer RMS distance is calculated for every pair, and each run's
+OOD score is its mean distance to the 10 nearest neighboring STLs. The 71
+highest scores form \splitkey{geometry\_test}; 36 validation cases are sampled
+from the remaining population, leaving 248 training cases.
+
+The current highest observed geometry scores include \splitkey{run\_252},
+\splitkey{run\_161}, \splitkey{run\_349}, \splitkey{run\_72}, and
+\splitkey{run\_57}. Figure~\ref{fig:geometry_examples} compares the lowest and
+highest observed score examples and overlays the complete side-view geometry.
+
+\begin{figure}[H]
+  \centering
+  \includegraphics[width=0.98\textwidth]{geometry_score_examples.png}
+  \caption{Geometry examples for \splitkey{geometry}. The low-score case is \splitkey{run\_304} with Chamfer score 0.01147, \code{Cd}=0.2823, and \code{Cl}=-0.2293. The high-score case is \splitkey{run\_252} with score 0.02076, \code{Cd}=0.3408, and \code{Cl}=0.8068. The lower panel superimposes both complete-car side views with transparent silhouettes.}
+  \label{fig:geometry_examples}
+\end{figure}
+
+\subsection*{\splitkey{high\_drag} and \splitkey{low\_drag}}
+
+WindsorML publishes both constant-reference-area and case-dependent-reference-area
+force tables. These splits use \code{force\_mom\_all.csv}, whose constant reference
+area makes \code{cd} directly comparable across geometry variants.
+\splitkey{high\_drag} holds out the 71 largest values; \splitkey{low\_drag} holds
+out the 71 smallest. Figure~\ref{fig:diagnostics} shows both tails.
+
+The highest-drag runs include \splitkey{run\_303}, \splitkey{run\_192},
+\splitkey{run\_346}, \splitkey{run\_10}, and \splitkey{run\_221}. The lowest-drag
+runs include \splitkey{run\_238}, \splitkey{run\_125}, \splitkey{run\_306},
+\splitkey{run\_133}, and \splitkey{run\_134}.
+
+\subsection*{\splitkey{image\_wake}}
+
+The paper states that the published images span 10 constant-\(z\) planes from
+\(z=-0.4\) to \(0.4\) m and 80 constant-\(x\) planes from \(x=-0.5\) to
+\(1.0\) m \cite{windsorml_paper}. The image-wake score uses
+\code{view1\_constz} indices 4 and 5, which bracket the centreline, and
+\code{view2\_constx} indices 53, 55, and 57, immediately downstream of the
+Windsor base at \(x=0.48\) m. In fixed wake crops, blue/purple pixels indicate
+lower streamwise velocity than the orange freestream. The score averages the
+low-speed area and color intensity across the centreline and near-base views.
+The 71 largest scores form \splitkey{image\_wake\_test}.
+
+The highest observed image-wake scores include \splitkey{run\_8},
+\splitkey{run\_315}, \splitkey{run\_57}, \splitkey{run\_332}, and
+\splitkey{run\_329}. Figure~\ref{fig:wake_examples} shows why the score separates
+the selected examples: the high-score case has a substantially larger low-speed
+region in both views.
+
+\begin{figure}[H]
+  \centering
+  \includegraphics[width=0.99\textwidth]{wake_score_examples.png}
+  \caption{Image-wake examples for \splitkey{image\_wake}. The low-score case is \splitkey{run\_161} with score 0.0076, \code{Cd}=0.3226, and \code{Cl}=0.8371. The high-score case is \splitkey{run\_8} with score 0.1519, \code{Cd}=0.3059, and \code{Cl}=-0.2052. The top row shows a near-centreline constant-\(z\) view; the bottom row shows the near-base \code{X-53} plane.}
+  \label{fig:wake_examples}
+\end{figure}
+
+\section*{Current Hub asset coverage}
+
+The aggregate CSVs contain all 355 runs. At the Hub revision used for this
+package, per-run STLs and targeted PNGs were available for \code{run\_0} through
+\code{run\_349}; the same assets for \code{run\_350} through \code{run\_354}
+returned HTTP 404. Their five geometry and image scores are estimated from the
+five nearest observed runs in standardized force/aggregate-geometry space.
+Both \code{data/chamfer\_metrics.csv} and \code{data/image\_metrics.csv} include
+an observed flag and the neighbor IDs for every estimate. Re-running the metric
+scripts after those Hub files become available will replace the estimates with
+direct observations.
+
+\section*{Repeatability and transparency}
+
+The committed manifest is intended for normal benchmark use. The commands below
+are only for auditing or rebuilding the split definitions. Keep large files in
+a sibling directory:
+
+\begin{verbatim}
+ASSET_ROOT=../windsorml_hf_assets
+
+python3 scripts/download_hf_inputs.py --output-dir "$ASSET_ROOT" \
+  --include-stls --include-wake-images --include-geometry-images \
+  --workers 6 --allow-missing
+
+python3 scripts/compute_chamfer_splits.py --data-root "$ASSET_ROOT" \
+  --output-dir /tmp/windsorml_chamfer_4096 --samples 4096 \
+  --workers 16 --sample-workers 2 --runs all --allow-missing
+cp /tmp/windsorml_chamfer_4096/chamfer_metrics.csv \
+  data/chamfer_metrics.csv
+
+python3 scripts/compute_image_metrics.py --asset-root "$ASSET_ROOT" \
+  --data-root data --output data/image_metrics.csv
+python3 scripts/generate_splits.py
+python3 scripts/visualize_splits.py
+python3 scripts/create_example_figures.py --asset-root "$ASSET_ROOT"
+latexmk -pdf -cd docs/README.tex
+\end{verbatim}
+
+The Chamfer script requires \code{numpy}, \code{scipy}, and \code{trimesh}; the
+image and figure scripts require \code{numpy}, \code{Pillow}, and
+\code{matplotlib}. The repository's \code{data/} directory should remain limited
+to small CSV files.
+
+The committed source artifacts are:
+
+\begin{verbatim}
+data/force_mom_all.csv
+data/geo_parameters_all.csv
+data/chamfer_metrics.csv
+data/image_metrics.csv
+<asset-root>/run_*/windsor_*.stl
+<asset-root>/run_*/images/windsor_*.png
+<asset-root>/run_*/images/velocityxavg/*.png
+docs/split_diagnostics.png
+docs/geometry_score_examples.png
+docs/wake_score_examples.png
+splits/manifest.json
+\end{verbatim}
+
+\section*{Manifest format}
+
+\begin{verbatim}
+{
+    "full_train": ["run_0", "run_1", "..."],
+    "full_val": ["run_8", "..."],
+    "full_test": ["run_7", "..."],
+    "geometry_train": ["run_0", "..."]
+}
+\end{verbatim}
+
+Case IDs match the on-disk dataset directory names and are sorted numerically.
+
+{\small
+\begin{thebibliography}{9}
+\bibitem{windsorml_dataset}
+WindsorML dataset. \url{https://huggingface.co/datasets/neashton/windsorml}.
+
+\bibitem{windsorml_paper}
+Ashton, N. et al. ``WindsorML: High-Fidelity Computational Fluid Dynamics Dataset for Automotive Aerodynamics.'' \url{https://arxiv.org/abs/2407.19320}.
+\end{thebibliography}
+}
+
+\end{document}
