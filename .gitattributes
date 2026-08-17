@@ -1,2 +1,2 @@
-# Preserve the supplied DrivAerML metric files byte-for-byte.
-assets/downloads/drivaerml/drivaerml_official_splits/data/*.csv binary
+# Preserve supplied dataset metric files byte-for-byte.
+assets/downloads/**/data/*.csv binary

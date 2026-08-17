@@ -2,10 +2,10 @@
   name: AhmedML
   short_name: AhmedML
   permalink: /ahmedml/
-  seo_title: "AhmedML: high-fidelity Ahmed-body CFD dataset"
-  description: "AhmedML comprises 500 parametrically varied Ahmed-body geometries simulated for machine-learning research in low-speed bluff-body aerodynamics."
+  seo_title: "AhmedML official benchmark splits"
+  description: "AhmedML provides 500 parametric Ahmed-body CFD cases and official train, validation and test splits for data-efficiency and out-of-distribution evaluation."
   eyebrow: "Automotive · bluff-body aerodynamics"
-  tagline: "500 Ahmed-body geometries with time-averaged surface, volume and integrated aerodynamic data."
+  tagline: "500 Ahmed-body geometries with time-averaged CFD outputs and deterministic benchmark splits."
   image: /assets/img/ahmed_body.png
   image_alt: "Ahmed body diagram showing the separated vortical structures represented in AhmedML"
   domain: Automotive
@@ -26,13 +26,25 @@
   arxiv_id: "2407.20801"
   doi: "10.57967/hf/5002"
   published: "2024-07-30"
-  modified: "2026-03-28"
-  formats: [VTP, VTU, STL, CSV, PNG]
-  keywords: [computational fluid dynamics, machine learning, Ahmed body, automotive aerodynamics, hybrid RANS-LES, OpenFOAM]
+  modified: "2026-08-17"
+  formats: [VTP, VTU, STL, CSV, JSON, PNG]
+  keywords:
+    [
+      computational fluid dynamics,
+      machine learning,
+      Ahmed body,
+      automotive aerodynamics,
+      hybrid RANS-LES,
+      OpenFOAM,
+      benchmark splits,
+      out-of-distribution evaluation,
+    ]
   overview: |
     AhmedML comprises 500 parametrically varied Ahmed-body geometries simulated using a time-accurate hybrid RANS–LES workflow. The simplified geometry represents pressure-induced separation and three-dimensional vortical structures without the geometric complexity of a complete road vehicle.
 
     Each case includes geometry, time-averaged surface and volume fields, force and moment coefficients, sampled slices and rendered images. The repository also contains the OpenFOAM setup and validation cases. These products support surrogate modelling, geometric learning, reduced-order modelling and reproducibility studies.
+
+    Official deterministic train, validation and test splits are provided for a random baseline, nested data-efficiency studies, geometry extrapolation, drag-regime extrapolation and image-derived wake-structure evaluation.
   intended_uses:
     - Surrogate modelling of surface fields, volume fields or integrated coefficients.
     - Analysis of geometric effects on separated bluff-body flow.
@@ -54,6 +66,84 @@
     - name: Derived views
       details: "Flow slices and rendered field images"
       formats: "VTP · PNG"
+    - name: Official benchmark splits
+      details: "Deterministic case lists, split-construction metrics, scripts and methodology"
+      formats: "JSON · CSV · Python · PDF"
+  official_splits:
+    release_date: "2026-08-17"
+    summary: "Eight deterministic split regimes are provided for standard benchmarking, data-efficiency studies and out-of-distribution evaluation. The committed JSON manifest is the source of truth for case membership."
+    public_cases: 500
+    unavailable_cases: 0
+    coverage_note: "All 500 documented run IDs are represented in each complete benchmark split."
+    manifest_url: /assets/downloads/ahmedml/ahmedml_official_splits/splits/manifest.json
+    manifest_size: "57.3 kB"
+    manifest_sha256: "e7ea57437f4197dca9a9de67cad7d383aa3f7b7905771ac91522099a50f53c70"
+    package_url: /assets/downloads/ahmedml/ahmedml_official_splits.zip
+    package_filename: ahmedml_official_splits.zip
+    package_size: "2.5 MB"
+    package_sha256: "985c56c168521d4e6e902995a0300d3d3e46b65b9ae9d83725108878dd09dee6"
+    package_description: "Manifest, construction metrics, generation scripts, figures and methodology for the official AhmedML splits."
+    documentation_url: /assets/downloads/ahmedml/ahmedml_official_splits/docs/README.pdf
+    documentation_size: "1.3 MB"
+    reference_url: https://github.com/Emmi-AI/noether/blob/main/src/noether/data/datasets/cfd/caeml/ahmedml/split.py
+    reference_label: "AhmedMLDefaultSplitIDs implementation in Noether"
+    regimes:
+      - name: full
+        type: In-distribution
+        train: 400
+        val: 50
+        test: 50
+        purpose: "Seed-42 random baseline"
+      - name: medium
+        type: In-distribution
+        train: 133
+        val: 50
+        test: 50
+        purpose: "Data efficiency: one third of the full training set"
+      - name: scarce
+        type: In-distribution
+        train: 67
+        val: 50
+        test: 50
+        purpose: "Data efficiency: one sixth of the full training set"
+      - name: super_scarce
+        type: In-distribution
+        train: 11
+        val: 50
+        test: 50
+        purpose: "Extreme data-efficiency evaluation"
+      - name: geometry
+        type: Out-of-distribution
+        train: 350
+        val: 50
+        test: 100
+        purpose: "STL-surface Chamfer geometry extrapolation"
+      - name: high_drag
+        type: Out-of-distribution
+        train: 350
+        val: 50
+        test: 100
+        purpose: "High-drag coefficient extrapolation"
+      - name: low_drag
+        type: Out-of-distribution
+        train: 350
+        val: 50
+        test: 100
+        purpose: "Low-drag coefficient extrapolation"
+      - name: image_wake
+        type: Out-of-distribution
+        train: 350
+        val: 50
+        test: 100
+        purpose: "Image-derived wake-structure extrapolation"
+    example: |
+      import json
+      from pathlib import Path
+
+      manifest = json.loads(Path("manifest.json").read_text())
+      train_ids = manifest["full_train"]
+      val_ids = manifest["full_val"]
+      test_ids = manifest["full_test"]
   download_groups:
     - id: summary
       label: Summary tables
@@ -290,15 +380,19 @@
     summary: "Eight deterministic split regimes are provided for standard benchmarking, data-efficiency studies and out-of-distribution evaluation. The committed JSON manifest is the source of truth for case membership."
     public_cases: 484
     unavailable_cases: 16
+    coverage_note: "The 16 unavailable or author-held-back run IDs are excluded from every partition."
     manifest_url: /assets/downloads/drivaerml/drivaerml_official_splits/splits/manifest.json
     manifest_size: "54.9 kB"
     manifest_sha256: "032a2e9f88926d9218a1943b51e650135cc78683cad6b0a38f3cf4f9dfba647d"
     package_url: /assets/downloads/drivaerml/drivaerml_official_splits.zip
+    package_filename: drivaerml_official_splits.zip
     package_size: "2.9 MB"
     package_sha256: "f62a31b147279c48c44fb3a20c4e836ec99c2a579cacb00108e1a4937e5563c3"
+    package_description: "Manifest, construction metrics, generation scripts, figures and methodology for the official DrivAerML splits."
     documentation_url: /assets/downloads/drivaerml/drivaerml_official_splits/docs/README.pdf
     documentation_size: "1.4 MB"
     reference_url: https://github.com/Emmi-AI/noether/blob/main/src/noether/data/datasets/cfd/caeml/drivaerml/split.py
+    reference_label: "DrivAerMLDefaultSplitIDs implementation in Noether"
     regimes:
       - name: full
         type: In-distribution
