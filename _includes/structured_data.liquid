@@ -155,6 +155,24 @@
               "contentUrl": {{ structured_dataset.huggingface_url | jsonify }},
               "encodingFormat": {{ structured_dataset.formats | join: ', ' | jsonify }}
             }
+            {% if structured_dataset.official_splits %},
+              {
+                "@type": "DataDownload",
+                "name": "Official train, validation and test split manifest",
+                "description": {{ structured_dataset.official_splits.summary | jsonify }},
+                "contentUrl": {{ structured_dataset.official_splits.manifest_url | absolute_url | jsonify }},
+                "encodingFormat": "application/json",
+                "contentSize": {{ structured_dataset.official_splits.manifest_size | jsonify }}
+              },
+              {
+                "@type": "DataDownload",
+                "name": "Official split reproducibility package",
+                "description": "Manifest, construction metrics, generation scripts, figures and methodology for the official DrivAerML splits.",
+                "contentUrl": {{ structured_dataset.official_splits.package_url | absolute_url | jsonify }},
+                "encodingFormat": "application/zip",
+                "contentSize": {{ structured_dataset.official_splits.package_size | jsonify }}
+              }
+            {% endif %}
           ]
         }
       {% endif %}

@@ -71,6 +71,9 @@ layout: default
       <span>On this page</span>
       <a href="#overview">Overview</a>
       <a href="#contents">Contents</a>
+      {% if dataset.official_splits -%}
+        <a href="#official-splits">Official splits</a>
+      {%- endif %}
       <a href="#download">Data access</a>
       <a href="#cite">Citation</a>
       <a href="#provenance">Provenance</a>
@@ -120,8 +123,88 @@ layout: default
           </div>
         </section>
 
+        {% if dataset.official_splits %}
+          <section id="official-splits" class="dataset-section">
+            <p class="section-kicker">03 · Official splits</p>
+            <h2>Train, validation and test partitions</h2>
+            <p>{{ dataset.official_splits.summary }}</p>
+
+            <div class="resource-links" aria-label="Official DrivAerML split files">
+              <a href="{{ dataset.official_splits.manifest_url | relative_url }}" download>
+                <span>Manifest</span><strong>Case lists · JSON · {{ dataset.official_splits.manifest_size }}</strong>
+              </a>
+              <a href="{{ dataset.official_splits.package_url | relative_url }}" download>
+                <span>Package</span><strong>Manifest, metrics, scripts and figures · ZIP · {{ dataset.official_splits.package_size }}</strong>
+              </a>
+              <a href="{{ dataset.official_splits.documentation_url | relative_url }}">
+                <span>Methodology</span><strong>Split definitions and construction · PDF · {{ dataset.official_splits.documentation_size }}</strong>
+              </a>
+            </div>
+
+            <h3 class="subsection-title">Regimes and partition sizes</h3>
+            <div class="data-table-wrap" role="region" aria-label="DrivAerML official split sizes" tabindex="0">
+              <table class="data-table split-table">
+                <thead>
+                  <tr>
+                    <th>Regime</th>
+                    <th>Evaluation</th>
+                    <th>Train</th>
+                    <th>Validation</th>
+                    <th>Test</th>
+                    <th>Purpose</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {% for regime in dataset.official_splits.regimes %}
+                    <tr>
+                      <th scope="row">
+                        <code>{{ regime.name }}</code>
+                      </th>
+                      <td>{{ regime.type }}</td>
+                      <td>{{ regime.train }}</td>
+                      <td>{{ regime.val }}</td>
+                      <td>{{ regime.test }}</td>
+                      <td>{{ regime.purpose }}</td>
+                    </tr>
+                  {% endfor %}
+                </tbody>
+              </table>
+            </div>
+
+            <aside class="dataset-note">
+              <strong>Public case coverage</strong>
+              <p>
+                The manifest covers {{ dataset.official_splits.public_cases }} public cases. The
+                {{ dataset.official_splits.unavailable_cases }} unavailable or author-held-back run IDs are excluded from every partition. The
+                <code>full</code> split uses the seed-42 public baseline and matches the
+                <a href="{{ dataset.official_splits.reference_url }}">DrivAerMLDefaultSplitIDs implementation in Noether</a>.
+              </p>
+            </aside>
+
+            <h3 class="subsection-title">Using the manifest</h3>
+            <p>
+              Download the JSON manifest and select the keys for the required regime. No split regeneration is required for standard benchmark use.
+            </p>
+            <div class="command-card">
+              <div class="command-card__header"><strong>Python example</strong><button type="button" data-copy="#split-example">Copy</button></div>
+              <pre id="split-example"><code>{{ dataset.official_splits.example | escape }}</code></pre>
+            </div>
+
+            <details class="full-download">
+              <summary>SHA-256 file checksums</summary>
+              <div class="command-card">
+                <div class="command-card__header"><strong>Release integrity</strong></div>
+                <pre><code>manifest.json  {{ dataset.official_splits.manifest_sha256 }}
+drivaerml_official_splits.zip  {{ dataset.official_splits.package_sha256 }}</code></pre>
+              </div>
+            </details>
+          </section>
+        {% endif %}
+
         <section id="download" class="dataset-section download-section">
-          <p class="section-kicker">03 · Data access</p>
+          <p class="section-kicker">
+            {% if dataset.official_splits %}04{% else %}03{% endif %} · Data access
+          </p>
           <h2>Repository access and file selection</h2>
           <p>
             The repositories are hosted on Hugging Face. The client can select individual data groups and estimate the transfer before files are
@@ -183,7 +266,9 @@ hf auth login</code></pre>
         </section>
 
         <section id="cite" class="dataset-section">
-          <p class="section-kicker">04 · Citation</p>
+          <p class="section-kicker">
+            {% if dataset.official_splits %}05{% else %}04{% endif %} · Citation
+          </p>
           <h2>Citation and persistent identifiers</h2>
           <p>Users of {{ dataset.name }} should cite the corresponding publication and include the dataset DOI where one is available.</p>
           <div class="command-card citation-card">
@@ -206,7 +291,9 @@ hf auth login</code></pre>
         </section>
 
         <section id="provenance" class="dataset-section">
-          <p class="section-kicker">05 · Provenance</p>
+          <p class="section-kicker">
+            {% if dataset.official_splits %}06{% else %}05{% endif %} · Provenance
+          </p>
           <h2>Provenance, licence and limitations</h2>
           <div class="provenance-grid">
             <div>
