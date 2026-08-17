@@ -75,6 +75,7 @@
     public_cases: 500
     unavailable_cases: 0
     coverage_note: "All 500 documented run IDs are represented in each complete benchmark split."
+    provenance_note: "The full split uses the seed-42 public baseline."
     manifest_url: /assets/downloads/ahmedml/ahmedml_official_splits/splits/manifest.json
     manifest_size: "57.3 kB"
     manifest_sha256: "e7ea57437f4197dca9a9de67cad7d383aa3f7b7905771ac91522099a50f53c70"
@@ -200,10 +201,10 @@
   name: WindsorML
   short_name: WindsorML
   permalink: /windsorml/
-  seo_title: "WindsorML: high-fidelity automotive CFD dataset"
-  description: "WindsorML comprises 355 Windsor-body geometries evaluated using wall-modelled large-eddy simulation for automotive aerodynamic research."
+  seo_title: "WindsorML official benchmark splits"
+  description: "WindsorML provides 355 Windsor-body WMLES cases and official train, validation and test splits for data-efficiency and out-of-distribution evaluation."
   eyebrow: "Automotive · external aerodynamics"
-  tagline: "355 Windsor-body variants evaluated using wall-modelled large-eddy simulation."
+  tagline: "355 Windsor-body variants with wall-modelled LES outputs and deterministic benchmark splits."
   image: /assets/img/case1_param_description.png
   image_alt: "Parametric Windsor body geometry used to create the WindsorML dataset"
   domain: Automotive
@@ -224,13 +225,25 @@
   arxiv_id: "2407.19320"
   doi: "10.57967/hf/7644"
   published: "2024-07-29"
-  modified: "2025-05-12"
-  formats: [VTU, STL, STEP, CSV, PNG]
-  keywords: [computational fluid dynamics, machine learning, Windsor body, automotive aerodynamics, WMLES, immersed boundary]
+  modified: "2026-08-17"
+  formats: [VTU, STL, STEP, CSV, JSON, PNG]
+  keywords:
+    [
+      computational fluid dynamics,
+      machine learning,
+      Windsor body,
+      automotive aerodynamics,
+      WMLES,
+      immersed boundary,
+      benchmark splits,
+      out-of-distribution evaluation,
+    ]
   overview: |
     WindsorML comprises 355 geometric variants of the Windsor body, each evaluated using a GPU-native, wall-modelled large-eddy simulation. Its geometric complexity lies between the simplified Ahmed body and a complete road-car configuration.
 
     The simulations use a Cartesian immersed-boundary approach with approximately 300 million cells per case. The repository provides geometry, three-dimensional surface and volume fields, force and moment coefficients and rendered views in standard scientific data formats.
+
+    Official deterministic train, validation and test splits are provided for a random baseline, nested data-efficiency studies, geometry extrapolation, drag-regime extrapolation and image-derived wake evaluation.
   intended_uses:
     - Surrogate modelling of automotive aerodynamic quantities.
     - Comparison of learning behaviour across levels of geometric and flow complexity.
@@ -252,6 +265,83 @@
     - name: Derived views
       details: "Geometry and flow-field images across multiple planes"
       formats: PNG
+    - name: Official benchmark splits
+      details: "Deterministic case lists, split-construction metrics, scripts and methodology"
+      formats: "JSON · CSV · Python · PDF"
+  official_splits:
+    release_date: "2026-08-17"
+    summary: "Eight deterministic split regimes are provided for standard benchmarking, data-efficiency studies and out-of-distribution evaluation. The committed JSON manifest is the source of truth for case membership."
+    public_cases: 355
+    unavailable_cases: 0
+    coverage_note: "All 355 run IDs are represented in each complete benchmark split. Geometry and image scores for runs 350–354 are estimated from neighbouring observed cases because those assets were unavailable at the package revision."
+    provenance_note: "The full split uses an approximately 80/10/10 seed-42 random partition. The WindsorML paper reports a preliminary 60/20/20 evaluation but does not publish exact case membership."
+    manifest_url: /assets/downloads/windsorml/windsorml_official_splits/splits/manifest.json
+    manifest_size: "40.6 kB"
+    manifest_sha256: "717957442d7deb0e3d5ad9e0078fa8b419c63732aca60937b69601d07abdb836"
+    package_url: /assets/downloads/windsorml/windsorml_official_splits.zip
+    package_filename: windsorml_official_splits.zip
+    package_size: "1.9 MB"
+    package_sha256: "a33caa40f8c487fb635d06088efc5fb4bafb3c05b7c28fe421c13eb0ae0cfa31"
+    package_description: "Manifest, construction metrics, generation scripts, figures and methodology for the official WindsorML splits."
+    documentation_url: /assets/downloads/windsorml/windsorml_official_splits/docs/README.pdf
+    documentation_size: "1.0 MB"
+    regimes:
+      - name: full
+        type: In-distribution
+        train: 284
+        val: 35
+        test: 36
+        purpose: "Seed-42 random baseline, approximately 80/10/10"
+      - name: medium
+        type: In-distribution
+        train: 95
+        val: 35
+        test: 36
+        purpose: "Data efficiency: one third of the full training set"
+      - name: scarce
+        type: In-distribution
+        train: 47
+        val: 35
+        test: 36
+        purpose: "Data efficiency: one sixth of the full training set"
+      - name: super_scarce
+        type: In-distribution
+        train: 8
+        val: 35
+        test: 36
+        purpose: "Extreme data-efficiency evaluation"
+      - name: geometry
+        type: Out-of-distribution
+        train: 248
+        val: 36
+        test: 71
+        purpose: "STL-surface Chamfer geometry extrapolation"
+      - name: high_drag
+        type: Out-of-distribution
+        train: 248
+        val: 36
+        test: 71
+        purpose: "High-drag coefficient extrapolation"
+      - name: low_drag
+        type: Out-of-distribution
+        train: 248
+        val: 36
+        test: 71
+        purpose: "Low-drag coefficient extrapolation"
+      - name: image_wake
+        type: Out-of-distribution
+        train: 248
+        val: 36
+        test: 71
+        purpose: "Image-derived low-speed wake extrapolation"
+    example: |
+      import json
+      from pathlib import Path
+
+      manifest = json.loads(Path("manifest.json").read_text())
+      train_ids = manifest["full_train"]
+      val_ids = manifest["full_val"]
+      test_ids = manifest["full_test"]
   download_groups:
     - id: summary
       label: Summary tables
@@ -381,6 +471,7 @@
     public_cases: 484
     unavailable_cases: 16
     coverage_note: "The 16 unavailable or author-held-back run IDs are excluded from every partition."
+    provenance_note: "The full split uses the seed-42 public baseline."
     manifest_url: /assets/downloads/drivaerml/drivaerml_official_splits/splits/manifest.json
     manifest_size: "54.9 kB"
     manifest_sha256: "032a2e9f88926d9218a1943b51e650135cc78683cad6b0a38f3cf4f9dfba647d"

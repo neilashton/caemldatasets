@@ -174,9 +174,12 @@ layout: default
             <aside class="dataset-note">
               <strong>Public case coverage</strong>
               <p>
-                The manifest covers {{ dataset.official_splits.public_cases }} public cases. {{ dataset.official_splits.coverage_note }} The
-                <code>full</code> split uses the seed-42 public baseline and matches the
-                <a href="{{ dataset.official_splits.reference_url }}">{{ dataset.official_splits.reference_label }}</a>.
+                The manifest covers {{ dataset.official_splits.public_cases }} public cases. {{ dataset.official_splits.coverage_note }}
+                {{ dataset.official_splits.provenance_note }}
+                {% if dataset.official_splits.reference_url %}
+                  The corresponding reference implementation is
+                  <a href="{{ dataset.official_splits.reference_url }}">{{ dataset.official_splits.reference_label }}</a>.
+                {% endif %}
               </p>
             </aside>
 
