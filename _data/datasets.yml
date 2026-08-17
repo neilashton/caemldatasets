@@ -219,10 +219,10 @@
   name: DrivAerML
   short_name: DrivAerML
   permalink: /drivaerml/
-  seo_title: "DrivAerML: road-car CFD dataset for machine learning"
-  description: "DrivAerML is a CFD dataset based on a 500-geometry DrivAer notchback design space for road-car aerodynamic machine-learning research."
+  seo_title: "DrivAerML official benchmark splits"
+  description: "DrivAerML is a 500-geometry road-car CFD dataset with official train, validation and test partitions for data-efficiency and out-of-distribution evaluation."
   eyebrow: "Automotive · realistic road-car aerodynamics"
-  tagline: "A 500-geometry DrivAer notchback design space with scale-resolving CFD outputs."
+  tagline: "A 500-geometry DrivAer notchback design space with scale-resolving CFD outputs and deterministic benchmark splits."
   image: /assets/img/drivaer1.png
   image_alt: "DrivAer vehicle parameters varied across the DrivAerML design space"
   domain: Automotive
@@ -242,13 +242,25 @@
   paper_title: "DrivAerML: High-Fidelity Computational Fluid Dynamics Dataset for Road-Car External Aerodynamics"
   arxiv_id: "2408.11969"
   published: "2024-08-22"
-  modified: "2026-03-28"
-  formats: [VTP, VTU, STL, CSV, PNG, OpenFOAM]
-  keywords: [computational fluid dynamics, machine learning, DrivAer, automotive aerodynamics, road car, OpenFOAM]
+  modified: "2026-08-17"
+  formats: [VTP, VTU, STL, CSV, JSON, PNG, OpenFOAM]
+  keywords:
+    [
+      computational fluid dynamics,
+      machine learning,
+      DrivAer,
+      automotive aerodynamics,
+      road car,
+      OpenFOAM,
+      benchmark splits,
+      out-of-distribution evaluation,
+    ]
   overview: |
     DrivAerML comprises a 500-geometry design space based on the DrivAer notchback vehicle. The cases were generated using an automated, scale-resolving CFD workflow representative of road-car aerodynamic analysis.
 
     The repository contains geometry, reference parameters, surface and volume fields, aerodynamic coefficients, sampled slices, rendered views and OpenFOAM meshes. The dataset permits evaluation of learning methods on geometry more complex than canonical bluff-body configurations.
+
+    Official deterministic train, validation and test splits are provided for a public random baseline, nested data-efficiency studies, geometry extrapolation, drag-regime extrapolation and image-derived rear-separation evaluation.
   intended_uses:
     - Surrogate modelling of road-car external aerodynamics.
     - Evaluation of geometric generalisation on complex vehicle surfaces.
@@ -270,6 +282,80 @@
     - name: Reproduction assets
       details: "Slices, images and OpenFOAM meshes"
       formats: "VTP · PNG · OpenFOAM"
+    - name: Official benchmark splits
+      details: "Deterministic case lists, split-construction metrics, scripts and methodology"
+      formats: "JSON · CSV · Python · PDF"
+  official_splits:
+    release_date: "2026-08-17"
+    summary: "Eight deterministic split regimes are provided for standard benchmarking, data-efficiency studies and out-of-distribution evaluation. The committed JSON manifest is the source of truth for case membership."
+    public_cases: 484
+    unavailable_cases: 16
+    manifest_url: /assets/downloads/drivaerml/drivaerml_official_splits/splits/manifest.json
+    manifest_size: "54.9 kB"
+    manifest_sha256: "032a2e9f88926d9218a1943b51e650135cc78683cad6b0a38f3cf4f9dfba647d"
+    package_url: /assets/downloads/drivaerml/drivaerml_official_splits.zip
+    package_size: "2.9 MB"
+    package_sha256: "f62a31b147279c48c44fb3a20c4e836ec99c2a579cacb00108e1a4937e5563c3"
+    documentation_url: /assets/downloads/drivaerml/drivaerml_official_splits/docs/README.pdf
+    documentation_size: "1.4 MB"
+    reference_url: https://github.com/Emmi-AI/noether/blob/main/src/noether/data/datasets/cfd/caeml/drivaerml/split.py
+    regimes:
+      - name: full
+        type: In-distribution
+        train: 400
+        val: 34
+        test: 50
+        purpose: "Seed-42 random public baseline"
+      - name: medium
+        type: In-distribution
+        train: 133
+        val: 34
+        test: 50
+        purpose: "Data efficiency: one third of the full training set"
+      - name: scarce
+        type: In-distribution
+        train: 67
+        val: 34
+        test: 50
+        purpose: "Data efficiency: one sixth of the full training set"
+      - name: super_scarce
+        type: In-distribution
+        train: 11
+        val: 34
+        test: 50
+        purpose: "Extreme data-efficiency evaluation"
+      - name: geometry
+        type: Out-of-distribution
+        train: 339
+        val: 48
+        test: 97
+        purpose: "STL-surface Chamfer geometry extrapolation"
+      - name: high_drag
+        type: Out-of-distribution
+        train: 339
+        val: 48
+        test: 97
+        purpose: "High-drag coefficient extrapolation"
+      - name: low_drag
+        type: Out-of-distribution
+        train: 339
+        val: 48
+        test: 97
+        purpose: "Low-drag coefficient extrapolation"
+      - name: rear_separation
+        type: Out-of-distribution
+        train: 339
+        val: 48
+        test: 97
+        purpose: "Image-derived rear-separation extrapolation"
+    example: |
+      import json
+      from pathlib import Path
+
+      manifest = json.loads(Path("manifest.json").read_text())
+      train_ids = manifest["full_train"]
+      val_ids = manifest["full_val"]
+      test_ids = manifest["full_test"]
   download_groups:
     - id: summary
       label: Summary tables
