@@ -129,7 +129,7 @@ layout: default
             <h2>Train, validation and test partitions</h2>
             <p>{{ dataset.official_splits.summary }}</p>
 
-            <div class="resource-links" aria-label="Official DrivAerML split files">
+            <div class="resource-links" aria-label="Official {{ dataset.name }} split files">
               <a href="{{ dataset.official_splits.manifest_url | relative_url }}" download>
                 <span>Manifest</span><strong>Case lists · JSON · {{ dataset.official_splits.manifest_size }}</strong>
               </a>
@@ -142,7 +142,7 @@ layout: default
             </div>
 
             <h3 class="subsection-title">Regimes and partition sizes</h3>
-            <div class="data-table-wrap" role="region" aria-label="DrivAerML official split sizes" tabindex="0">
+            <div class="data-table-wrap" role="region" aria-label="{{ dataset.name }} official split sizes" tabindex="0">
               <table class="data-table split-table">
                 <thead>
                   <tr>
@@ -174,10 +174,9 @@ layout: default
             <aside class="dataset-note">
               <strong>Public case coverage</strong>
               <p>
-                The manifest covers {{ dataset.official_splits.public_cases }} public cases. The
-                {{ dataset.official_splits.unavailable_cases }} unavailable or author-held-back run IDs are excluded from every partition. The
+                The manifest covers {{ dataset.official_splits.public_cases }} public cases. {{ dataset.official_splits.coverage_note }} The
                 <code>full</code> split uses the seed-42 public baseline and matches the
-                <a href="{{ dataset.official_splits.reference_url }}">DrivAerMLDefaultSplitIDs implementation in Noether</a>.
+                <a href="{{ dataset.official_splits.reference_url }}">{{ dataset.official_splits.reference_label }}</a>.
               </p>
             </aside>
 
@@ -195,7 +194,7 @@ layout: default
               <div class="command-card">
                 <div class="command-card__header"><strong>Release integrity</strong></div>
                 <pre><code>manifest.json  {{ dataset.official_splits.manifest_sha256 }}
-drivaerml_official_splits.zip  {{ dataset.official_splits.package_sha256 }}</code></pre>
+{{ dataset.official_splits.package_filename }}  {{ dataset.official_splits.package_sha256 }}</code></pre>
               </div>
             </details>
           </section>

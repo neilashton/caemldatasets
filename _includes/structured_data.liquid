@@ -167,7 +167,7 @@
               {
                 "@type": "DataDownload",
                 "name": "Official split reproducibility package",
-                "description": "Manifest, construction metrics, generation scripts, figures and methodology for the official DrivAerML splits.",
+                "description": {{ structured_dataset.official_splits.package_description | jsonify }},
                 "contentUrl": {{ structured_dataset.official_splits.package_url | absolute_url | jsonify }},
                 "encodingFormat": "application/zip",
                 "contentSize": {{ structured_dataset.official_splits.package_size | jsonify }}
