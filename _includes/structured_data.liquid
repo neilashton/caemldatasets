@@ -160,17 +160,16 @@
                 "@type": "DataDownload",
                 "name": "Official train, validation and test split manifest",
                 "description": {{ structured_dataset.official_splits.summary | jsonify }},
-                "contentUrl": {{ structured_dataset.official_splits.manifest_url | absolute_url | jsonify }},
+                "contentUrl": {{ structured_dataset.official_splits.manifest_url | jsonify }},
                 "encodingFormat": "application/json",
                 "contentSize": {{ structured_dataset.official_splits.manifest_size | jsonify }}
               },
               {
                 "@type": "DataDownload",
-                "name": "Official split reproducibility package",
-                "description": {{ structured_dataset.official_splits.package_description | jsonify }},
-                "contentUrl": {{ structured_dataset.official_splits.package_url | absolute_url | jsonify }},
-                "encodingFormat": "application/zip",
-                "contentSize": {{ structured_dataset.official_splits.package_size | jsonify }}
+                "name": "Official split reproducibility files",
+                "description": {{ structured_dataset.official_splits.files_description | jsonify }},
+                "contentUrl": {{ structured_dataset.official_splits.files_url | jsonify }},
+                "encodingFormat": "text/html"
               }
             {% endif %}
           ]

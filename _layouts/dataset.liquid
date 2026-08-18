@@ -130,13 +130,13 @@ layout: default
             <p>{{ dataset.official_splits.summary }}</p>
 
             <div class="resource-links" aria-label="Official {{ dataset.name }} split files">
-              <a href="{{ dataset.official_splits.manifest_url | relative_url }}" download>
+              <a href="{{ dataset.official_splits.manifest_url }}">
                 <span>Manifest</span><strong>Case lists · JSON · {{ dataset.official_splits.manifest_size }}</strong>
               </a>
-              <a href="{{ dataset.official_splits.package_url | relative_url }}" download>
-                <span>Package</span><strong>Manifest, metrics, scripts and figures · ZIP · {{ dataset.official_splits.package_size }}</strong>
+              <a href="{{ dataset.official_splits.files_url }}">
+                <span>Files</span><strong>Manifest, metrics, scripts and figures · Hugging Face</strong>
               </a>
-              <a href="{{ dataset.official_splits.documentation_url | relative_url }}">
+              <a href="{{ dataset.official_splits.documentation_url }}">
                 <span>Methodology</span><strong>Split definitions and construction · PDF · {{ dataset.official_splits.documentation_size }}</strong>
               </a>
             </div>
@@ -193,11 +193,10 @@ layout: default
             </div>
 
             <details class="full-download">
-              <summary>SHA-256 file checksums</summary>
+              <summary>Manifest SHA-256 checksum</summary>
               <div class="command-card">
                 <div class="command-card__header"><strong>Release integrity</strong></div>
-                <pre><code>manifest.json  {{ dataset.official_splits.manifest_sha256 }}
-{{ dataset.official_splits.package_filename }}  {{ dataset.official_splits.package_sha256 }}</code></pre>
+                <pre><code>manifest.json  {{ dataset.official_splits.manifest_sha256 }}</code></pre>
               </div>
             </details>
           </section>

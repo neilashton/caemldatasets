@@ -26,7 +26,7 @@
   arxiv_id: "2407.20801"
   doi: "10.57967/hf/5002"
   published: "2024-07-30"
-  modified: "2026-08-17"
+  modified: "2026-08-18"
   formats: [VTP, VTU, STL, CSV, JSON, PNG]
   keywords:
     [
@@ -76,15 +76,12 @@
     unavailable_cases: 0
     coverage_note: "All 500 documented run IDs are represented in each complete benchmark split."
     provenance_note: "The full split uses the seed-42 public baseline."
-    manifest_url: /assets/downloads/ahmedml/ahmedml_official_splits/splits/manifest.json
+    manifest_url: https://huggingface.co/datasets/neashton/ahmedml/resolve/main/splits/manifest.json
     manifest_size: "57.3 kB"
     manifest_sha256: "e7ea57437f4197dca9a9de67cad7d383aa3f7b7905771ac91522099a50f53c70"
-    package_url: /assets/downloads/ahmedml/ahmedml_official_splits.zip
-    package_filename: ahmedml_official_splits.zip
-    package_size: "2.5 MB"
-    package_sha256: "985c56c168521d4e6e902995a0300d3d3e46b65b9ae9d83725108878dd09dee6"
-    package_description: "Manifest, construction metrics, generation scripts, figures and methodology for the official AhmedML splits."
-    documentation_url: /assets/downloads/ahmedml/ahmedml_official_splits/docs/README.pdf
+    files_url: https://huggingface.co/datasets/neashton/ahmedml/tree/main/splits
+    files_description: "Manifest, construction metrics, generation scripts, figures and methodology for the official AhmedML splits on Hugging Face."
+    documentation_url: https://huggingface.co/datasets/neashton/ahmedml/resolve/main/splits/README.pdf
     documentation_size: "1.3 MB"
     reference_url: https://github.com/Emmi-AI/noether/blob/main/src/noether/data/datasets/cfd/caeml/ahmedml/split.py
     reference_label: "AhmedMLDefaultSplitIDs implementation in Noether"
@@ -225,7 +222,7 @@
   arxiv_id: "2407.19320"
   doi: "10.57967/hf/7644"
   published: "2024-07-29"
-  modified: "2026-08-17"
+  modified: "2026-08-18"
   formats: [VTU, STL, STEP, CSV, JSON, PNG]
   keywords:
     [
@@ -275,15 +272,12 @@
     unavailable_cases: 0
     coverage_note: "All 355 run IDs are represented in each complete benchmark split. Geometry and image scores for runs 350–354 are estimated from neighbouring observed cases because those assets were unavailable at the package revision."
     provenance_note: "The full split uses an approximately 80/10/10 seed-42 random partition. The WindsorML paper reports a preliminary 60/20/20 evaluation but does not publish exact case membership."
-    manifest_url: /assets/downloads/windsorml/windsorml_official_splits/splits/manifest.json
+    manifest_url: https://huggingface.co/datasets/neashton/windsorml/resolve/main/splits/manifest.json
     manifest_size: "40.6 kB"
     manifest_sha256: "717957442d7deb0e3d5ad9e0078fa8b419c63732aca60937b69601d07abdb836"
-    package_url: /assets/downloads/windsorml/windsorml_official_splits.zip
-    package_filename: windsorml_official_splits.zip
-    package_size: "1.9 MB"
-    package_sha256: "a33caa40f8c487fb635d06088efc5fb4bafb3c05b7c28fe421c13eb0ae0cfa31"
-    package_description: "Manifest, construction metrics, generation scripts, figures and methodology for the official WindsorML splits."
-    documentation_url: /assets/downloads/windsorml/windsorml_official_splits/docs/README.pdf
+    files_url: https://huggingface.co/datasets/neashton/windsorml/tree/main/splits
+    files_description: "Manifest, construction metrics, generation scripts, figures and methodology for the official WindsorML splits on Hugging Face."
+    documentation_url: https://huggingface.co/datasets/neashton/windsorml/resolve/main/splits/README.pdf
     documentation_size: "1.0 MB"
     regimes:
       - name: full
@@ -422,7 +416,7 @@
   paper_title: "DrivAerML: High-Fidelity Computational Fluid Dynamics Dataset for Road-Car External Aerodynamics"
   arxiv_id: "2408.11969"
   published: "2024-08-22"
-  modified: "2026-08-17"
+  modified: "2026-08-18"
   formats: [VTP, VTU, STL, CSV, JSON, PNG, OpenFOAM]
   keywords:
     [
@@ -472,15 +466,12 @@
     unavailable_cases: 16
     coverage_note: "The 16 unavailable or author-held-back run IDs are excluded from every partition."
     provenance_note: "The full split uses the seed-42 public baseline."
-    manifest_url: /assets/downloads/drivaerml/drivaerml_official_splits/splits/manifest.json
+    manifest_url: https://huggingface.co/datasets/neashton/drivaerml/resolve/main/splits/manifest.json
     manifest_size: "54.9 kB"
     manifest_sha256: "032a2e9f88926d9218a1943b51e650135cc78683cad6b0a38f3cf4f9dfba647d"
-    package_url: /assets/downloads/drivaerml/drivaerml_official_splits.zip
-    package_filename: drivaerml_official_splits.zip
-    package_size: "2.9 MB"
-    package_sha256: "f62a31b147279c48c44fb3a20c4e836ec99c2a579cacb00108e1a4937e5563c3"
-    package_description: "Manifest, construction metrics, generation scripts, figures and methodology for the official DrivAerML splits."
-    documentation_url: /assets/downloads/drivaerml/drivaerml_official_splits/docs/README.pdf
+    files_url: https://huggingface.co/datasets/neashton/drivaerml/tree/main/splits
+    files_description: "Manifest, construction metrics, generation scripts, figures and methodology for the official DrivAerML splits on Hugging Face."
+    documentation_url: https://huggingface.co/datasets/neashton/drivaerml/resolve/main/splits/README.pdf
     documentation_size: "1.4 MB"
     reference_url: https://github.com/Emmi-AI/noether/blob/main/src/noether/data/datasets/cfd/caeml/drivaerml/split.py
     reference_label: "DrivAerMLDefaultSplitIDs implementation in Noether"
