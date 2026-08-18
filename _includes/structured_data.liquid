@@ -172,6 +172,15 @@
                 "encodingFormat": "text/html"
               }
             {% endif %}
+            {% if structured_dataset.surface_quadrature %},
+              {
+                "@type": "DataDownload",
+                "name": {{ structured_dataset.name | append: ' native surface-area coverage manifest' | jsonify }},
+                "description": {{ structured_dataset.surface_quadrature.summary | jsonify }},
+                "contentUrl": {{ structured_dataset.surface_quadrature.manifest_url | jsonify }},
+                "encodingFormat": "application/json"
+              }
+            {% endif %}
           ]
         }
       {% endif %}

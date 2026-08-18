@@ -27,7 +27,7 @@
   doi: "10.57967/hf/5002"
   published: "2024-07-30"
   modified: "2026-08-18"
-  formats: [VTP, VTU, STL, CSV, JSON, PNG]
+  formats: [VTP, VTU, NPY, STL, CSV, JSON, PNG]
   keywords:
     [
       computational fluid dynamics,
@@ -38,17 +38,20 @@
       OpenFOAM,
       benchmark splits,
       out-of-distribution evaluation,
+      surface quadrature,
+      area-weighted evaluation,
     ]
   overview: |
     AhmedML comprises 500 parametrically varied Ahmed-body geometries simulated using a time-accurate hybrid RANS–LES workflow. The simplified geometry represents pressure-induced separation and three-dimensional vortical structures without the geometric complexity of a complete road vehicle.
 
-    Each case includes geometry, time-averaged surface and volume fields, force and moment coefficients, sampled slices and rendered images. The repository also contains the OpenFOAM setup and validation cases. These products support surrogate modelling, geometric learning, reduced-order modelling and reproducibility studies.
+    Each case includes geometry, time-averaged surface and volume fields, force and moment coefficients, sampled slices and rendered images. Mesh-native polygon-area arrays are supplied alongside every boundary VTP for physically area-weighted surface metrics. The repository also contains the OpenFOAM setup and validation cases. These products support surrogate modelling, geometric learning, reduced-order modelling and reproducibility studies.
 
     Official deterministic train, validation and test splits are provided for a random baseline, nested data-efficiency studies, geometry extrapolation, drag-regime extrapolation and image-derived wake-structure evaluation.
   intended_uses:
     - Surrogate modelling of surface fields, volume fields or integrated coefficients.
     - Analysis of geometric effects on separated bluff-body flow.
     - Evaluation of mesh-, point-cloud- and graph-based learning methods.
+    - Area-weighted evaluation of predictions on the native boundary polygons.
     - Reproduction or extension of the published OpenFOAM workflow.
   outputs:
     - name: Geometry
@@ -57,6 +60,9 @@
     - name: Surface fields
       details: "Time-averaged boundary flow quantities"
       formats: VTP
+    - name: Surface quadrature
+      details: "Polygon areas aligned with the native boundary CellData order"
+      formats: NPY
     - name: Volume fields
       details: "Three-dimensional time-averaged flow solution"
       formats: VTU
@@ -69,6 +75,17 @@
     - name: Official benchmark splits
       details: "Deterministic case lists, split-construction metrics, scripts and methodology"
       formats: "JSON · CSV · Python · PDF"
+  surface_quadrature:
+    title: "Native boundary polygon areas"
+    summary: "Each sidecar contains one little-endian float32 area in square metres per native boundary polygon, aligned with the polygon ID and CellData tuple order of the corresponding raw VTP."
+    association: "CellData · native polygons"
+    coverage: "500/500 cases"
+    units: "m²"
+    payload_size: "2.14 GB"
+    filename_pattern: "run_N/boundary_cell_area_N.npy"
+    compatibility_note: "Each array is valid only for its exact raw boundary_N.vtp. It must not be reused after polygon reordering, resampling or retriangulation."
+    files_url: https://huggingface.co/datasets/neashton/ahmedml/tree/main/surface_cell_areas
+    manifest_url: https://huggingface.co/datasets/neashton/ahmedml/resolve/main/surface_cell_areas/manifest.json
   official_splits:
     release_date: "2026-08-17"
     summary: "Eight deterministic split regimes are provided for standard benchmarking, data-efficiency studies and out-of-distribution evaluation. The committed JSON manifest is the source of truth for case membership."
@@ -168,6 +185,11 @@
       description: "Large per-case boundary files."
       default: false
       patterns: ["run_*/boundary_*.vtp"]
+    - id: quadrature
+      label: Surface quadrature
+      description: "Native polygon areas and their reproducibility metadata."
+      default: false
+      patterns: ["run_*/boundary_cell_area_*.npy", "surface_cell_areas/**"]
     - id: volume
       label: Volume fields
       description: "The largest per-case files; preview storage requirements first."
@@ -178,7 +200,7 @@
       --type dataset \
       --local-dir ./ahmedml_data \
       --dry-run
-  download_note: "The complete repository is approximately 2 TB. The --dry-run output reports the size of a selected transfer before retrieval."
+  download_note: "The complete repository is approximately 2 TB. The 500 native polygon-area sidecars total approximately 2.14 GB; the --dry-run output reports the size of a selected transfer before retrieval."
   known_issues:
     - "The per-run geometry parameter file is missing for run 500; use the consolidated geometry table where appropriate."
   citation: |
@@ -223,7 +245,7 @@
   doi: "10.57967/hf/7644"
   published: "2024-07-29"
   modified: "2026-08-18"
-  formats: [VTU, STL, STEP, CSV, JSON, PNG]
+  formats: [VTU, NPY, STL, STEP, CSV, JSON, PNG]
   keywords:
     [
       computational fluid dynamics,
@@ -234,11 +256,13 @@
       immersed boundary,
       benchmark splits,
       out-of-distribution evaluation,
+      surface quadrature,
+      area-weighted evaluation,
     ]
   overview: |
     WindsorML comprises 355 geometric variants of the Windsor body, each evaluated using a GPU-native, wall-modelled large-eddy simulation. Its geometric complexity lies between the simplified Ahmed body and a complete road-car configuration.
 
-    The simulations use a Cartesian immersed-boundary approach with approximately 300 million cells per case. The repository provides geometry, three-dimensional surface and volume fields, force and moment coefficients and rendered views in standard scientific data formats.
+    The simulations use a Cartesian immersed-boundary approach with approximately 300 million cells per case. The repository provides geometry, three-dimensional surface and volume fields, force and moment coefficients and rendered views in standard scientific data formats. Native-point dual-area arrays accompany all 350 currently available boundary VTUs for physically area-weighted surface metrics.
 
     Official deterministic train, validation and test splits are provided for a random baseline, nested data-efficiency studies, geometry extrapolation, drag-regime extrapolation and image-derived wake evaluation.
   intended_uses:
@@ -246,6 +270,7 @@
     - Comparison of learning behaviour across levels of geometric and flow complexity.
     - Prediction of surface fields, volume fields or integrated force targets.
     - Analysis of separated road-vehicle-like wakes across a consistent simulation set.
+    - Area-weighted evaluation of predictions on the native boundary points.
   outputs:
     - name: Geometry
       details: "Parametric definitions plus tessellated and CAD surfaces"
@@ -253,6 +278,9 @@
     - name: Surface fields
       details: "Time-averaged boundary flow quantities"
       formats: VTU
+    - name: Surface quadrature
+      details: "Barycentric dual-area weights aligned with native boundary points"
+      formats: NPY
     - name: Volume fields
       details: "Three-dimensional time-averaged solution fields"
       formats: VTU
@@ -265,6 +293,17 @@
     - name: Official benchmark splits
       details: "Deterministic case lists, split-construction metrics, scripts and methodology"
       formats: "JSON · CSV · Python · PDF"
+  surface_quadrature:
+    title: "Native-point surface dual areas"
+    summary: "Each sidecar contains one little-endian float32 barycentric dual-area weight in square metres per native boundary point, in the exact point order of the corresponding raw VTU."
+    association: "PointData · native points"
+    coverage: "350/350 available boundary cases"
+    units: "m²"
+    payload_size: "3.17 GB"
+    filename_pattern: "run_N/boundary_dual_area_N.npy"
+    compatibility_note: "The arrays cover runs 0–349. Runs 350–354 do not currently have public boundary VTUs or area sidecars. Each available array is valid only for its exact raw boundary_N.vtu and native point order."
+    files_url: https://huggingface.co/datasets/neashton/windsorml/tree/main/surface_dual_areas
+    manifest_url: https://huggingface.co/datasets/neashton/windsorml/resolve/main/surface_dual_areas/manifest.json
   official_splits:
     release_date: "2026-08-17"
     summary: "Eight deterministic split regimes are provided for standard benchmarking, data-efficiency studies and out-of-distribution evaluation. The committed JSON manifest is the source of truth for case membership."
@@ -362,6 +401,11 @@
       description: "Large per-case boundary files."
       default: false
       patterns: ["run_*/boundary_*.vtu"]
+    - id: quadrature
+      label: Surface quadrature
+      description: "Native-point dual areas and their reproducibility metadata."
+      default: false
+      patterns: ["run_*/boundary_dual_area_*.npy", "surface_dual_areas/**"]
     - id: volume
       label: Volume fields
       description: "Very large per-case volume files."
@@ -372,7 +416,7 @@
       --type dataset \
       --local-dir ./windsorml_data \
       --dry-run
-  download_note: "The complete repository is approximately 8 TB. Summary tables, geometry and force data can be selected independently of the field data."
+  download_note: "The complete repository is approximately 8 TB. The native-point dual-area sidecars for the 350 available boundary cases total approximately 3.17 GB; summary tables, geometry and force data can be selected independently of the field data."
   known_issues: []
   citation: |
     @inproceedings{ashton2024windsor,
@@ -417,7 +461,7 @@
   arxiv_id: "2408.11969"
   published: "2024-08-22"
   modified: "2026-08-18"
-  formats: [VTP, VTU, STL, CSV, JSON, PNG, OpenFOAM]
+  formats: [VTP, VTU, NPY, STL, CSV, JSON, PNG, OpenFOAM]
   keywords:
     [
       computational fluid dynamics,
@@ -428,17 +472,20 @@
       OpenFOAM,
       benchmark splits,
       out-of-distribution evaluation,
+      surface quadrature,
+      area-weighted evaluation,
     ]
   overview: |
     DrivAerML comprises a 500-geometry design space based on the DrivAer notchback vehicle. The cases were generated using an automated, scale-resolving CFD workflow representative of road-car aerodynamic analysis.
 
-    The repository contains geometry, reference parameters, surface and volume fields, aerodynamic coefficients, sampled slices, rendered views and OpenFOAM meshes. The dataset permits evaluation of learning methods on geometry more complex than canonical bluff-body configurations.
+    The repository contains geometry, reference parameters, surface and volume fields, aerodynamic coefficients, sampled slices, rendered views and OpenFOAM meshes. Mesh-native polygon-area arrays accompany every public boundary VTP for physically area-weighted surface metrics. The dataset permits evaluation of learning methods on geometry more complex than canonical bluff-body configurations.
 
     Official deterministic train, validation and test splits are provided for a public random baseline, nested data-efficiency studies, geometry extrapolation, drag-regime extrapolation and image-derived rear-separation evaluation.
   intended_uses:
     - Surrogate modelling of road-car external aerodynamics.
     - Evaluation of geometric generalisation on complex vehicle surfaces.
     - Prediction of surface fields, volume fields or integrated coefficients.
+    - Area-weighted evaluation of predictions on the native boundary polygons.
     - Extension of the dataset using the supplied meshes and documented workflow.
   outputs:
     - name: Geometry
@@ -447,6 +494,9 @@
     - name: Surface fields
       details: "Time-averaged boundary quantities"
       formats: VTP
+    - name: Surface quadrature
+      details: "Polygon areas aligned with the native boundary CellData order"
+      formats: NPY
     - name: Volume fields
       details: "Three-dimensional solution split into large-file parts on the Hub"
       formats: VTU
@@ -459,6 +509,17 @@
     - name: Official benchmark splits
       details: "Deterministic case lists, split-construction metrics, scripts and methodology"
       formats: "JSON · CSV · Python · PDF"
+  surface_quadrature:
+    title: "Native boundary polygon areas"
+    summary: "Each sidecar contains one little-endian float32 area in square metres per native boundary polygon, aligned with the polygon ID and CellData tuple order of the corresponding raw VTP."
+    association: "CellData · native polygons"
+    coverage: "484/484 public cases"
+    units: "m²"
+    payload_size: "16.64 GB"
+    filename_pattern: "run_N/boundary_cell_area_N.npy"
+    compatibility_note: "Each array is valid only for its exact raw boundary_N.vtp. It must not be reused after polygon reordering, resampling or retriangulation; the 16 non-public run IDs have no public sidecars."
+    files_url: https://huggingface.co/datasets/neashton/drivaerml/tree/main/surface_cell_areas
+    manifest_url: https://huggingface.co/datasets/neashton/drivaerml/resolve/main/surface_cell_areas/manifest.json
   official_splits:
     release_date: "2026-08-17"
     summary: "Eight deterministic split regimes are provided for standard benchmarking, data-efficiency studies and out-of-distribution evaluation. The committed JSON manifest is the source of truth for case membership."
@@ -558,6 +619,11 @@
       description: "Large per-case boundary files."
       default: false
       patterns: ["run_*/boundary_*.vtp"]
+    - id: quadrature
+      label: Surface quadrature
+      description: "Native polygon areas and their reproducibility metadata."
+      default: false
+      patterns: ["run_*/boundary_cell_area_*.npy", "surface_cell_areas/**"]
     - id: volume
       label: Volume fields
       description: "Very large split volume files."
@@ -568,7 +634,7 @@
       --type dataset \
       --local-dir ./drivaerml_data \
       --dry-run
-  download_note: "The complete repository is approximately 31 TB. Some volume files are stored in numbered parts and require concatenation after retrieval; the repository card documents the current procedure."
+  download_note: "The complete repository is approximately 31 TB. The native polygon-area sidecars for all 484 public cases total approximately 16.64 GB. Some volume files are stored in numbered parts and require concatenation after retrieval; the repository card documents the current procedure."
   known_issues:
     - "Some run IDs are intentionally absent from the public case folders; consult the Hugging Face version history before assuming a continuous range."
     - "Large volume VTU files are stored as numbered parts on Hugging Face."
@@ -614,9 +680,20 @@
   paper_title: "HiLiftAeroML: High-Fidelity Computational Fluid Dynamics Dataset for High-Lift Aircraft Aerodynamics"
   arxiv_id: "2605.19565"
   published: "2026-05-20"
-  modified: "2026-08-07"
+  modified: "2026-08-18"
   formats: [VTU, NPY, STL, STEP, CSV, PNG, JSON]
-  keywords: [computational fluid dynamics, machine learning, aircraft aerodynamics, high lift, CRM-HL, WMLES, scientific machine learning]
+  keywords:
+    [
+      computational fluid dynamics,
+      machine learning,
+      aircraft aerodynamics,
+      high lift,
+      CRM-HL,
+      WMLES,
+      scientific machine learning,
+      surface quadrature,
+      area-weighted evaluation,
+    ]
   overview: |
     HiLiftAeroML comprises 1,800 simulations: 180 variants of the NASA Common Research Model in high-lift configuration, each evaluated at ten angles of attack from 4° to 22°. The dataset supports surrogate modelling of complex three-dimensional aircraft flows.
 
@@ -631,8 +708,11 @@
       details: "Tessellated and CAD definitions for each aircraft variant"
       formats: "STL · STEP"
     - name: Surface fields
-      details: "Compressed time-averaged boundary data and dual-area weights"
-      formats: "VTU.TGZ · NPY"
+      details: "Compressed time-averaged boundary data"
+      formats: VTU.TGZ
+    - name: Surface quadrature
+      details: "Barycentric dual-area weights aligned with native boundary points"
+      formats: NPY
     - name: Volume fields
       details: "Compressed three-dimensional time-averaged solution"
       formats: VTU.TGZ
@@ -642,6 +722,17 @@
     - name: Evaluation assets
       details: "Deterministic split families, manifests, validation records and plots"
       formats: "JSON · CSV · PNG"
+  surface_quadrature:
+    title: "Native-point surface dual areas"
+    summary: "Each sidecar contains one little-endian float32 barycentric dual-area weight in square inches per native boundary point, in the exact point order of the corresponding raw VTU."
+    association: "PointData · native points"
+    coverage: "1,800/1,800 cases"
+    units: "in²"
+    payload_size: "1.02 TB"
+    filename_pattern: "geo_LHCi_AoA_j/boundary_dual_area_geo_LHCi_AoA_j.npy"
+    compatibility_note: "Each array is valid only for its corresponding raw boundary VTU and native point order. It must not be applied to an STL, resampled mesh, reordered points or a processed PhysicsNeMo representation."
+    files_url: https://huggingface.co/datasets/nvidia/HiLiftAeroML/tree/main/surface_dual_areas
+    manifest_url: https://huggingface.co/datasets/nvidia/HiLiftAeroML/resolve/main/surface_dual_areas/manifest.json
   download_groups:
     - id: summary
       label: Summary and splits

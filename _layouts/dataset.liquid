@@ -71,6 +71,9 @@ layout: default
       <span>On this page</span>
       <a href="#overview">Overview</a>
       <a href="#contents">Contents</a>
+      {% if dataset.surface_quadrature -%}
+        <a href="#surface-quadrature">Surface areas</a>
+      {%- endif %}
       {% if dataset.official_splits -%}
         <a href="#official-splits">Official splits</a>
       {%- endif %}
@@ -121,6 +124,60 @@ layout: default
               </tbody>
             </table>
           </div>
+
+          {% if dataset.surface_quadrature %}
+            {% assign quadrature = dataset.surface_quadrature %}
+            <div id="surface-quadrature">
+              <h3 class="subsection-title">{{ quadrature.title }}</h3>
+              <p>{{ quadrature.summary }}</p>
+              <div class="data-table-wrap" role="region" aria-label="{{ dataset.name }} surface quadrature details" tabindex="0">
+                <table class="data-table">
+                  <thead>
+                    <tr>
+                      <th>Property</th>
+                      <th>Value</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr>
+                      <th scope="row">File pattern</th>
+                      <td>
+                        <code>{{ quadrature.filename_pattern }}</code>
+                      </td>
+                    </tr>
+                    <tr>
+                      <th scope="row">Association</th>
+                      <td>{{ quadrature.association }}</td>
+                    </tr>
+                    <tr>
+                      <th scope="row">Coverage</th>
+                      <td>{{ quadrature.coverage }}</td>
+                    </tr>
+                    <tr>
+                      <th scope="row">Units</th>
+                      <td>{{ quadrature.units }}</td>
+                    </tr>
+                    <tr>
+                      <th scope="row">Sidecar payload</th>
+                      <td>{{ quadrature.payload_size }}</td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+              <div class="resource-links" aria-label="{{ dataset.name }} surface quadrature resources">
+                <a href="{{ quadrature.files_url }}">
+                  <span>Methods and provenance</span><strong>Definition, generator, hashes and validation records · Hugging Face</strong>
+                </a>
+                <a href="{{ quadrature.manifest_url }}">
+                  <span>Coverage manifest</span><strong>{{ quadrature.coverage }} · JSON</strong>
+                </a>
+              </div>
+              <aside class="dataset-note">
+                <strong>Mesh compatibility</strong>
+                <p>{{ quadrature.compatibility_note }}</p>
+              </aside>
+            </div>
+          {% endif %}
         </section>
 
         {% if dataset.official_splits %}
