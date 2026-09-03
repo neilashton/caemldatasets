@@ -71,8 +71,14 @@ layout: default
       <span>On this page</span>
       <a href="#overview">Overview</a>
       <a href="#contents">Contents</a>
+      {% if dataset.force_moment_overrides -%}
+        <a href="#force-moment-overrides">Force update</a>
+      {%- endif %}
       {% if dataset.surface_quadrature -%}
         <a href="#surface-quadrature">Surface areas</a>
+      {%- endif %}
+      {% if dataset.volume_data_quality -%}
+        <a href="#volume-data-quality">Data quality</a>
       {%- endif %}
       {% if dataset.official_splits -%}
         <a href="#official-splits">Official splits</a>
@@ -125,6 +131,62 @@ layout: default
             </table>
           </div>
 
+          {% if dataset.force_moment_overrides %}
+            {% assign overrides = dataset.force_moment_overrides %}
+            <div id="force-moment-overrides">
+              <h3 class="subsection-title">{{ overrides.title }}</h3>
+              <p>{{ overrides.summary }}</p>
+              <div class="data-table-wrap" role="region" aria-label="{{ dataset.name }} force and moment override details" tabindex="0">
+                <table class="data-table">
+                  <thead>
+                    <tr>
+                      <th>Property</th>
+                      <th>Value</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr>
+                      <th scope="row">Release</th>
+                      <td>{{ overrides.release_date }}</td>
+                    </tr>
+                    <tr>
+                      <th scope="row">Affected cases</th>
+                      <td>
+                        {% for case_id in overrides.cases %}
+                          <code>{{ case_id }}</code>
+                          {%- unless forloop.last %}<br>{% endunless %}
+                        {% endfor %}
+                      </td>
+                    </tr>
+                    <tr>
+                      <th scope="row">Replaced mean columns</th>
+                      <td>
+                        <code>{{ overrides.changed_columns | join: ' · ' }}</code>
+                      </td>
+                    </tr>
+                    <tr>
+                      <th scope="row">Unchanged monitor columns</th>
+                      <td>
+                        <code>{{ overrides.unchanged_columns | join: ' · ' }}</code>
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+              <p>{{ overrides.method }}</p>
+              <p><strong>Files to refresh:</strong> {{ overrides.redownload }}</p>
+              <div class="resource-links" aria-label="{{ dataset.name }} force and moment override resources">
+                <a href="{{ overrides.manifest_url }}">
+                  <span>Override manifest</span><strong>Old and new values, methods, provenance and hashes · JSON</strong>
+                </a>
+              </div>
+              <aside class="dataset-note">
+                <strong>Interpretation of uncertainty fields</strong>
+                <p>{{ overrides.caution }}</p>
+              </aside>
+            </div>
+          {% endif %}
+
           {% if dataset.surface_quadrature %}
             {% assign quadrature = dataset.surface_quadrature %}
             <div id="surface-quadrature">
@@ -175,6 +237,54 @@ layout: default
               <aside class="dataset-note">
                 <strong>Mesh compatibility</strong>
                 <p>{{ quadrature.compatibility_note }}</p>
+              </aside>
+            </div>
+          {% endif %}
+
+          {% if dataset.volume_data_quality %}
+            {% assign quality = dataset.volume_data_quality %}
+            <div id="volume-data-quality">
+              <h3 class="subsection-title">{{ quality.title }}</h3>
+              <p>{{ quality.summary }}</p>
+              <div class="data-table-wrap" role="region" aria-label="{{ dataset.name }} native-volume data-quality details" tabindex="0">
+                <table class="data-table">
+                  <thead>
+                    <tr>
+                      <th>Property</th>
+                      <th>Value</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr>
+                      <th scope="row">Association</th>
+                      <td>{{ quality.association }}</td>
+                    </tr>
+                    <tr>
+                      <th scope="row">Affected cases</th>
+                      <td>{{ quality.affected_cases }}</td>
+                    </tr>
+                    <tr>
+                      <th scope="row">Rows to omit</th>
+                      <td>{{ quality.affected_rows }}</td>
+                    </tr>
+                    <tr>
+                      <th scope="row">Identification</th>
+                      <td>{{ quality.identification }}</td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+              <div class="resource-links" aria-label="{{ dataset.name }} native-volume data-quality resources">
+                <a href="{{ quality.files_url }}">
+                  <span>Row metadata</span><strong>Raw point IDs, coordinates, documentation and checksums · Hugging Face</strong>
+                </a>
+                <a href="{{ quality.manifest_url }}">
+                  <span>Provenance manifest</span><strong>Source bindings and integrity checks · JSON</strong>
+                </a>
+              </div>
+              <aside class="dataset-note">
+                <strong>Row identity</strong>
+                <p>{{ quality.compatibility_note }}</p>
               </aside>
             </div>
           {% endif %}

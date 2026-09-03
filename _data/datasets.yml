@@ -16,7 +16,7 @@
   method: "Hybrid RANS–LES"
   solver: "OpenFOAM v2212"
   resolution: "About 20 million cells per case"
-  size: "About 2 TB"
+  size: "About 3.1 TB"
   license: "CC BY-SA 4.0"
   license_url: https://creativecommons.org/licenses/by-sa/4.0/
   repository: neashton/ahmedml
@@ -165,6 +165,11 @@
       description: "Consolidated geometry and force/moment tables for all cases."
       default: true
       patterns: [force_mom_all.csv, force_mom_varref_all.csv, geo_parameters_all.csv]
+    - id: splits
+      label: Official splits
+      description: "Deterministic manifests, methods, metrics, figures and generation code."
+      default: true
+      patterns: ["splits/**"]
     - id: geometry
       label: Geometry
       description: "Per-case STL geometry and parameter files."
@@ -190,6 +195,11 @@
       description: "Native polygon areas and their reproducibility metadata."
       default: false
       patterns: ["run_*/boundary_cell_area_*.npy", "surface_cell_areas/**"]
+    - id: reproduction
+      label: Reproduction and validation
+      description: "SolveSpace definition, OpenFOAM setup and four-mesh validation outputs."
+      default: false
+      patterns: [ahmedml.slvs, openfoam-casesetup.tgz, "validation/**"]
     - id: volume
       label: Volume fields
       description: "The largest per-case files; preview storage requirements first."
@@ -200,7 +210,7 @@
       --type dataset \
       --local-dir ./ahmedml_data \
       --dry-run
-  download_note: "The complete repository is approximately 2 TB. The 500 native polygon-area sidecars total approximately 2.14 GB; the --dry-run output reports the size of a selected transfer before retrieval."
+  download_note: "The complete repository occupies approximately 3.1 TB on Hugging Face. The 500 native polygon-area sidecars total approximately 2.14 GB; the --dry-run output reports the size of a selected transfer before retrieval."
   known_issues:
     - "The per-run geometry parameter file is missing for run 500; use the consolidated geometry table where appropriate."
   citation: |
@@ -381,11 +391,16 @@
       description: "All-case geometry and force/moment tables."
       default: true
       patterns: [force_mom_all.csv, force_mom_varref_all.csv, geo_parameters_all.csv]
+    - id: splits
+      label: Official splits
+      description: "Deterministic manifests, methods, metrics, figures and generation code."
+      default: true
+      patterns: ["splits/**"]
     - id: geometry
       label: Geometry
-      description: "Per-case STL, STEP and parameter files."
+      description: "Per-case geometry and parameters plus the baseline-geometry assets."
       default: true
-      patterns: ["run_*/windsor_*.stl", "run_*/windsor_*.stp", "run_*/geo_parameters_*.csv"]
+      patterns: ["run_*/windsor_*.stl", "run_*/windsor_*.stp", "run_*/geo_parameters_*.csv", "baseline_geometry/**"]
     - id: forces
       label: Forces and moments
       description: "Per-case aerodynamic coefficients."
@@ -417,7 +432,8 @@
       --local-dir ./windsorml_data \
       --dry-run
   download_note: "The complete repository is approximately 8 TB. The native-point dual-area sidecars for the 350 available boundary cases total approximately 3.17 GB; summary tables, geometry and force data can be selected independently of the field data."
-  known_issues: []
+  known_issues:
+    - "Public per-run folders currently cover runs 0–349. Aggregate tables and benchmark splits also cover runs 350–354; their geometry and image-derived split metrics are estimated from neighbouring observed cases and explicitly identified in the split package."
   citation: |
     @inproceedings{ashton2024windsor,
       title={WindsorML: High-Fidelity Computational Fluid Dynamics Dataset for Automotive Aerodynamics},
@@ -599,6 +615,11 @@
       description: "All-case geometry and force/moment tables."
       default: true
       patterns: [force_mom_all.csv, force_mom_constref_all.csv, geo_parameters_all.csv]
+    - id: splits
+      label: Official splits
+      description: "Deterministic manifests, methods, metrics, figures and generation code."
+      default: true
+      patterns: ["splits/**"]
     - id: geometry
       label: Geometry
       description: "Per-case STL geometry and reference tables."
@@ -624,6 +645,11 @@
       description: "Native polygon areas and their reproducibility metadata."
       default: false
       patterns: ["run_*/boundary_cell_area_*.npy", "surface_cell_areas/**"]
+    - id: meshes
+      label: OpenFOAM meshes
+      description: "Published OpenFOAM meshes for reproducing or extending the simulations."
+      default: false
+      patterns: ["openfoam_meshes/**"]
     - id: volume
       label: Volume fields
       description: "Very large split volume files."
@@ -636,7 +662,7 @@
       --dry-run
   download_note: "The complete repository is approximately 31 TB. The native polygon-area sidecars for all 484 public cases total approximately 16.64 GB. Some volume files are stored in numbered parts and require concatenation after retrieval; the repository card documents the current procedure."
   known_issues:
-    - "Some run IDs are intentionally absent from the public case folders; consult the Hugging Face version history before assuming a continuous range."
+    - "The 16 non-public run IDs are 167, 211, 218, 221, 248, 282, 291, 295, 316, 325, 329, 364, 370, 376, 403 and 473; they are excluded from every benchmark partition."
     - "Large volume VTU files are stored as numbered parts on Hugging Face."
   citation: |
     @article{ashton2024drivaer,
@@ -680,7 +706,7 @@
   paper_title: "HiLiftAeroML: High-Fidelity Computational Fluid Dynamics Dataset for High-Lift Aircraft Aerodynamics"
   arxiv_id: "2605.19565"
   published: "2026-05-20"
-  modified: "2026-08-18"
+  modified: "2026-09-02"
   formats: [VTU, NPY, STL, STEP, CSV, PNG, JSON]
   keywords:
     [
@@ -698,6 +724,8 @@
     HiLiftAeroML comprises 1,800 simulations: 180 variants of the NASA Common Research Model in high-lift configuration, each evaluated at ten angles of attack from 4° to 22°. The dataset supports surrogate modelling of complex three-dimensional aircraft flows.
 
     The simulations use GPU-accelerated explicit wall-modelled LES on solution-adapted grids containing 300–500 million cells. In addition to geometry, surface and volume fields and integrated coefficients, the repository provides deterministic training, validation and test splits and native-surface quadrature weights for reproducible, area-weighted evaluation.
+
+    Six force/moment records now use mean coefficients integrated from the released time-averaged surface fields, resolving discrepancies with the original solver-monitor means. The repository also publishes row-level metadata for invalid zero-filled entries in the native volume fields.
   intended_uses:
     - Surrogate modelling of complete aircraft in high-lift configuration.
     - Evaluation of interpolation and out-of-distribution generalisation.
@@ -722,6 +750,26 @@
     - name: Evaluation assets
       details: "Deterministic split families, manifests, validation records and plots"
       formats: "JSON · CSV · PNG"
+    - name: Data-quality metadata
+      details: "Force/moment override provenance and native-volume zero-fill row IDs"
+      formats: "JSON · JSONL · CSV"
+  force_moment_overrides:
+    title: "Surface-integrated force/moment overrides"
+    release_date: "2 September 2026"
+    summary: "For six cases, the published mean force and moment coefficients were replaced with values obtained by canonical integration of the released time-averaged surface pressure and wall-shear fields. The remaining 1,794 cases retain their original solver-monitor means."
+    cases:
+      - geo_LHC012_AoA_16
+      - geo_LHC018_AoA_16
+      - geo_LHC028_AoA_18
+      - geo_LHC028_AoA_22
+      - geo_LHC129_AoA_4
+      - geo_LHC172_AoA_22
+    changed_columns: [cd, cl, cm, clp, clv, cdp, cdv]
+    unchanged_columns: [cd_stdev, cl_stdev, cm_stdev, cd_stderr, cl_stderr, cm_stderr, cd_ci95, cl_ci95, cm_ci95]
+    method: "Forces use exact degree-one integration on the ordered fan triangulation. Pitching moment uses exact degree-two integration about the per-case forcesCoR, with qRef, areaRef and chordRef taken from the corresponding reference CSV."
+    redownload: "If you downloaded the dataset before 2 September 2026, retrieve the six affected per-case force_mom CSV files again, together with the root force_mom_all.csv summary."
+    caution: "The existing standard-deviation, standard-error and 95% confidence-interval columns, together with the CD, CL and CM convergence plots, remain solver-monitor diagnostics. They were not recomputed and are not uncertainty estimates for the substituted surface-integrated means."
+    manifest_url: https://huggingface.co/datasets/nvidia/HiLiftAeroML/blob/main/force_mom_surface_overrides_v1.json
   surface_quadrature:
     title: "Native-point surface dual areas"
     summary: "Each sidecar contains one little-endian float32 barycentric dual-area weight in square inches per native boundary point, in the exact point order of the corresponding raw VTU."
@@ -733,12 +781,22 @@
     compatibility_note: "Each array is valid only for its corresponding raw boundary VTU and native point order. It must not be applied to an STL, resampled mesh, reordered points or a processed PhysicsNeMo representation."
     files_url: https://huggingface.co/datasets/nvidia/HiLiftAeroML/tree/main/surface_dual_areas
     manifest_url: https://huggingface.co/datasets/nvidia/HiLiftAeroML/resolve/main/surface_dual_areas/manifest.json
+  volume_data_quality:
+    title: "Native-volume zero-fill rows"
+    summary: "Across 419,416,158,837 native volume rows, 1,232,817 rows contain exact zeros in every exported flow and statistics field. The affected rows occur in 1,768 of the 1,800 cases and do not contain physically valid CFD solution states; omit them when using the released volume fields."
+    association: "PointData · native volume rows"
+    affected_cases: "1,768/1,800 cases"
+    affected_rows: "1,232,817/419,416,158,837 rows"
+    identification: "Zero-based raw VTU row IDs selected by exact stored Float32 avg(P) == 0.0, then verified to be zero in every exported field."
+    compatibility_note: "Use the exact (case_id, raw_point_id) pair to omit rows from the corresponding native volume VTU. Coordinates are diagnostic only; do not use coordinate rounding, nearest-neighbour matching or a geometric tolerance to redefine row identity."
+    files_url: https://huggingface.co/datasets/nvidia/HiLiftAeroML/tree/main/data_quality
+    manifest_url: https://huggingface.co/datasets/nvidia/HiLiftAeroML/blob/main/data_quality/volume_zero_fill_raw_point_ids_all1800_manifest.json
   download_groups:
     - id: summary
       label: Summary and splits
-      description: "All-case tables plus deterministic train/validation/test definitions."
+      description: "All-case tables, force/moment override provenance and deterministic splits."
       default: true
-      patterns: [force_mom_all.csv, geo_values_all.csv, "splits/**"]
+      patterns: [force_mom_all.csv, force_mom_surface_overrides_v1.json, geo_values_all.csv, "splits/**"]
     - id: metadata
       label: Per-case metadata
       description: "Force, geometry and reference CSV files."
@@ -759,6 +817,11 @@
       description: "Native-point dual-area weights and their provenance."
       default: false
       patterns: ["geo_LHC*_AoA_*/boundary_dual_area_*.npy", "surface_dual_areas/**"]
+    - id: quality
+      label: Volume data quality
+      description: "Invalid zero-fill row IDs, coordinates, provenance and checksums."
+      default: true
+      patterns: ["data_quality/**"]
     - id: fields
       label: Surface and volume fields
       description: "The largest compressed CFD archives."
@@ -770,7 +833,9 @@
       --local-dir ./hiliftaeroml_data \
       --dry-run
   download_note: "The complete repository occupies approximately 66.9 TB on Hugging Face. The native-point surface-quadrature files occupy approximately 1.02 TB; --dry-run reports the size of any selected subset."
-  known_issues: []
+  known_issues:
+    - "For 1,768 volume cases, omit the 1,232,817 published all-zero PointData rows identified by the repository's (case_id, raw_point_id) metadata."
+    - "For the six corrected force/moment cases, the monitor-derived uncertainty columns and convergence plots were not recomputed and do not quantify uncertainty in the substituted surface-integrated means."
   citation: |
     @article{ashton2026hiliftaeroml,
       title={HiLiftAeroML: High-Fidelity Computational Fluid Dynamics Dataset for High-Lift Aircraft Aerodynamics},
