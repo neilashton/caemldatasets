@@ -453,10 +453,10 @@
   name: DrivAerML
   short_name: DrivAerML
   permalink: /drivaerml/
-  seo_title: "DrivAerML official benchmark splits"
-  description: "DrivAerML is a 500-geometry road-car CFD dataset with official train, validation and test partitions for data-efficiency and out-of-distribution evaluation."
+  seo_title: "DrivAerML: road-car CFD, CAD geometry and benchmark splits"
+  description: "DrivAerML combines scale-resolving road-car CFD with STEP CAD geometry for all 484 public runs and official train, validation and test splits."
   eyebrow: "Automotive · realistic road-car aerodynamics"
-  tagline: "A 500-geometry DrivAer notchback design space with scale-resolving CFD outputs and deterministic benchmark splits."
+  tagline: "A 500-geometry DrivAer notchback design space with scale-resolving CFD, STEP CAD for all 484 public runs and deterministic benchmark splits."
   image: /assets/img/drivaer1.png
   image_alt: "DrivAer vehicle parameters varied across the DrivAerML design space"
   domain: Automotive
@@ -476,8 +476,8 @@
   paper_title: "DrivAerML: High-Fidelity Computational Fluid Dynamics Dataset for Road-Car External Aerodynamics"
   arxiv_id: "2408.11969"
   published: "2024-08-22"
-  modified: "2026-08-18"
-  formats: [VTP, VTU, NPY, STL, CSV, JSON, PNG, OpenFOAM]
+  modified: "2026-09-13"
+  formats: [VTP, VTU, NPY, STL, STEP, CSV, JSON, PNG, OpenFOAM]
   keywords:
     [
       computational fluid dynamics,
@@ -486,6 +486,8 @@
       automotive aerodynamics,
       road car,
       OpenFOAM,
+      CAD geometry,
+      STEP,
       benchmark splits,
       out-of-distribution evaluation,
       surface quadrature,
@@ -495,6 +497,8 @@
     DrivAerML comprises a 500-geometry design space based on the DrivAer notchback vehicle. The cases were generated using an automated, scale-resolving CFD workflow representative of road-car aerodynamic analysis.
 
     The repository contains geometry, reference parameters, surface and volume fields, aerodynamic coefficients, sampled slices, rendered views and OpenFOAM meshes. Mesh-native polygon-area arrays accompany every public boundary VTP for physically area-weighted surface metrics. The dataset permits evaluation of learning methods on geometry more complex than canonical bluff-body configurations.
+
+    STEP CAD geometry was added on 12 September 2026 for all 484 public runs. Each file uses millimetres and is stored as `run_N/drivaer_N.step` alongside the existing STL geometry and CFD data. [View an example STEP file](https://huggingface.co/datasets/neashton/drivaerml/blob/main/run_1/drivaer_1.step) or select **CAD geometry (STEP)** in the [download selector](#download).
 
     Official deterministic train, validation and test splits are provided for a public random baseline, nested data-efficiency studies, geometry extrapolation, drag-regime extrapolation and image-derived rear-separation evaluation.
   intended_uses:
@@ -507,6 +511,9 @@
     - name: Geometry
       details: "Vehicle surfaces, geometry parameters and reference values"
       formats: "STL · CSV"
+    - name: CAD geometry
+      details: "CAD definitions for all 484 public runs, with coordinates in millimetres"
+      formats: STEP
     - name: Surface fields
       details: "Time-averaged boundary quantities"
       formats: VTP
@@ -625,6 +632,11 @@
       description: "Per-case STL geometry and reference tables."
       default: true
       patterns: ["run_*/drivaer_*.stl", "run_*/geo_parameters_*.csv", "run_*/geo_ref_*.csv"]
+    - id: cad
+      label: CAD geometry (STEP)
+      description: "STEP files in millimetres for all 484 public runs; about 149 GB in total."
+      default: false
+      patterns: ["run_*/drivaer_*.step"]
     - id: forces
       label: Forces and moments
       description: "Per-case aerodynamic coefficients."
@@ -660,7 +672,7 @@
       --type dataset \
       --local-dir ./drivaerml_data \
       --dry-run
-  download_note: "The complete repository is approximately 31 TB. The native polygon-area sidecars for all 484 public cases total approximately 16.64 GB. Some volume files are stored in numbered parts and require concatenation after retrieval; the repository card documents the current procedure."
+  download_note: "The complete repository is approximately 31 TB. STEP CAD files for all 484 public runs total approximately 149 GB and use millimetres. The native polygon-area sidecars for all 484 public cases total approximately 16.64 GB. Some volume files are stored in numbered parts and require concatenation after retrieval; the repository card documents the current procedure."
   known_issues:
     - "The 16 non-public run IDs are 167, 211, 218, 221, 248, 282, 291, 295, 316, 325, 329, 364, 370, 376, 403 and 473; they are excluded from every benchmark partition."
     - "Large volume VTU files are stored as numbered parts on Hugging Face."
