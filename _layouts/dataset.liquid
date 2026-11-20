@@ -301,11 +301,20 @@ layout: default
                 <span>Manifest</span><strong>Case lists · JSON · {{ dataset.official_splits.manifest_size }}</strong>
               </a>
               <a href="{{ dataset.official_splits.files_url }}">
-                <span>Files</span><strong>Manifest, metrics, scripts and figures · Hugging Face</strong>
+                <span>Files</span><strong>{{ dataset.official_splits.files_description | default: "Manifest, metrics, scripts and figures · Hugging Face" }}</strong>
               </a>
               <a href="{{ dataset.official_splits.documentation_url }}">
-                <span>Methodology</span><strong>Split definitions and construction · PDF · {{ dataset.official_splits.documentation_size }}</strong>
+                {% if dataset.official_splits.documentation_label %}
+                  <span>Release notes</span><strong>{{ dataset.official_splits.documentation_label }}</strong>
+                {% else %}
+                  <span>Methodology</span><strong>Split definitions and construction · PDF · {{ dataset.official_splits.documentation_size }}</strong>
+                {% endif %}
               </a>
+            {% if dataset.official_splits.download_url %}
+                <a href="{{ dataset.official_splits.download_url | relative_url }}">
+                  <span>Download v2</span><strong>Benchmark splits · ZIP</strong>
+                </a>
+              {% endif %}
             </div>
 
             <h3 class="subsection-title">Regimes and partition sizes</h3>
@@ -349,6 +358,14 @@ layout: default
                 {% endif %}
               </p>
             </aside>
+
+            {% if dataset.official_splits.legacy_download_url %}
+              <p>
+                For reproducing earlier experiments, see the
+                <a href="{{ dataset.official_splits.legacy_download_url | relative_url }}">v1 split archive</a>
+                and <a href="{{ dataset.official_splits.legacy_documentation_url }}">v1 methodology</a>.
+              </p>
+            {% endif %}
 
             <h3 class="subsection-title">Using the manifest</h3>
             <p>

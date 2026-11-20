@@ -231,15 +231,15 @@
   short_name: WindsorML
   permalink: /windsorml/
   seo_title: "WindsorML official benchmark splits"
-  description: "WindsorML provides 355 Windsor-body WMLES cases and official train, validation and test splits for data-efficiency and out-of-distribution evaluation."
+  description: "WindsorML provides 350 downloadable Windsor-body WMLES runs and official v2 benchmark splits with 344 eligible runs for data-efficiency and out-of-distribution evaluation."
   eyebrow: "Automotive · external aerodynamics"
-  tagline: "355 Windsor-body variants with wall-modelled LES outputs and deterministic benchmark splits."
+  tagline: "350 downloadable Windsor-body WMLES runs with deterministic v2 benchmark splits."
   image: /assets/img/case1_param_description.png
   image_alt: "Parametric Windsor body geometry used to create the WindsorML dataset"
   domain: Automotive
   geometry: Windsor body
-  cases: "355 geometries"
-  case_count: 355
+  cases: "350 downloadable runs"
+  case_count: 350
   flow_regime: "Low-speed external aerodynamics"
   method: WMLES
   solver: "Volcano Platforms"
@@ -254,7 +254,7 @@
   arxiv_id: "2407.19320"
   doi: "10.57967/hf/7644"
   published: "2024-07-29"
-  modified: "2026-08-18"
+  modified: "2026-11-20"
   formats: [VTU, NPY, STL, STEP, CSV, JSON, PNG]
   keywords:
     [
@@ -270,11 +270,11 @@
       area-weighted evaluation,
     ]
   overview: |
-    WindsorML comprises 355 geometric variants of the Windsor body, each evaluated using a GPU-native, wall-modelled large-eddy simulation. Its geometric complexity lies between the simplified Ahmed body and a complete road-car configuration.
+    The WindsorML archive provides 350 downloadable runs of the Windsor body. The aggregate tables cover 355 design IDs. The simulations use GPU-native, wall-modelled large-eddy simulation. Its geometric complexity lies between the simplified Ahmed body and a complete road-car configuration.
 
     The simulations use a Cartesian immersed-boundary approach with approximately 300 million cells per case. The repository provides geometry, three-dimensional surface and volume fields, force and moment coefficients and rendered views in standard scientific data formats. Native-point dual-area arrays accompany all 350 currently available boundary VTUs for physically area-weighted surface metrics.
 
-    Official deterministic train, validation and test splits are provided for a random baseline, nested data-efficiency studies, geometry extrapolation, drag-regime extrapolation and image-derived wake evaluation.
+    The v2 benchmark uses 344 eligible runs. Official train, validation and test splits are provided for a random baseline, nested data-efficiency studies, geometry extrapolation, drag-regime extrapolation and image-derived wake evaluation.
   intended_uses:
     - Surrogate modelling of automotive aerodynamic quantities.
     - Comparison of learning behaviour across levels of geometric and flow complexity.
@@ -315,66 +315,69 @@
     files_url: https://huggingface.co/datasets/neashton/windsorml/tree/main/surface_dual_areas
     manifest_url: https://huggingface.co/datasets/neashton/windsorml/resolve/main/surface_dual_areas/manifest.json
   official_splits:
-    release_date: "2026-08-17"
-    summary: "Eight deterministic split regimes are provided for standard benchmarking, data-efficiency studies and out-of-distribution evaluation. The committed JSON manifest is the source of truth for case membership."
-    public_cases: 355
-    unavailable_cases: 0
-    coverage_note: "All 355 run IDs are represented in each complete benchmark split. Geometry and image scores for runs 350–354 are estimated from neighbouring observed cases because those assets were unavailable at the package revision."
-    provenance_note: "The full split uses an approximately 80/10/10 seed-42 random partition. The WindsorML paper reports a preliminary 60/20/20 evaluation but does not publish exact case membership."
-    manifest_url: https://huggingface.co/datasets/neashton/windsorml/resolve/main/splits/manifest.json
-    manifest_size: "40.6 kB"
-    manifest_sha256: "717957442d7deb0e3d5ad9e0078fa8b419c63732aca60937b69601d07abdb836"
-    files_url: https://huggingface.co/datasets/neashton/windsorml/tree/main/splits
-    files_description: "Manifest, construction metrics, generation scripts, figures and methodology for the official WindsorML splits on Hugging Face."
-    documentation_url: https://huggingface.co/datasets/neashton/windsorml/resolve/main/splits/README.pdf
-    documentation_size: "1.0 MB"
+    release_date: "2026-11-20"
+    summary: "WindsorML benchmark splits v2 provide eight train, validation and test regimes for standard benchmarking, data-efficiency studies and out-of-distribution evaluation."
+    public_cases: 344
+    unavailable_cases: 5
+    coverage_note: "Of the 355 aggregate design IDs, 350 have downloadable run files. Version 2 excludes six runs with duplicate geometry (31, 134, 231, 242, 271 and 305) and five without per-run downloads (350–354). Every retained run keeps its previous partition."
+    provenance_note: "Use v2 for new experiments. If you used an excluded run to train, tune or evaluate a model, repeat the affected steps against the v2 case lists."
+    manifest_url: https://huggingface.co/datasets/neashton/windsorml/resolve/ba7e66955650b2ff0482517f256d84c1eda815e7/splits/v2/manifest.json
+    manifest_size: "30.9 kB"
+    manifest_sha256: "0dc6f1801a9a3e7ee5a26c5ac5c465333495f1455525db1cc2caefcbfd0cfb02"
+    files_url: https://huggingface.co/datasets/neashton/windsorml/tree/ba7e66955650b2ff0482517f256d84c1eda815e7/splits/v2
+    files_description: "Split manifest, erratum, release record and reproducibility script"
+    documentation_url: https://huggingface.co/datasets/neashton/windsorml/blob/ba7e66955650b2ff0482517f256d84c1eda815e7/splits/v2/README.md
+    documentation_label: "Erratum and migration instructions"
+    download_url: /assets/downloads/windsorml/windsorml_benchmark_v2.zip
+    legacy_download_url: /assets/downloads/windsorml/windsorml_official_splits.zip
+    legacy_documentation_url: https://huggingface.co/datasets/neashton/windsorml/resolve/8a6ca32ae22c94f54df2186d1b0ccf9662a294c2/splits/README.pdf
     regimes:
       - name: full
         type: In-distribution
-        train: 284
-        val: 35
-        test: 36
+        train: 276
+        val: 33
+        test: 35
         purpose: "Seed-42 random baseline, approximately 80/10/10"
       - name: medium
         type: In-distribution
-        train: 95
-        val: 35
-        test: 36
+        train: 90
+        val: 33
+        test: 35
         purpose: "Data efficiency: one third of the full training set"
       - name: scarce
         type: In-distribution
-        train: 47
-        val: 35
-        test: 36
+        train: 45
+        val: 33
+        test: 35
         purpose: "Data efficiency: one sixth of the full training set"
       - name: super_scarce
         type: In-distribution
-        train: 8
-        val: 35
-        test: 36
+        train: 7
+        val: 33
+        test: 35
         purpose: "Extreme data-efficiency evaluation"
       - name: geometry
         type: Out-of-distribution
-        train: 248
-        val: 36
+        train: 239
+        val: 34
         test: 71
         purpose: "STL-surface Chamfer geometry extrapolation"
       - name: high_drag
         type: Out-of-distribution
-        train: 248
-        val: 36
-        test: 71
+        train: 239
+        val: 35
+        test: 70
         purpose: "High-drag coefficient extrapolation"
       - name: low_drag
         type: Out-of-distribution
-        train: 248
-        val: 36
-        test: 71
+        train: 242
+        val: 35
+        test: 67
         purpose: "Low-drag coefficient extrapolation"
       - name: image_wake
         type: Out-of-distribution
-        train: 248
-        val: 36
+        train: 239
+        val: 34
         test: 71
         purpose: "Image-derived low-speed wake extrapolation"
     example: |
@@ -388,14 +391,14 @@
   download_groups:
     - id: summary
       label: Summary tables
-      description: "All-case geometry and force/moment tables."
+      description: "Raw archive geometry and force/moment tables. Use the v2 manifest for benchmark membership."
       default: true
       patterns: [force_mom_all.csv, force_mom_varref_all.csv, geo_parameters_all.csv]
     - id: splits
-      label: Official splits
-      description: "Deterministic manifests, methods, metrics, figures and generation code."
+      label: Benchmark splits v2
+      description: "Current split manifest, erratum, release record and regeneration script."
       default: true
-      patterns: ["splits/**"]
+      patterns: ["splits/v2/**"]
     - id: geometry
       label: Geometry
       description: "Per-case geometry and parameters plus the baseline-geometry assets."
