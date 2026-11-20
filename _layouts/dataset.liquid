@@ -301,7 +301,8 @@ layout: default
                 <span>Manifest</span><strong>Case lists · JSON · {{ dataset.official_splits.manifest_size }}</strong>
               </a>
               <a href="{{ dataset.official_splits.files_url }}">
-                <span>Files</span><strong>{{ dataset.official_splits.files_description | default: "Manifest, metrics, scripts and figures · Hugging Face" }}</strong>
+                <span>Files</span
+                ><strong>{{ dataset.official_splits.files_description | default: 'Manifest, metrics, scripts and figures · Hugging Face' }}</strong>
               </a>
               <a href="{{ dataset.official_splits.documentation_url }}">
                 {% if dataset.official_splits.documentation_label %}
@@ -310,7 +311,7 @@ layout: default
                   <span>Methodology</span><strong>Split definitions and construction · PDF · {{ dataset.official_splits.documentation_size }}</strong>
                 {% endif %}
               </a>
-            {% if dataset.official_splits.download_url %}
+              {% if dataset.official_splits.download_url %}
                 <a href="{{ dataset.official_splits.download_url | relative_url }}">
                   <span>Download v2</span><strong>Benchmark splits · ZIP</strong>
                 </a>
